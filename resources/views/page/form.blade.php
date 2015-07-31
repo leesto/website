@@ -22,7 +22,7 @@
 <!-- Select field for 'published' -->
 <div class="form-group @include('partials.form.error-class', ['name' => 'published'])">
     {!! Form::label('published', 'Published:', ['class' => 'control-label']) !!}
-    {!! Form::select('published', [0 => 'No', 1 => 'Yes'], 1, ['class' => 'form-control', 'id' => 'published']) !!}
+    {!! Form::select('published', [0 => 'No', 1 => 'Yes'], null, ['class' => 'form-control', 'id' => 'published']) !!}
     @include('partials.form.input-error', ['name' => 'published'])
 </div>
 
