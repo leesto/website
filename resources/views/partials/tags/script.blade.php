@@ -1,0 +1,1 @@
+<script src="/js/{{ $path }}.js"></script>

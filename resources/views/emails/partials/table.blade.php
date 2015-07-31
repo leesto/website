@@ -1,0 +1,1 @@
+@section('_table', 'cellpadding="5px" style="font-family:Helvetica Neue, Helvetica, Arial;font-weight:300;font-size:15px;"')

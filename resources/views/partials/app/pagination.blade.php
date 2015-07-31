@@ -1,0 +1,1 @@
+<nav class="pagination">{!! with(new App\Pagination\Presenter($paginator))->render() !!}</nav>

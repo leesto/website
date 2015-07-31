@@ -1,0 +1,1 @@
+<p>{!! str_replace(PHP_EOL, '</p><p>', $text) !!}</p>

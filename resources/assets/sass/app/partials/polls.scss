@@ -1,0 +1,158 @@
+@import "../vars";
+
+#createPoll {
+	max-width: 100%;
+	width: 40em;
+
+	div.input-group button {
+		margin: 0 -0.3em;
+		padding: 0 0.3em;
+	}
+	button#addPollOption {
+		margin: 0;
+	}
+	button[name=deleteOption] {
+		line-height: 1.4;
+	}
+}
+
+#viewPoll {
+	div.width-wrapper {
+		margin: 0 auto;
+		max-width: 100%;
+		width: 45em;
+
+		& > div.poll-details-wrapper {
+			display: table;
+			margin: 0 auto;
+			width: 100%;
+
+			& > div.question-mark {
+				color: $btsorange;
+				display: table-cell;
+				vertical-align: top;
+				width: 3.5em;
+
+				span.fa {
+					font-size: 3em;
+					margin: 0 0 0 0;
+				}
+			}
+			& > div.poll-details {
+				display: table-cell;
+				vertical-align: top;
+
+				h1 {
+					color: $btsorange;
+					font-size: 2em;
+					margin: 0.3em 0 0 0;
+					text-align: left;
+				}
+				h2 {
+					color: #999;
+					margin: 1em 0 0 0;
+				}
+			}
+		}
+		& > div.answer-wrapper {
+			display: table;
+			margin-top: 1em;
+			width: 100%;
+
+			& > div.answer {
+				display: table-row;
+
+				& > div.answer-number, & > div.answer-details {
+					display: table-cell;
+					padding-top: 20px;
+				}
+				& > div.answer-number {
+					font-size: 1.3em;
+					width: 1.5em;
+				}
+				& > div.answer-details {
+					& > div.answer-text {
+						font-size: 1.3em;
+					}
+					& > div.progress {
+						height: auto;
+						margin: 0.5em 0 0.5em 0;
+
+						& > div.progress-bar {
+							display: inline-block;
+							font-size: 15px;
+							height: 2.5em;
+							line-height: 2.5em;
+							min-width: 2.7em;
+
+						}
+					}
+					& > button {
+						margin-top: 0.5em;
+					}
+				}
+			}
+		}
+
+		@media (max-width: 768px) {
+			& > div.poll-details-wrapper {
+				& > div.question-mark {
+					display: none;
+				}
+				& > div.poll-details {
+					& > h1 {
+						font-size: 1.5em;
+					}
+					& > h2 {
+						font-size: 1.2em;
+					}
+				}
+			}
+			& > div.answer-wrapper > div.answer {
+				& > div.answer-number {
+					font-size: 1.1em;
+				}
+				& > div.answer-details > div.answer-text {
+					font-size: 1.1em;
+				}
+			}
+		}
+	}
+}
+
+#listPolls {
+	div.poll {
+		position: relative;
+
+		& > .btn-actions {
+			@include transition();
+			position: absolute;
+			opacity: 0;
+			right: 0;
+			top: 0;
+		}
+		& > h3 {
+			font-size: 1.6em;
+			text-align: left;
+		}
+		& > div.description {
+			color: #999;
+			font-size: 1.2em;
+			margin: 0 0 1em 0;
+		}
+		& > ul {
+			margin: 0;
+			padding: 0;
+			li {
+				display: inline-block;
+				&:not(:last-of-type) {
+					margin-right: 1em;
+
+				}
+			}
+		}
+		&:hover > .btn-actions {
+			opacity: 1;
+		}
+	}
+}

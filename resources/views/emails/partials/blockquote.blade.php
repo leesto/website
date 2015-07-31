@@ -1,0 +1,1 @@
+@section('_blockquote', 'style="border-left: 2px solid #999;margin-left:1em;padding:1px 0 1px 1em;"')
