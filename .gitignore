@@ -4,5 +4,5 @@ Homestead.yaml
 .env
 _ide_helper.php
 /.idea/
-/storage/
+/storage/*
 /database/migrations/2015_07_28_004034_populate_base_data.php
