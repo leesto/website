@@ -20,20 +20,19 @@ class Validator extends BaseValidator
 		}
 
 		$valid = true;
+		// Loop through each element
 		foreach($value as $n => $v) {
+			// Test each parameter
 			foreach($parameters as $rule) {
 				$validatable = $this->isValidatable($rule, $attribute, $value);
-				$method = "validate{$rule}";
+				$method      = "validate{$rule}";
 
+				// If failed, add the message
 				if($validatable && !$this->$method($attribute, $v, $parameters, $this)) {
-					$valid = false;
-					$message = array_key_exists($attribute . '.each.' . $rule, $this->customMessages)
-						?
-						$this->customMessages[$attribute . '.each.' . $rule]
-						:
-						'validation.' . $rule;
-
-					$this->messages->add($attribute . '.' . $n, trans($message));
+					$valid     = false;
+					$customKey = $attribute . '.each.' . $rule;
+					$message   = isset($this->customMessages[$customKey]) ? $this->customMessages[$customKey] : $this->translator->trans('validation.' . $rule);
+					$this->messages->add($attribute . '.' . $n, $message);
 				}
 			}
 		}
