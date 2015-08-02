@@ -216,9 +216,16 @@ class ViewServiceProvider extends ServiceProvider
 			$users_select[$user->id] = sprintf('%s (%s)', $user->name, $user->username);
 		}
 
-		// Attach to the necessary views
-		View::composer('pages.form', function($view) use ($users_select) {
-			$view->with('users', $users_select);
-		});
+		// Define the list of views to attach this list to
+		$viewList = [
+			'pages.form'
+		];
+
+		// Attach to each view
+		foreach($viewList as $viewName) {
+			View::composer($viewName, function($view) use ($users_select) {
+				$view->with('users', $users_select);
+			});
+		}
 	}
 }
