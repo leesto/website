@@ -33,6 +33,7 @@ class PagesController extends Controller
 	public function index()
 	{
 		$pages = Page::paginate(15);
+		$this->checkPagination($pages);
 
 		return View::make('pages.index')->with('pages', $pages);
 	}

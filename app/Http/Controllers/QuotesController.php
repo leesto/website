@@ -8,8 +8,6 @@ use App\Quote;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
 use Szykra\Notifications\Flash;
 
@@ -22,16 +20,13 @@ class QuotesController extends Controller
 	public function index()
 	{
 		$quotes = Quote::orderBy('created_at', 'DESC')->paginate(15);
-
-		// Go to page 1 if no results
-		if(count($quotes) == 0 && !is_null(Input::get('page')) && (int) Input::get('page') != 1) {
-			return redirect(route('quotes.index'));
-		}
+		$this->checkPagination($quotes);
 
 		return View::make("quotes.index")->with("quotes", $quotes);
 	}
 
 	/**
+	 * Process and store a quote.
 	 * @param \App\Http\Requests\QuoteRequest $request
 	 * @return string
 	 */
@@ -40,7 +35,7 @@ class QuotesController extends Controller
 		if($request->ajax()) {
 			Quote::create($request->stripped('culprit', 'quote') + [
 					'date'     => Carbon::createFromFormat("Y-m-d H:i", $request->get('date')),
-					'added_by' => Auth::user()->id,
+					'added_by' => $this->user->id,
 				]);
 			Flash::success('The quote was added successfully');
 
@@ -51,6 +46,7 @@ class QuotesController extends Controller
 	}
 
 	/**
+	 * Delete a quote.
 	 * @param \Illuminate\Http\Request $request
 	 * @return string
 	 */

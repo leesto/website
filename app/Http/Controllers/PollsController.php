@@ -9,7 +9,6 @@ use App\PollOption;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Szykra\Notifications\Flash;
 
@@ -22,6 +21,7 @@ class PollsController extends Controller
 	public function index()
 	{
 		$polls = Poll::paginate(10);
+		$this->checkPagination($polls);
 
 		return View::make('polls.index')->with('polls', $polls);
 	}
@@ -50,7 +50,7 @@ class PollsController extends Controller
 	{
 		$poll = Poll::create($request->stripped('question', 'description') + [
 				'show_results' => $request->has('show_results'),
-				'user_id'      => Auth::user()->id,
+				'user_id'      => $this->user->id,
 			]);
 
 		foreach($request->get('option') as $num => $text) {
@@ -129,7 +129,7 @@ class PollsController extends Controller
 		}
 
 		// Check if already voted
-		if($poll->voted(Auth::user())) {
+		if($poll->voted($this->user)) {
 			Flash::warning('You have already voted for this poll.');
 
 			return redirect(route('polls.view', $id));
@@ -140,7 +140,7 @@ class PollsController extends Controller
 		if(!$option) {
 			return redirect(route('polls.view', $id));
 		}
-		$option->votes()->create(['user_id' => Auth::user()->id]);
+		$option->votes()->create(['user_id' => $this->user->id]);
 		Flash::success('Vote cast');
 
 		return redirect(route('polls.view', $id));
