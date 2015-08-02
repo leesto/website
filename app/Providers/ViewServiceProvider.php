@@ -138,7 +138,7 @@ class ViewServiceProvider extends ServiceProvider
 
 
 				$menu->find('committee.webpages')
-				     ->add(route('page.index'), 'List webpages')
+				     ->add(route('page.index'), 'Webpage Manager')
 				     ->add(route('page.create'), 'Create a new page');
 
 				$menu->find('committee.users')
@@ -217,7 +217,7 @@ class ViewServiceProvider extends ServiceProvider
 		}
 
 		// Attach to the necessary views
-		View::composer('page.form', function($view) use ($users_select) {
+		View::composer('pages.form', function($view) use ($users_select) {
 			$view->with('users', $users_select);
 		});
 	}

@@ -4,8 +4,8 @@
 
 @section('content')
     <h1 class="slim">Edit a New Page</h1>
-    {!! Form::model($page, ['route' => ['page.update', $page->slug], 'method' => 'put', 'style' => 'max-width:700px;']) !!}
-    @include('page.form')
+    {!! Form::model($page, ['route' => ['page.update', $page->slug], 'style' => 'max-width:700px;']) !!}
+    @include('pages.form')
 
     <div class="form-group">
         <button class="btn btn-success" disable-submit="Saving ..." type="submit">

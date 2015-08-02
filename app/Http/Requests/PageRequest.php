@@ -24,7 +24,7 @@ class PageRequest extends Request
 	{
 		return [
 			'title'     => 'required',
-			'slug'      => 'required|' . ($this->method == 'PUT' ? ('unique:pages,slug,' . $this->get('slug') . ',slug') : 'unique:pages') . '|alpha_dash',
+			'slug'      => 'required|' . ($this->route()->getName() == 'page.update' ? ('unique:pages,slug,' . $this->get('slug') . ',slug') : 'unique:pages') . '|alpha_dash',
 			'content'   => 'required',
 			'published' => 'required|boolean',
 			'user_id'   => 'required|exists:users,id',

@@ -6,7 +6,7 @@
     <h1 class="slim">Create a New Page</h1>
     {!! Form::model($page = new \App\Page(['published' => 1]), ['url' => 'page', 'style' => 'max-width:700px;']) !!}
     <p>Use this form to create a new static HTML webpage.</p>
-    @include('page.form')
+    @include('pages.form')
 
     <div class="form-group">
         <button class="btn btn-success" disable-submit="Processing ..." type="submit">

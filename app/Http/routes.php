@@ -15,12 +15,14 @@
 Route::get('/', [
 	'as' => 'home',
 	function () {
-		return App::make('App\Http\Controllers\PageController')->show('home');
+		return App::make('App\Http\Controllers\PagesController')->show('home');
 	},
 ]);
 
 // /contact
-Route::group(['prefix' => 'contact'], function () {
+Route::group([
+	'prefix' => 'contact',
+], function () {
 	// enquiries
 	Route::get('enquiries', [
 		'as'   => 'contact.enquiries',
@@ -67,60 +69,75 @@ Route::group(['prefix' => 'contact'], function () {
 });
 
 // /members
-Route::group(['middleware' => 'auth', 'prefix' => 'members'], function () {
+Route::group([
+	'middleware' => 'auth',
+	'prefix'     => 'members',
+], function () {
 	Route::get('{dash?}', [
 		'as'   => 'members.dash',
 		'uses' => function () {
-
 			return redirect(route('home'));
 		},
 	])->where('dash', 'dash');
 });
 
 // Pages
-Route::group(['prefix' => 'page'], function () {
-	// list
+Route::group([
+	'prefix' => 'page',
+], function () {
+	// List
 	Route::get('index', [
 		'as'   => 'page.index',
-		'uses' => 'PageController@index',
+		'uses' => 'PagesController@index',
 	]);
-	// create
+	// Create
 	Route::get('create', [
 		'as'   => 'page.create',
-		'uses' => 'PageController@create',
+		'uses' => 'PagesController@create',
 	]);
 	Route::post('', [
 		'as'   => 'page.store',
-		'uses' => 'PageController@store',
+		'uses' => 'PagesController@store',
 	]);
-	// view
-	Route::get('{slug}', [
-		'as'   => 'page.show',
-		'uses' => 'PageController@show',
-	])->where('slug', '[\w-]+');
-	// delete
-	Route::get('{slug}/delete', [
-		'as'   => 'page.destroy',
-		'uses' => 'PageController@destroy',
-	])->where('slug', '[\w-]+');
-	// edit
-	Route::get('{slug}/edit', [
-		'as'   => 'page.edit',
-		'uses' => 'PageController@edit',
-	])->where('slug', '[\w-]+');
-	Route::put('{slug}/edit', [
-		'as'   => 'page.update',
-		'uses' => 'PageController@update',
-	])->where('slug', '[\w-]+');
+	Route::group([
+		'prefix' => '{slug}',
+		'where'  => ['slug' => '[\w-]+'],
+	], function () {
+		// View
+		Route::get('', [
+			'as'   => 'page.show',
+			'uses' => 'PagesController@show',
+		]);
+		// Delete
+		Route::get('delete', [
+			'as'   => 'page.destroy',
+			'uses' => 'PagesController@destroy',
+		]);
+		// Edit
+		Route::get('edit', [
+			'as'   => 'page.edit',
+			'uses' => 'PagesController@edit',
+		]);
+		Route::post('edit', [
+			'as'   => 'page.update',
+			'uses' => 'PagesController@update',
+		]);
+	});
 });
 
 // Polls
-Route::group(['prefix' => 'polls', 'middleware' => 'auth.permission:member'], function () {
+Route::group([
+	'prefix'     => 'polls',
+	'middleware' => 'auth.permission:member',
+], function () {
 	Route::get('', [
 		'as'   => 'polls.index',
 		'uses' => 'PollsController@index',
 	]);
-	Route::group(['prefix' => 'create', 'middleware' => 'auth.permission:admin'], function () {
+	Route::group([
+		'prefix'     => 'create',
+		'middleware' => 'auth.permission:admin',
+	], function () {
 		Route::get('', [
 			'as'   => 'polls.create',
 			'uses' => 'PollsController@create',
@@ -160,7 +177,10 @@ Route::group(['prefix' => 'polls', 'middleware' => 'auth.permission:member'], fu
 });
 
 // Quotesboard
-Route::group(["prefix" => "quotesboard", "middleware" => "auth.permission:member"], function () {
+Route::group([
+	"prefix"     => "quotesboard",
+	"middleware" => "auth.permission:member",
+], function () {
 	Route::get('', [
 		'as'   => 'quotes.index',
 		'uses' => 'QuotesController@index',
@@ -212,5 +232,5 @@ Route::group([
 
 // Teapot :p
 Route::get('im/a/teapot', function () {
-	app()->abort(418);
+	App::abort(418);
 });

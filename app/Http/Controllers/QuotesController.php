@@ -21,7 +21,7 @@ class QuotesController extends Controller
 	 */
 	public function index()
 	{
-		$quotes = Quote::orderBy('date', 'DESC')->paginate(15);
+		$quotes = Quote::orderBy('created_at', 'DESC')->paginate(15);
 
 		// Go to page 1 if no results
 		if(count($quotes) == 0 && !is_null(Input::get('page')) && (int) Input::get('page') != 1) {

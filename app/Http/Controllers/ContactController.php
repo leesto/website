@@ -38,7 +38,7 @@ class ContactController extends Controller
 
 		// Send the enquiry
 		Mail::queue('emails.contact.enquiry', $data, function ($message) use ($data) {
-			$message->to('bts@bath.ac.uk')
+			$message->to('ben.jones27@gmail.com')
 			        ->from($data['email'], $data['name'])
 			        ->subject('General enquiry');
 		});

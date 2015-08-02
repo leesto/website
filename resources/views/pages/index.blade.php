@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('title', 'Webpages')
+@section('title', 'Webpage Manager')
 
 @section('styles')
     table.table .page-title .title {

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
 use Szykra\Notifications\Flash;
 
-class PageController extends Controller
+class PagesController extends Controller
 {
 	/**
 	 * Set the authentication middleware.
@@ -34,7 +34,7 @@ class PageController extends Controller
 	{
 		$pages = Page::paginate(15);
 
-		return View::make('page.index')->with('pages', $pages);
+		return View::make('pages.index')->with('pages', $pages);
 	}
 
 	/**
@@ -43,7 +43,7 @@ class PageController extends Controller
 	 */
 	public function create()
 	{
-		return View::make('page.create');
+		return View::make('pages.create');
 	}
 
 	/**
@@ -87,7 +87,7 @@ class PageController extends Controller
 			}
 		}
 
-		return View::make('page.view')->with('page', $page);
+		return View::make('pages.view')->with('page', $page);
 	}
 
 	/**
@@ -104,7 +104,7 @@ class PageController extends Controller
 			$this->unpublishedFlash($page);
 		}
 
-		return View::make('page.edit')->with('page', $page);
+		return View::make('pages.edit')->with('page', $page);
 	}
 
 	/**
@@ -127,7 +127,7 @@ class PageController extends Controller
 		}
 
 		// Redirect
-		return redirect(route('page.show', $request->get('slug')));
+		return redirect(route('page.index'));
 	}
 
 	/**
@@ -149,7 +149,7 @@ class PageController extends Controller
 		}
 
 		// Redirect
-		return redirect(route('home'));
+		return redirect(route('page.index'));
 	}
 
 	/**
