@@ -7,7 +7,6 @@ use App\Http\Requests\QuoteRequest;
 use App\Quote;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
 use Szykra\Notifications\Flash;
 
@@ -32,17 +31,17 @@ class QuotesController extends Controller
 	 */
 	public function store(QuoteRequest $request)
 	{
-		if($request->ajax()) {
-			Quote::create($request->stripped('culprit', 'quote') + [
-					'date'     => Carbon::createFromFormat("Y-m-d H:i", $request->get('date')),
-					'added_by' => $this->user->id,
-				]);
-			Flash::success('The quote was added successfully');
+		// Require ajax
+		$this->requireAjax($request);
 
-			return ['success' => true];
-		} else {
-			App::abort(404);
-		}
+		// Create the quote
+		Quote::create($request->stripped('culprit', 'quote') + [
+				'date'     => Carbon::createFromFormat("Y-m-d H:i", $request->get('date')),
+				'added_by' => $this->user->id,
+			]);
+		Flash::success('Quote created');
+
+		return ['success' => true];
 	}
 
 	/**

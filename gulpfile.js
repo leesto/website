@@ -15,6 +15,7 @@ elixir.config.sourcemaps = false;
 elixir.config.autoprefix = false;
 elixir(function (mix) {
 	mix.sass('app/app.scss', 'resources/assets/css/app.css')
+		.sass('app/partials/committee.scss', 'public/css/partials/committee.css')
 		.sass('app/partials/quotes.scss', 'public/css/partials/quotes.css')
 		.sass('app/partials/polls.scss', 'public/css/partials/polls.css')
 		.sass('tinymce/tinymce.scss', 'public/css/tinymce.css')

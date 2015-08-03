@@ -1,7 +1,7 @@
 (function($) {
 	$.fn.CloseMessages = function() {
 		// Show link
-		var messages = this.children("div.alert");
+		var messages = this.find("div.alert");
 		messages.each(function() {
 			var lnk = $('<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
 			$(this).prepend(lnk);

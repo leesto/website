@@ -13,8 +13,10 @@
     </head>
     <body>
         <div id="message-centre">
+            <ul>
             @include('partials.flash.flash')
             <noscript>
+                <li>
                 <div class="alert alert-info">
                     <span class="fa fa-exclamation"></span>
 						<span>
@@ -22,7 +24,9 @@
 							<p>We use javascript to improve the user experience and make things more interactive - things may not work if you have javascript turned off.</p>
 						</span>
                 </div>
+                </li>
             </noscript>
+            </ul>
         </div>
         <div id="header">
             <img src="/images/bts-logo.jpg">
@@ -66,6 +70,26 @@
         @yield('javascripts')
         @include('tinymce::tpl')
         <script>
+            function clearModalForm($form) {
+                $form.find('.has-error,.has-success');
+                $form.find('.has-error').removeClass('has-error').children('p.errormsg').remove();
+                $form.find('.has-success').removeClass('has-success');
+            }
+            function processFormErrors(form, errors)
+            {
+                if(typeof(errors) == "object") {
+                    form.find('input,textarea,select').each(function () {
+                        var $input = $(this);
+                        var $group = $input.parents('.form-group');
+                        if($input.attr('name') in errors) {
+                            $group.addClass('has-error');
+                            $group.append('<p class="help-block errormsg">' + errors[$input.attr('name')][0] + '</p>');
+                        } else {
+                            $group.addClass('has-success');
+                        }
+                    });
+                }
+            }
             $.ajaxSetup({
                 headers : {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'

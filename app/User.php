@@ -117,4 +117,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	{
 		return self::forename($this->name);
 	}
+
+	public function getAvatarUrl()
+	{
+		return '/images/profiles/blank.png';
+	}
 }

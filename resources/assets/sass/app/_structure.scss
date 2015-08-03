@@ -15,6 +15,19 @@ div#message-centre {
 	width: 100%;
 	z-index: 2200;
 
+	ul {
+		@include wrapper();
+		display: block;
+		margin: 0;
+		padding: 0;
+
+		li {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+	}
+
 	div.alert {
 		display: inline-block;
 		font-size: 0.867em;
@@ -23,6 +36,11 @@ div#message-centre {
 		padding: 0.7em 2em 0.7em 2.1em;
 		position: relative;
 		text-align: left;
+
+		&:after {
+			content: "";
+			clear:left;
+		}
 
 		@media (min-width: 970px) {
 			max-width: 970px;
@@ -511,6 +529,25 @@ div#content-wrapper {
 		}
 		img, p {
 			max-width: 100%;
+		}
+
+		h1 {
+			font-weight: 300;
+			letter-spacing: 1px;
+
+			@media(min-width: 768px) {
+				margin-bottom: 1.2em;
+
+				&:after, &:before {
+					background: $btsyellow;
+					content: "";
+					display: inline-block;
+					height: 2px;
+					margin: 0 0.6em;
+					vertical-align: middle;
+					width: 0.526em;
+				}
+			}
 		}
 
 		// Errors

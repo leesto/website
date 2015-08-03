@@ -69,7 +69,7 @@ class ViewServiceProvider extends ServiceProvider
 			$menu = Menu::handler('mainNav');
 			$menu->add(route('home'), 'Home');
 			$menu->add(route('page.show', 'about'), 'About Us');
-			$menu->add('#', 'The Committee');
+			$menu->add(route('committee.view'), 'The Committee');
 			$menu->add('#', 'Galleries');
 			$menu->add(route('members.dash'), 'Members\' Area', Menu::items('members'));
 			if($isAdmin) {
@@ -210,7 +210,7 @@ class ViewServiceProvider extends ServiceProvider
 	private function attachUserList()
 	{
 		// Get the users
-		$users = User::orderBy('username', 'ASC')->get();
+		$users        = User::orderBy('username', 'ASC')->get();
 		$users_select = [];
 		foreach($users as $user) {
 			$users_select[$user->id] = sprintf('%s (%s)', $user->name, $user->username);
@@ -218,12 +218,13 @@ class ViewServiceProvider extends ServiceProvider
 
 		// Define the list of views to attach this list to
 		$viewList = [
-			'pages.form'
+			'committee.view',
+			'pages.form',
 		];
 
 		// Attach to each view
 		foreach($viewList as $viewName) {
-			View::composer($viewName, function($view) use ($users_select) {
+			View::composer($viewName, function ($view) use ($users_select) {
 				$view->with('users', $users_select);
 			});
 		}

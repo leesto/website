@@ -1,0 +1,68 @@
+@import "../vars";
+
+h4 {
+	&.no-committee {
+		font-size: 1.8em;
+		margin: 2em auto 2em auto;
+		text-align: center;
+		width: 75%;
+	}
+}
+
+div.position {
+	position:relative;
+
+	& > a.edit-button {
+		@include transition();
+		position:absolute;
+		right: 0;
+		top: 0;
+		opacity:0;
+	}
+	& > div.title {
+		color: $btsorange;
+		font: bold 1.6em Arial;
+		text-align: center;
+	}
+	& > div.name {
+		color: $btsyellow;
+		font-size: 1.3em;
+		padding: 0.5em 0 0 0;
+		text-align: center;
+	}
+	& > div.picture {
+		padding-top: 1em;
+		padding-bottom: 1em;
+		text-align: center;
+
+		& > img {
+			display: inline-block;
+			height: auto;
+			max-width: 100%;
+			width: 10em;
+		}
+	}
+	& > div.email {
+		text-align: center;
+
+		& > a {
+			color: $colour_text;
+			margin-left: 0.5em;
+
+			&:hover {
+				color: $btsgold;
+			}
+		}
+	}
+	& > div.description {
+		padding-top: 1em;
+		padding-bottom: 3em;
+	}
+	&:hover > a.edit-button {
+		opacity: 1;
+	}
+}
+
+hr {
+	margin-top: -1em;
+}

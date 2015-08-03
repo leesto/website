@@ -19,11 +19,34 @@ Route::get('/', [
 	},
 ]);
 
-// /contact
+// Committee
+Route::group([
+	'prefix' => 'committee',
+], function () {
+	// View
+	Route::get('', [
+		'as'   => 'committee.view',
+		'uses' => 'CommitteeController@view',
+	]);
+	// Add
+	Route::post('add', [
+		'as'         => 'committee.add',
+		'middleware' => 'auth.permission:admin',
+		'uses'       => 'CommitteeController@store',
+	]);
+	// Edit
+	Route::post('edit', [
+		'as'         => 'committee.edit',
+		'middleware' => 'auth.permission:admin',
+		'uses'       => 'CommitteeController@update',
+	]);
+});
+
+// Contact forms
 Route::group([
 	'prefix' => 'contact',
 ], function () {
-	// enquiries
+	// Enquiries
 	Route::get('enquiries', [
 		'as'   => 'contact.enquiries',
 		'uses' => 'ContactController@getEnquiries',
@@ -32,7 +55,7 @@ Route::group([
 		'as'   => 'contact.enquiries.do',
 		'uses' => 'ContactController@postEnquiries',
 	]);
-	// book
+	// Book
 	Route::get('book', [
 		'as'   => 'contact.book',
 		'uses' => 'ContactController@getBook',
@@ -41,12 +64,12 @@ Route::group([
 		'as'   => 'contact.book.do',
 		'uses' => 'ContactController@postBook',
 	]);
-	// book T&Cs
+	// Book T&Cs
 	Route::get('book/terms', [
 		"as"   => "contact.book.terms",
 		"uses" => "ContactController@getBookTerms",
 	]);
-	// feedback
+	// Feedback
 	Route::get('feedback', [
 		'as'   => 'contact.feedback',
 		'uses' => 'ContactController@getFeedback',
@@ -55,7 +78,7 @@ Route::group([
 		'as'   => 'contact.feedback.do',
 		'uses' => 'ContactController@postFeedback',
 	]);
-	// report accident
+	// Report accident
 	Route::get('accident', [
 		'as'         => 'contact.accident',
 		'middleware' => 'auth',

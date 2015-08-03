@@ -224,32 +224,13 @@ fieldset {
 // Headers
 h1 {
 	color: $btsyellow;
-	font-weight: bold;
 	font-size: 38px;
+	font-weight: bold;
 	margin: 0.6em 0 1em 0;
 	text-align: center;
 
 	@media (max-width: 768px) {
 		font-size: 2em;
-	}
-	&.slim {
-		font-weight: 300;
-		letter-spacing: 1px;
-	}
-	&.deco {
-		@media(min-width:768px) {
-			margin-bottom: 1.2em;
-
-			&:after, &:before {
-				background: $btsyellow;
-				content: "";
-				display: inline-block;
-				height: 2px;
-				margin: 0 0.6em;
-				vertical-align: middle;
-				width: 0.526em;
-			}
-		}
 	}
 }
 

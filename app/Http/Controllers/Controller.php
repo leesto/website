@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Request;
 use App\User;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -38,6 +39,17 @@ abstract class Controller extends BaseController
 	{
 		if($paginator->count() == 0 && !is_null(Input::get('page')) && (int) Input::get('page') != 1) {
 			return redirect(route(Route::current()->getName(), ['page' => 1]));
+		}
+	}
+
+	/**
+	 * Require that the request is send by AJAX.
+	 * @param \App\Http\Requests\Request $request
+	 */
+	protected function requireAjax(Request $request)
+	{
+		if(!$request->ajax()) {
+			App::abort(404);
 		}
 	}
 }
