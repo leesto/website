@@ -1,4 +1,5 @@
 @import "vars";
+@import "mixins";
 
 body {
 	background-color: #191919;
@@ -31,6 +32,7 @@ div#message-centre {
 	div.alert {
 		display: inline-block;
 		font-size: 0.867em;
+		font-weight: 300;
 		line-height: 1.2em;
 		margin: 0 auto 0.5em;
 		padding: 0.7em 2em 0.7em 2.1em;
@@ -53,6 +55,7 @@ div#message-centre {
 		h1, h2, h3, h4 {
 			color: inherit;
 			font-size: 1em;
+			font-weight: bold;
 			margin: 0 0 0.5em 0;
 			text-align: left;
 			&:last-child {
@@ -685,6 +688,7 @@ div#footer-wrapper {
 			}
 			h1 {
 				font-size: 15px;
+				font-weight: 700;
 				letter-spacing: 0;
 				text-align: inherit;
 				margin: 0;

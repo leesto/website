@@ -1,0 +1,60 @@
+.table {
+	border-color: $btsyellow;
+	margin: 1em auto;
+
+	& > thead > tr {
+		border-color: $btsyellow;
+
+		& > th {
+			border-color: $btsyellow;
+			color: $btsyellow;
+			font-size: 1.067em; // 16px
+			font-weight: bold;
+			margin: 0 auto;
+		}
+	}
+
+	& > tbody > tr {
+		& > td {
+			border-color: $btsyellow;
+			vertical-align: middle;
+			&[colspan] {
+				text-align: center;
+			}
+			&:first-child:last-child {
+				padding: 1em 0;
+			}
+		}
+		&[onclick]:hover, &.link:hover {
+			background: rgba(255, 255, 255, 0.1);
+			cursor: pointer;
+		}
+	}
+	.check {
+		text-align: center;
+		width: 2em;
+
+		& > input[type='checkbox'] {
+			margin: 0;
+		}
+	}
+	.id {
+		text-align: center;
+		width: 5em;
+	}
+	tbody .id {
+		color: #666;
+	}
+
+	&.table-striped {
+		& > tbody > tr {
+
+			&:nth-of-type(odd) {
+				background-color: rgba(255, 255, 255, 0.1);
+			}
+			& > td {
+				border: none;
+			}
+		}
+	}
+}

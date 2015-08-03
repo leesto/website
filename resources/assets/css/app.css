@@ -159,7 +159,7 @@ fieldset {
 h1 {
   color: #FFCF00;
   font-size: 38px;
-  font-weight: bold;
+  font-weight: 300;
   margin: 0.6em 0 1em 0;
   text-align: center; }
   @media (max-width: 768px) {
@@ -168,20 +168,20 @@ h1 {
 
 h2 {
   color: #FFCF00;
-  font-weight: bold;
   font-size: 22px;
+  font-weight: 300;
   margin: 1.5em 0 0.5em 0; }
 
 h3 {
   color: #D18800;
-  font-weight: bold;
-  font-size: 1.267em;
+  font-size: 19px;
+  font-weight: 300;
   margin: 1em 0 0.3em 0; }
 
 h4 {
   color: #777;
-  font-weight: bold;
-  font-size: 1.133em;
+  font-size: 17px;
+  font-weight: 100;
   margin: 0.9em 0 0.5em 0; }
 
 h1 a:not(.btn), h1 a:visited:not(.btn), h2 a:not(.btn), h2 a:visited:not(.btn), h3 a:not(.btn), h3 a:visited:not(.btn), h4 a:not(.btn), h4 a:visited:not(.btn) {
@@ -505,6 +505,7 @@ div#message-centre {
   div#message-centre div.alert {
     display: inline-block;
     font-size: 0.867em;
+    font-weight: 300;
     line-height: 1.2em;
     margin: 0 auto 0.5em;
     padding: 0.7em 2em 0.7em 2.1em;
@@ -523,6 +524,7 @@ div#message-centre {
     div#message-centre div.alert h1, div#message-centre div.alert h2, div#message-centre div.alert h3, div#message-centre div.alert h4 {
       color: inherit;
       font-size: 1em;
+      font-weight: bold;
       margin: 0 0 0.5em 0;
       text-align: left; }
       div#message-centre div.alert h1:last-child, div#message-centre div.alert h2:last-child, div#message-centre div.alert h3:last-child, div#message-centre div.alert h4:last-child {
@@ -1011,6 +1013,7 @@ div#footer-wrapper {
         text-align: inherit; }
       div#footer-wrapper div#footer > div h1 {
         font-size: 15px;
+        font-weight: 700;
         letter-spacing: 0;
         text-align: inherit;
         margin: 0; }

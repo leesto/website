@@ -60,7 +60,7 @@
                 <span>Create Poll</span>
             </button>
             <a class="btn btn-danger" href="{{ route('polls.index') }}">
-                <span class="fa fa-remove"></span>
+                <span class="fa fa-undo"></span>
                 <span>Cancel</span>
             </a>
         </div>

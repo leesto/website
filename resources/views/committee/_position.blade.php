@@ -16,10 +16,10 @@
         </a>
     @endif
     <div class="title">{{ $role ? $role->name : '&nbsp;' }}</div>
-    <div class="name">{{ $role ? $role->user->name : '&nbsp;' }}</div>
+    <div class="name {{ $role && $role->user ? '' : 'em' }}">{{ $role ? ($role->user ? $role->user->name : '&ndash; unassigned &ndash;'): '&nbsp;' }}</div>
     <div class="picture">
         @if($role)
-            <img class="img-rounded" src="{{ $role->user->getAvatarUrl() }}">
+            <img class="img-rounded" src="{{ $role->user ? $role->user->getAvatarUrl() : '/images/profiles/blank.png' }}">
         @endif
     </div>
     <div class="email">

@@ -1,3 +1,120 @@
 @import "vars";
-@import "general";
+@import "mixins";
+
+// Some generic styling
+em, .em, .italic {
+	font-style: italic;
+
+	&.bts {
+		font-style: inherit;
+		color: $btsyellow;
+	}
+}
+
+strong, .strong, .bold {
+	font-weight: 700;
+}
+
+.success {
+	color: #3e8f3e;
+}
+
+.danger {
+	color: #b92c28;
+}
+
+// Anchors
+a, a:visited {
+	&:not(.btn) {
+		color: $btsyellow;
+		text-decoration: none;
+
+		&:hover {
+			color: $btsyellow;
+			text-decoration: underline;
+		}
+		&:active {
+			color: $btsgold;
+			text-decoration: underline;
+		}
+		&:focus {
+			outline: 1px dotted $btsyellow;
+		}
+	}
+}
+
+// Abbreviations
+abbr {
+	border-bottom: 1px dotted $btsyellow;
+
+	&:hover {
+		cursor: default;
+	}
+}
+
+// Some form overrides
+@import "forms";
+
+// Headers
+@import "headers";
+
+// Horizontal rules
+hr {
+	border: none;
+	background: $btsyellow;
+	height: 1px;
+	margin: 1.5em 0;
+
+	& + * {
+		margin-top: 0;
+	}
+}
+
+// List
+@import "lists";
+
+// Pagination
+@import "pagination";
+
+// Modal popup
+@import "modal";
+
+// Paragraphs
+p {
+	font-size: 1em;
+	line-height: 1.667em; // 1.667*15 = 25px
+	margin: 0 0 1.6em 0; // 1.6*15 = 24px
+	@media (min-width: 1000px) {
+		text-align: justify;
+	}
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+// Tab styling
+@import "tabs";
+
+// Tables
+@import "tables";
+
+// reCAPTCHA fix
+div.g-recaptcha-center {
+	& > div.g-recaptcha {
+		display: block;
+		text-align: center;
+		width: 100%;
+
+		& > div {
+			display: inline-block;
+			margin: 0 auto;
+		}
+	}
+	& > p.help-block {
+		text-align: center;
+	}
+}
+
+// Structure
 @import "structure";

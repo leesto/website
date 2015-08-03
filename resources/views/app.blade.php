@@ -77,7 +77,7 @@
             }
             function processFormErrors(form, errors)
             {
-                if(typeof(errors) == "object") {
+                if(typeof(errors.responseJSON) == "object") {
                     form.find('input,textarea,select').each(function () {
                         var $input = $(this);
                         var $group = $input.parents('.form-group');
@@ -88,6 +88,8 @@
                             $group.addClass('has-success');
                         }
                     });
+                } else {
+                    alert(errors.responseText);
                 }
             }
             $.ajaxSetup({

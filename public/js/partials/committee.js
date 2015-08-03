@@ -1,7 +1,6 @@
 var $modal = $('#roleModal');
 var $form = $modal.find('form');
 var $btns = $modal.find('button');
-$form.find('input[name=date]').val(new Date().format("Y-m-d H:i"));
 $modal.on('show.bs.modal', function (event) {
 	clearModalForm($form);
 	var btn = $(event.relatedTarget);
@@ -25,8 +24,6 @@ $modal.on('show.bs.modal', function (event) {
 	} else {
 		$modal.modal('close');
 	}
-
-
 });
 $modal.find('#modalCancel').on('click', function () {
 	$modal.modal('hide');
@@ -45,16 +42,12 @@ $modal.find('#modalSubmit').on('click', function () {
 			location.reload();
 		},
 		error     : function (data) {
-			var errors = data.responseJSON;
 			clearModalForm($form);
-			processFormErrors($form, errors);
+			processFormErrors($form, data);
 			$btns.attr('disabled', false);
 		},
 		beforeSend: function () {
 			clearModalForm($form);
-		},
-		complete: function(data) {
-			console.log(data);
 		}
 	});
 });
