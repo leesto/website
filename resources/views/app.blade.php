@@ -78,6 +78,7 @@
             function processFormErrors(form, errors)
             {
                 if(typeof(errors.responseJSON) == "object") {
+                    errors = errors.responseJSON;
                     form.find('input,textarea,select').each(function () {
                         var $input = $(this);
                         var $group = $input.parents('.form-group');
@@ -89,7 +90,8 @@
                         }
                     });
                 } else {
-                    alert(errors.responseText);
+                    alert("Oops, an error occurred");
+                    console.log(errors.responseText);
                 }
             }
             $.ajaxSetup({

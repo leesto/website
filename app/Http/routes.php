@@ -40,6 +40,12 @@ Route::group([
 		'middleware' => 'auth.permission:admin',
 		'uses'       => 'CommitteeController@update',
 	]);
+	// Delete
+	Route::post('delete', [
+		'as'         => 'committee.delete',
+		'middleware' => 'auth.permission:admin',
+		'uses'       => 'CommitteeController@destroy',
+	]);
 });
 
 // Contact forms
@@ -109,7 +115,7 @@ Route::group([
 	'prefix' => 'page',
 ], function () {
 	// List
-	Route::get('index', [
+	Route::get('', [
 		'as'   => 'page.index',
 		'uses' => 'PagesController@index',
 	]);
@@ -118,7 +124,7 @@ Route::group([
 		'as'   => 'page.create',
 		'uses' => 'PagesController@create',
 	]);
-	Route::post('', [
+	Route::post('create', [
 		'as'   => 'page.store',
 		'uses' => 'PagesController@store',
 	]);
@@ -216,6 +222,45 @@ Route::group([
 		'as'         => 'quotes.delete',
 		'middleware' => 'auth.permission:admin',
 		'uses'       => 'QuotesController@destroy',
+	]);
+});
+
+// Users
+Route::group([
+	'prefix'     => 'users',
+	'middleware' => 'auth.permission:admin',
+], function () {
+	// List
+	Route::get('', [
+		'as'   => 'user.index',
+		'uses' => 'UsersController@index',
+	]);
+	// Create
+	Route::get('create', [
+		'as'   => 'user.create',
+		'uses' => 'UsersController@create',
+	]);
+	Route::post('create', [
+		'as'   => 'user.create.do',
+		'uses' => 'UsersController@store',
+	]);
+	// Create multiple
+	Route::get('create/bulk', [
+		'as'   => 'user.create.bulk',
+		'uses' => 'UsersController@createBulk',
+	]);
+	Route::post('create/bulk', [
+		'as'   => 'user.create.bulk.do',
+		'uses' => 'UsersController@storeBulk',
+	]);
+	// Edit
+	Route::get('{username}/edit', [
+		'as'   => 'user.edit',
+		'uses' => 'UsersController@edit',
+	])->where('username', '[\w]+');
+	Route::post('{username}/edit', [
+		'as'   => 'user.edit.do',
+		'uses' => 'UsersController@update',
 	]);
 });
 

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Request;
 use App\User;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +44,7 @@ abstract class Controller extends BaseController
 
 	/**
 	 * Require that the request is send by AJAX.
-	 * @param \App\Http\Requests\Request $request
+	 * @param \Illuminate\Http\Request $request
 	 */
 	protected function requireAjax(Request $request)
 	{

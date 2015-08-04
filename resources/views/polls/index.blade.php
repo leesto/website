@@ -10,14 +10,14 @@
     <h1 class="slim deco">Polls</h1>
     @if(count($polls) > 0)
         {!! Form::open(['id' => 'listPolls']) !!}
-        @foreach($polls as $poll)
+        @foreach($polls as $i => $poll)
             <div class="poll">
                 @if(Auth::user()->can('admin'))
                     <a class="btn btn-sm btn-danger btn-actions" href="{{ route('polls.delete', $poll->id) }}" onclick="return confirm('Are you sure you wish to delete this poll?\n\nThis process is irreversible.');" title="Delete this poll">
                         <span class="fa fa-trash"></span>
                     </a>
                 @endif
-                <h3>#XX - <a href="{{ route('polls.view', $poll->id) }}">{{ $poll->question }}</a> [{{ $poll->totalVotes() }} vote{{ $poll->totalVotes() == 1 ? '' : 's' }}]</h3>
+                <h3>#{{ ($polls->currentPage() - 1) * $polls->perPage() + $i + 1 }} - <a href="{{ route('polls.view', $poll->id) }}">{{ $poll->question }}</a> [{{ $poll->totalVotes() }} vote{{ $poll->totalVotes() == 1 ? '' : 's' }}]</h3>
                 @if($poll->description)
                     <div class="description">{{ $poll->description }}</div>
                 @endif

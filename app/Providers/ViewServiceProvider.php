@@ -133,8 +133,8 @@ class ViewServiceProvider extends ServiceProvider
 			// Build the committee sub-menu
 			if($isAdmin) {
 				$menu->find('committee')
-				     ->add(route('page.index'), 'Webpages', Menu::items('committee.webpages'), [], ['class' => 'webpages'])
-				     ->add('#', 'Users', Menu::items('committee.users'), [], ['class' => 'users']);
+				     ->add(route('page.index'), 'Webpages', Menu::items('committee.webpages'), [], ['class' => 'admin-webpages'])
+				     ->add(route('user.index'), 'Users', Menu::items('committee.users'), [], ['class' => 'admin-users']);
 
 
 				$menu->find('committee.webpages')
@@ -142,9 +142,9 @@ class ViewServiceProvider extends ServiceProvider
 				     ->add(route('page.create'), 'Create a new page');
 
 				$menu->find('committee.users')
-				     ->add('#', "User List")
-				     ->add('#', "Add a user")
-				     ->add('#', "Add multiple users");
+				     ->add(route('user.index'), "User Manager")
+				     ->add(route('user.create'), "Add a user")
+				     ->add(route('user.create.bulk'), "Add multiple users");
 			}
 
 			// Build the resources sub-menu
@@ -196,6 +196,18 @@ class ViewServiceProvider extends ServiceProvider
 			$menu->add(route('contact.enquiries'), 'General Enquiries')
 			     ->add(route('contact.book'), 'Book Us')
 			     ->add(route('contact.feedback'), 'Provide Feedback');
+
+			// Add the necessary classes
+			$menu->addClass('nav nav-tabs');
+
+			$view->with('menu', $menu->render());
+		});
+
+		// Compose the create user sub-menu
+		View::composer('users.create_shared', function ($view) {
+			$menu = Menu::handler('userCreateMenu');
+			$menu->add(route('user.create'), 'Single User')
+			     ->add(route('user.create.bulk'), 'Multiple Users');
 
 			// Add the necessary classes
 			$menu->addClass('nav nav-tabs');

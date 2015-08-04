@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\CommitteeRole;
 use App\Http\Requests;
 use App\Http\Requests\CommitteeRequest;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\View;
 use Szykra\Notifications\Flash;
@@ -42,13 +43,6 @@ class CommitteeController extends Controller
 		// Check the order
 		$order = $this->verifyRoleOrder($request->get('order'));
 
-		// Re-order any roles after
-		$roles = CommitteeRole::where('order', '>=', $order)->get();
-		foreach($roles as $role) {
-			$role->order++;
-			$role->save();
-		}
-
 		// Create the new role
 		CommitteeRole::create($request->stripped('name', 'email', 'description', 'user_id') + ['order' => $order]);
 
@@ -74,33 +68,40 @@ class CommitteeController extends Controller
 			return response("Could not find the role.", 422);
 		}
 
-		// Verify the order value
+		// Check the order
 		$order = $this->verifyRoleOrder($request->get('order'));
-
-		// Fix the ordering if it's changed
-		if($order != $role->order) {
-			// Moving earlier
-			if($order < $role->order) {
-				$roles = CommitteeRole::where('order', '>=', $order)->where('order', '<', $role->order)->get();
-				foreach($roles as $r) {
-					$r->order++;
-					$r->save();
-				}
-			} // Moving later
-			else {
-				$roles = CommitteeRole::where('order', '<=', $order)->where('order', '>', $role->order)->get();
-				foreach($roles as $r) {
-					$r->order--;
-					$r->save();
-				}
-			}
-		}
 
 		// Update the role
 		$role->update($request->stripped('name', 'email', 'description', 'user_id') + ['order' => $order]);
 		Flash::success("Role '{$role->name}' updated");
 
 		return response(['success' => true]);
+	}
+
+	/**
+	 * Delete a committee role.
+	 * @param \Illuminate\Http\Request $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy(Request $request)
+	{
+		// Require ajax
+		$this->requireAjax($request);
+
+		// Check that a role exists for the given ID
+		$role = CommitteeRole::find($request->get('id'));
+		if(!$role) {
+			return response("Could not find the committee role.", 422);
+		}
+
+		// Delete the role
+		if($role->delete()) {
+			Flash::success('Committee role deleted');
+
+			return response(['success' => true]);
+		} else {
+			return response("An error occurred when deleting the role.", 422);
+		}
 	}
 
 	/**

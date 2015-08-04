@@ -47,6 +47,9 @@
         <span class="fa fa-plus"></span>
         <span>Add role</span>
     </button>
+    <button class="btn btn-danger" id="modalDelete">
+        <span class="fa fa-remove"></span><span>Delete</span>
+    </button>
     <button class="btn btn-danger" id="modalCancel">
         <span class="fa fa-undo"></span>
         <span>Cancel</span>

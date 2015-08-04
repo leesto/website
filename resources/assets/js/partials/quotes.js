@@ -22,9 +22,8 @@ $modal.find('#addQuoteModal').on('click', function () {
 			location.reload();
 		},
 		error     : function (data) {
-			var errors = data.responseJSON;
 			clearModalForm($form);
-			processFormErrors($form, errors);
+			processFormErrors($form, data);
 			$btns.attr('disabled', false);
 		},
 		beforeSend: function () {

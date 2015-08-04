@@ -290,7 +290,8 @@ div.modal {
       color: inherit; }
     div.modal div.modal-dialog h1 {
       font-size: 24px;
-      margin: 0.5em 0; }
+      font-weight: 400;
+      margin: 0.2em 0; }
     div.modal div.modal-dialog h2 {
       font-size: 20px;
       margin-top: 1.5em;
@@ -480,6 +481,7 @@ body {
   font-size: 15px; }
 
 div#message-centre {
+  font-size: 14px;
   left: 0;
   margin: 0 auto;
   position: fixed;
@@ -504,7 +506,7 @@ div#message-centre {
       padding: 0; }
   div#message-centre div.alert {
     display: inline-block;
-    font-size: 0.867em;
+    font-size: inherit;
     font-weight: 300;
     line-height: 1.2em;
     margin: 0 auto 0.5em;
@@ -839,7 +841,9 @@ div#nav-wrapper {
                       width: 10.5em; }
                     div#nav-wrapper > nav.navbar > div.container-fluid div#bts-navbar > ul.nav > li.dropdown > ul > li.dropdown.resources > ul {
                       width: 12.5em; }
-                    div#nav-wrapper > nav.navbar > div.container-fluid div#bts-navbar > ul.nav > li.dropdown > ul > li.dropdown.webpages > ul {
+                    div#nav-wrapper > nav.navbar > div.container-fluid div#bts-navbar > ul.nav > li.dropdown > ul > li.dropdown.admin-webpages > ul {
+                      width: 11em; }
+                    div#nav-wrapper > nav.navbar > div.container-fluid div#bts-navbar > ul.nav > li.dropdown > ul > li.dropdown.admin-users > ul {
                       width: 11em; } }
             @media (max-width: 768px) {
               div#nav-wrapper > nav.navbar > div.container-fluid div#bts-navbar > ul.nav > li.dropdown {
@@ -948,6 +952,8 @@ div#content-wrapper {
         line-height: 1;
         margin: 0 0 0.3em;
         text-align: left; }
+        div#content-wrapper div#content div#fatal-error div.header div.title h1:before, div#content-wrapper div#content div#fatal-error div.header div.title h1:after, div#content-wrapper div#content div#fatal-error div.header div.title h2:before, div#content-wrapper div#content div#fatal-error div.header div.title h2:after {
+          display: none; }
       div#content-wrapper div#content div#fatal-error div.header div.title h1 {
         font-size: 30px; }
       div#content-wrapper div#content div#fatal-error div.header div.title h2 {
