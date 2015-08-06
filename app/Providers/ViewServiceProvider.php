@@ -138,13 +138,12 @@ class ViewServiceProvider extends ServiceProvider
 
 
 				$menu->find('committee.webpages')
-				     ->add(route('page.index'), 'Webpage Manager')
+				     ->add(route('page.index'), 'Webpage manager')
 				     ->add(route('page.create'), 'Create a new page');
 
 				$menu->find('committee.users')
-				     ->add(route('user.index'), "User Manager")
-				     ->add(route('user.create'), "Add a user")
-				     ->add(route('user.create.bulk'), "Add multiple users");
+				     ->add(route('user.index'), "User manager")
+				     ->add(route('user.create'), "Create a user");
 			}
 
 			// Build the resources sub-menu
@@ -202,18 +201,6 @@ class ViewServiceProvider extends ServiceProvider
 
 			$view->with('menu', $menu->render());
 		});
-
-		// Compose the create user sub-menu
-		View::composer('users.create_shared', function ($view) {
-			$menu = Menu::handler('userCreateMenu');
-			$menu->add(route('user.create'), 'Single User')
-			     ->add(route('user.create.bulk'), 'Multiple Users');
-
-			// Add the necessary classes
-			$menu->addClass('nav nav-tabs');
-
-			$view->with('menu', $menu->render());
-		});
 	}
 
 	/**
@@ -228,17 +215,12 @@ class ViewServiceProvider extends ServiceProvider
 			$users_select[$user->id] = sprintf('%s (%s)', $user->name, $user->username);
 		}
 
-		// Define the list of views to attach this list to
-		$viewList = [
+		// Attach to each view
+		View::composer([
 			'committee.view',
 			'pages.form',
-		];
-
-		// Attach to each view
-		foreach($viewList as $viewName) {
-			View::composer($viewName, function ($view) use ($users_select) {
-				$view->with('users', $users_select);
-			});
-		}
+		], function ($view) use ($users_select) {
+			$view->with('users', $users_select);
+		});
 	}
 }

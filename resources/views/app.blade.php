@@ -14,43 +14,46 @@
     <body>
         <div id="message-centre">
             <ul>
-            @include('partials.flash.flash')
-            <noscript>
-                <li>
-                <div class="alert alert-info">
-                    <span class="fa fa-exclamation"></span>
-						<span>
-							<h1>Uh oh! No javascript!</h1>
-							<p>We use javascript to improve the user experience and make things more interactive - things may not work if you have javascript turned off.</p>
-						</span>
-                </div>
-                </li>
-            </noscript>
+                @yield('messages')
+                @include('partials.flash.flash')
+                <noscript>
+                    <li>
+                        <div class="alert alert-info">
+                            <span class="fa fa-exclamation"></span>
+                            <span>
+                                <h1>Uh oh! No javascript!</h1>
+                                <p>We use javascript to improve the user experience and make things more interactive - things may not work if you have javascript turned off.</p>
+                            </span>
+                        </div>
+                    </li>
+                </noscript>
             </ul>
         </div>
-        <div id="header">
-            <img src="/images/bts-logo.jpg">
-        </div>
-        @if(!app()->isDownForMaintenance() && !isset($noNav))
-            <div id="nav-wrapper">
-                <nav class="navbar navbar-default wrapper">
-                    <div class="container-fluid">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bts-navbar">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="fa fa-bars"></span>
-                            </button>
-                        </div>
-                        <div class="collapse navbar-collapse" id="bts-navbar">
-                            {!! $mainNav !!}
-                        </div>
-                    </div>
-                </nav>
+        <div id="main-wrapper">
+            <div id="header">
+                <img src="/images/bts-logo.jpg">
             </div>
-        @endif
-        <div id="content-wrapper">
-            <div id="content">
-                @yield('content')
+            @if(!app()->isDownForMaintenance() && !isset($noNav))
+                <div id="nav-wrapper">
+                    <nav class="navbar navbar-default wrapper">
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bts-navbar">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="fa fa-bars"></span>
+                                </button>
+                            </div>
+                            <div class="collapse navbar-collapse" id="bts-navbar">
+                                {!! $mainNav !!}
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            @endif
+            <div id="content-wrapper">
+                <div id="content">
+                    @yield('content')
+                </div>
             </div>
         </div>
         <div id="footer-wrapper">

@@ -65,24 +65,42 @@ label {
 	margin-bottom: 0;
 }
 
-input[type='text'], input[type='password'], input[type='email'], textarea {
-	&.form-control {
-		color: #000;
-		font-size: 15px;
-		&:not(textarea) {
-			height: 2.533em;
-		}
-		&.input-sm {
-			font-size: 12px;
-		}
-		&.input-lg {
-			font-size: 18px;
-		}
+&.form-control {
+	color: #000;
+	font-size: 15px;
+	&:not(textarea) {
+		height: 2.533em;
+	}
+	&.input-sm {
+		font-size: 12px;
+	}
+	&.input-lg {
+		font-size: 18px;
 	}
 }
 
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+	background-color: #BBB;
+}
+
+textarea.form-control {
+	&.resize-y {
+		resize: vertical;
+	}
+	&.no-resize {
+		resize: none;
+	}
+}
+
+
 .help-block {
 	font-size: 14px;
+	&.small {
+		font-size: 12px;
+	}
+	&.large {
+		font-size: 16px;
+	}
 	color: $btsyellow;
 	font-style: normal;
 	text-align: left;
@@ -90,6 +108,13 @@ input[type='text'], input[type='password'], input[type='email'], textarea {
 	&.alt {
 		color: #CCC;
 		font-style: italic;
+	}
+	a {
+		color: $colour_primary !important;
+
+		&:focus {
+			outline-color: $colour_primary !important;
+		}
 	}
 }
 
@@ -156,8 +181,8 @@ fieldset {
 		background: transparent;
 		border: none;
 		color: $btsyellow;
-		font-weight: bold;
-		font-size: 1.067em;
+		font-weight: 300;
+		font-size: 16px;
 		line-height: 1em;
 		margin-left: -0.5em;
 		padding: 0 0.5em;

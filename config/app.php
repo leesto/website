@@ -153,6 +153,7 @@ return [
 		Menu\MenuServiceProvider::class,
 		Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
 		Ktquez\Tinymce\TinymceServiceProvider::class,
+		\Intervention\Image\ImageServiceProvider::class,
 
 	],
 
@@ -207,6 +208,7 @@ return [
 		'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
 		'Menu'      => Menu\Menu::class,
 		'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
+		'Image'     => \Intervention\Image\Facades\Image::class,
 	],
 
 ];

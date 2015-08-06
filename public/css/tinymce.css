@@ -84,24 +84,41 @@ label {
 .btn-group .btn {
   margin-bottom: 0; }
 
-input[type='text'].form-control, input[type='password'].form-control, input[type='email'].form-control, textarea.form-control {
+.form-control {
   color: #000;
   font-size: 15px; }
-  input[type='text'].form-control:not(textarea), input[type='password'].form-control:not(textarea), input[type='email'].form-control:not(textarea), textarea.form-control:not(textarea) {
+  .form-control:not(textarea) {
     height: 2.533em; }
-  input[type='text'].form-control.input-sm, input[type='password'].form-control.input-sm, input[type='email'].form-control.input-sm, textarea.form-control.input-sm {
+  .form-control.input-sm {
     font-size: 12px; }
-  input[type='text'].form-control.input-lg, input[type='password'].form-control.input-lg, input[type='email'].form-control.input-lg, textarea.form-control.input-lg {
+  .form-control.input-lg {
     font-size: 18px; }
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+  background-color: #BBB; }
+
+textarea.form-control.resize-y {
+  resize: vertical; }
+
+textarea.form-control.no-resize {
+  resize: none; }
 
 .help-block {
   font-size: 14px;
   color: #FFCF00;
   font-style: normal;
   text-align: left; }
+  .help-block.small {
+    font-size: 12px; }
+  .help-block.large {
+    font-size: 16px; }
   .help-block.alt {
     color: #CCC;
     font-style: italic; }
+  .help-block a {
+    color: #337ab7 !important; }
+    .help-block a:focus {
+      outline-color: #337ab7 !important; }
 
 .form-group.center-block {
   display: inline-block;
@@ -147,8 +164,8 @@ fieldset {
     background: transparent;
     border: none;
     color: #FFCF00;
-    font-weight: bold;
-    font-size: 1.067em;
+    font-weight: 300;
+    font-size: 16px;
     line-height: 1em;
     margin-left: -0.5em;
     padding: 0 0.5em;
@@ -232,6 +249,9 @@ ol {
           ol ol ol ol ol ol {
             list-style-type: lower-roman; }
 
+dl dd {
+  margin-bottom: 1em; }
+
 nav.pagination {
   display: block;
   text-align: center; }
@@ -284,6 +304,8 @@ div.modal {
     width: 700px; }
     div.modal div.modal-dialog.modal-lg {
       width: 970px; }
+    div.modal div.modal-dialog.modal-md {
+      width: 550px; }
     div.modal div.modal-dialog.modal-sm {
       width: 400px; }
     div.modal div.modal-dialog h1, div.modal div.modal-dialog h2, div.modal div.modal-dialog h3, div.modal div.modal-dialog h4 {
@@ -297,15 +319,22 @@ div.modal {
       margin-top: 1.5em;
       margin-bottom: 0.5em; }
     div.modal div.modal-dialog h3 {
-      font-size: 18px; }
+      font-size: 18px;
+      font-weight: bold; }
     div.modal div.modal-dialog h4 {
-      font-size: 15px; }
+      font-size: 15px;
+      font-weight: bold; }
     div.modal div.modal-dialog p {
       margin: 1em 0;
       line-height: 1.4em; }
     div.modal div.modal-dialog ul, div.modal div.modal-dialog ol {
       margin-top: 1em;
       margin-bottom: 1em; }
+    div.modal div.modal-dialog blockquote {
+      font-size: 14px; }
+    div.modal div.modal-dialog .help-block {
+      color: #666;
+      font-style: italic; }
     div.modal div.modal-dialog div.modal-body {
       max-height: 600px;
       overflow-y: auto; }
@@ -437,8 +466,8 @@ div[role='tabpanel'], div.tabpanel {
     .table > thead > tr > th {
       border-color: #FFCF00;
       color: #FFCF00;
-      font-size: 1.067em;
-      font-weight: bold;
+      font-size: 16px;
+      font-weight: 300;
       margin: 0 auto; }
   .table > tbody > tr > td {
     border-color: #FFCF00;
@@ -476,9 +505,22 @@ div.g-recaptcha-center > div.g-recaptcha {
 div.g-recaptcha-center > p.help-block {
   text-align: center; }
 
+html, body {
+  height: 100%; }
+
 body {
-  background-color: #191919;
+  background-color: #000;
   font-size: 15px; }
+
+div#main-wrapper {
+  box-sizing: border-box; }
+  @media (min-width: 992px) {
+    div#main-wrapper {
+      min-height: 100%;
+      margin-bottom: -185px; } }
+  div#main-wrapper:after {
+    content: "";
+    display: block; }
 
 div#message-centre {
   font-size: 14px;
@@ -878,120 +920,120 @@ div#nav-wrapper {
                   div#nav-wrapper > nav.navbar > div.container-fluid div#bts-navbar > ul.nav > li.dropdown:hover > ul {
                     display: block; } }
 
-div#content-wrapper {
-  background: #000; }
-  div#content-wrapper div#content {
-    width: 100%;
-    box-sizing: border-box;
-    color: #CCC;
+div#content {
+  width: 100%;
+  box-sizing: border-box;
+  color: #CCC;
+  font-weight: 300;
+  padding: 2em 1.5em 3em; }
+  @media (min-width: 970px) {
+    div#content {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 100%;
+      width: 970px; } }
+  @media (max-width: 768px) {
+    div#content {
+      padding: 0 1.5em 3em; }
+      div#content > h1 {
+        margin-top: 0; } }
+  div#content img, div#content p {
+    max-width: 100%; }
+  div#content h1 {
     font-weight: 300;
-    padding: 2em 1.5em 3em; }
-    @media (min-width: 970px) {
-      div#content-wrapper div#content {
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 100%;
-        width: 970px; } }
-    @media (max-width: 768px) {
-      div#content-wrapper div#content {
-        padding: 0 1.5em 3em; }
-        div#content-wrapper div#content > h1 {
-          margin-top: 0; } }
-    div#content-wrapper div#content img, div#content-wrapper div#content p {
-      max-width: 100%; }
-    div#content-wrapper div#content h1 {
-      font-weight: 300;
-      letter-spacing: 1px; }
-      @media (min-width: 768px) {
-        div#content-wrapper div#content h1 {
-          margin-bottom: 1.2em; }
-          div#content-wrapper div#content h1:after, div#content-wrapper div#content h1:before {
-            background: #FFCF00;
-            content: "";
-            display: inline-block;
-            height: 2px;
-            margin: 0 0.6em;
-            vertical-align: middle;
-            width: 0.526em; } }
+    letter-spacing: 1px; }
     @media (min-width: 768px) {
-      div#content-wrapper div#content div#fatal-error {
-        margin: 0 auto;
-        width: 700px; } }
-    div#content-wrapper div#content div#fatal-error div.header {
-      margin-top: 2em;
-      overflow: hidden; }
-      div#content-wrapper div#content div#fatal-error div.header div {
-        float: left; }
-        div#content-wrapper div#content div#fatal-error div.header div:before,
-        div#content-wrapper div#content div#fatal-error div.header div:after {
-          content: " ";
-          display: table; }
-        div#content-wrapper div#content div#fatal-error div.header div:after {
-          clear: both; }
-      div#content-wrapper div#content div#fatal-error div.header div.num {
-        box-sizing: border-box;
-        color: #666;
-        display: table-cell;
-        font-size: 45px;
-        text-align: right;
-        margin-right: 0.6em;
-        padding-right: 0.4em;
-        position: relative;
-        width: 3em; }
-        div#content-wrapper div#content div#fatal-error div.header div.num:after {
-          background: #666;
+      div#content h1 {
+        margin-bottom: 1.2em; }
+        div#content h1:after, div#content h1:before {
+          background: #FFCF00;
           content: "";
-          display: block;
-          position: absolute;
-          height: 100px;
-          right: 0;
-          top: 0;
-          width: 3px; }
-      div#content-wrapper div#content div#fatal-error div.header div.title h1, div#content-wrapper div#content div#fatal-error div.header div.title h2 {
-        font-weight: 300;
-        line-height: 1;
-        margin: 0 0 0.3em;
-        text-align: left; }
-        div#content-wrapper div#content div#fatal-error div.header div.title h1:before, div#content-wrapper div#content div#fatal-error div.header div.title h1:after, div#content-wrapper div#content div#fatal-error div.header div.title h2:before, div#content-wrapper div#content div#fatal-error div.header div.title h2:after {
-          display: none; }
-      div#content-wrapper div#content div#fatal-error div.header div.title h1 {
-        font-size: 30px; }
-      div#content-wrapper div#content div#fatal-error div.header div.title h2 {
-        color: #D69E00;
-        font-size: 20px; }
-      @media (max-width: 768px) and (min-width: 400px) {
-        div#content-wrapper div#content div#fatal-error div.header div.num {
-          width: 30%; } }
-      @media (min-width: 768px) {
-        div#content-wrapper div#content div#fatal-error div.header div.num {
-          font-size: 65px; }
-        div#content-wrapper div#content div#fatal-error div.header div.title h1 {
-          font-size: 50px; }
-        div#content-wrapper div#content div#fatal-error div.header div.title h2 {
-          font-size: 25px; } }
-    div#content-wrapper div#content div#fatal-error div.description {
-      margin: 2em auto; }
-    div#content-wrapper div#content div#fatal-error div.panel div.panel-body {
-      padding: 0.5em; }
-      div#content-wrapper div#content div#fatal-error div.panel div.panel-body pre {
-        background: transparent;
-        border: none;
-        font-size: 10px;
-        line-height: 1.6em;
-        margin: 0;
-        max-height: 250px;
-        overflow: auto;
-        padding: 0; }
-    div#content-wrapper div#content div#fatal-error.maintenance {
-      margin: 10em 0;
-      padding: 0;
-      text-align: center;
-      width: auto; }
-      div#content-wrapper div#content div#fatal-error.maintenance .header {
-        display: inline-block;
-        margin: 0; }
-      div#content-wrapper div#content div#fatal-error.maintenance .description {
+          display: inline-block;
+          height: 2px;
+          margin: 0 0.6em;
+          vertical-align: middle;
+          width: 0.526em; } }
+  @media (min-width: 768px) {
+    div#content div#fatal-error {
+      margin: 0 auto;
+      width: 700px; } }
+  div#content div#fatal-error div.header {
+    margin-top: 2em;
+    overflow: hidden; }
+    div#content div#fatal-error div.header div {
+      float: left; }
+      div#content div#fatal-error div.header div:before,
+      div#content div#fatal-error div.header div:after {
+        content: " ";
+        display: table; }
+      div#content div#fatal-error div.header div:after {
+        clear: both; }
+    div#content div#fatal-error div.header div.num {
+      box-sizing: border-box;
+      color: #666;
+      display: table-cell;
+      font-size: 45px;
+      text-align: right;
+      margin-right: 0.6em;
+      padding-right: 0.4em;
+      position: relative;
+      width: 3em; }
+      div#content div#fatal-error div.header div.num:after {
+        background: #666;
+        content: "";
+        display: block;
+        position: absolute;
+        height: 100px;
+        right: 0;
+        top: 0;
+        width: 3px; }
+    div#content div#fatal-error div.header div.title h1, div#content div#fatal-error div.header div.title h2 {
+      font-weight: 300;
+      line-height: 1;
+      margin: 0 0 0.3em;
+      text-align: left; }
+      div#content div#fatal-error div.header div.title h1:before, div#content div#fatal-error div.header div.title h1:after, div#content div#fatal-error div.header div.title h2:before, div#content div#fatal-error div.header div.title h2:after {
         display: none; }
+    div#content div#fatal-error div.header div.title h1 {
+      font-size: 30px; }
+    div#content div#fatal-error div.header div.title h2 {
+      color: #D69E00;
+      font-size: 20px; }
+    @media (max-width: 768px) and (min-width: 400px) {
+      div#content div#fatal-error div.header div.num {
+        width: 30%; } }
+    @media (min-width: 768px) {
+      div#content div#fatal-error div.header div.num {
+        font-size: 65px; }
+      div#content div#fatal-error div.header div.title h1 {
+        font-size: 50px; }
+      div#content div#fatal-error div.header div.title h2 {
+        font-size: 25px; } }
+  div#content div#fatal-error div.description {
+    margin: 2em auto; }
+  div#content div#fatal-error div.panel div.panel-body {
+    color: #000;
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+    font-size: 10px;
+    line-height: 2em;
+    max-height: 300px;
+    padding: 0.5em;
+    overflow: auto;
+    white-space: nowrap; }
+  div#content div#fatal-error.maintenance {
+    margin: 10em 0;
+    padding: 0;
+    text-align: center;
+    width: auto; }
+    div#content div#fatal-error.maintenance .header {
+      display: inline-block;
+      margin: 0; }
+    div#content div#fatal-error.maintenance .description {
+      display: none; }
+
+@media (min-width: 992px) {
+  div#footer-wrapper, div#main-wrapper:after {
+    height: 185px; } }
 
 div#footer-wrapper {
   background: #191919;

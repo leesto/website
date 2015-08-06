@@ -48,6 +48,10 @@
 					font-size: 2em;
 					margin: 0.3em 0 0 0;
 					text-align: left;
+
+					&:before, &:after {
+						display: none !important;
+					}
 				}
 				h2 {
 					color: #999;

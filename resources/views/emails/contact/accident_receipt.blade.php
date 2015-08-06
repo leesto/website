@@ -1,6 +1,6 @@
 @extends('emails.base')
 
-@section('title', 'Dear ' . \App\User::forename($contact_name) . ',')
+@section('title', 'Dear ' . ucfirst($contact_name) . ',')
 
 @include('emails.partials.blockquote')
 

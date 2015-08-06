@@ -33,6 +33,8 @@
         font-size: 2em;
         margin: 0.3em 0 0 0;
         text-align: left; }
+        #viewPoll div.width-wrapper > div.poll-details-wrapper > div.poll-details h1:before, #viewPoll div.width-wrapper > div.poll-details-wrapper > div.poll-details h1:after {
+          display: none !important; }
       #viewPoll div.width-wrapper > div.poll-details-wrapper > div.poll-details h2 {
         color: #999;
         margin: 1em 0 0 0; }

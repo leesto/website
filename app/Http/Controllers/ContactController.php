@@ -32,25 +32,27 @@ class ContactController extends Controller
 	public function postEnquiries(ContactEnquiryRequest $request)
 	{
 		// Strip tags and create array of necessary data
+		$forename = explode(' ', $request->get('name'));
 		$data = $request->only('name', 'email', 'phone') + [
-				'content' => $request->stripped('message'),
+				'content'  => $request->stripped('message'),
+				'forename' => array_shift($forename),
 			];
 
 		// Send the enquiry
 		Mail::queue('emails.contact.enquiry', $data, function ($message) use ($data) {
-			$message->to('ben.jones27@gmail.com')
+			$message->to('bts@bath.ac.uk')
 			        ->from($data['email'], $data['name'])
 			        ->subject('General enquiry');
 		});
 
 		// Send the confirmation
 		Mail::queue('emails.contact.enquiry_receipt', $data, function ($message) use ($data) {
-			$message->to($data['email'])
+			$message->to($data['email'], $data['name'])
 			        ->subject('Your enquiry to BTS');
 		});
 
 		// Flash message
-		Flash::success('Enquiry sent', 'Your enquiry has been sent. You should receive a confirmation soon.');
+		Flash::success('Enquiry sent', 'You should receive a confirmation soon.');
 
 		return redirect(route('home'));
 	}

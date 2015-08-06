@@ -33,7 +33,7 @@
         <span>Add quote</span>
     </button>
     <button class="btn btn-danger" id="cancelQuoteModal">
-        <span class="fa fa-remove"></span>
+        <span class="fa fa-undo"></span>
         <span>Cancel</span>
     </button>
 @endsection

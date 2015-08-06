@@ -16,7 +16,7 @@
             <div class="panel panel-info">
                 <div class="panel-heading">Debug Trace</div>
                 <div class="panel-body">
-                    <pre>{{ $exception->getTraceAsString() }}</pre>
+                    {!! nl2br($exception->getTraceAsString()) !!}
                 </div>
             </div>
         @endif

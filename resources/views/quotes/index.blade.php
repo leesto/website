@@ -49,7 +49,7 @@
         @include('partials.app.pagination', ['paginator' => $quotes])
     @else
         <div class="text-center">
-            <h3>We don't seem to have any good quotes ...</h3>
+            <h3>We don't seem to have any good quotes</h3>
             <h4>You guys need to start embarrassing yourselves</h4>
             @yield('add_quote_button')
         </div>

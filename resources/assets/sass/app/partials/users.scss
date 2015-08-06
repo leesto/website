@@ -1,0 +1,151 @@
+#editUser {
+	form {
+		img {
+			max-width: 300px;
+			width: 90%;
+		}
+		fieldset.privacy {
+			padding-bottom: 1em;
+			div.form-group {
+				margin: 0;
+			}
+			p {
+				margin: -0.5em 0 0.5em 0;
+			}
+			div.checkbox {
+				margin: 0 0 0 1em;
+			}
+		}
+	}
+}
+#listUsers {
+	.table {
+		max-width: none;
+		min-width: 600px;
+		width: 100%;
+
+		& > tbody > tr > td {
+			border: none;
+		}
+
+		td, th {
+			&.id {
+				text-align: center;
+				width: 7%;
+			}
+			&.username {
+				text-align: center;
+				width: 15%;
+			}
+			&.membership {
+				text-align: center;
+				width: 15%;
+			}
+			&.date {
+				text-align: center;
+				width: 15%;
+			}
+			&.actions {
+				text-align: center;
+				width: 6em;
+			}
+		}
+		td.id {
+			color: #555;
+			font-size: 0.9em;
+		}
+	}
+}
+
+#bulkSummary {
+	margin: 0 auto;
+	max-width: 45em;
+
+	& > div.container-fluid {
+		margin-bottom: 40px;
+		max-height: 30em;
+		overflow-y: auto;
+
+		& > div.row {
+			color: rgb(51, 51, 51);
+			overflow: hidden;
+			padding: 7px 10px;
+
+			&:first-of-type {
+				border-radius: 2px 2px 0 0;
+			}
+			&:last-of-type {
+				border-radius: 0 0 2px 2px;
+			}
+			&:not(:last-of-type) {
+				border-bottom: 1px solid #000;
+			}
+
+			&.success {
+				background: #dff0d8;
+				border-color: #3c763d;
+			}
+			&.error {
+				background: #f2dede;
+				border-color: #a94442;
+			}
+
+			& > div {
+				float: left;
+
+				&.status {
+					& > span.fa {
+						font-size: 19px;
+						line-height: 22px;
+						text-align: left;
+
+						&.fa-check {
+							color: #007703;
+						}
+						&.fa-remove {
+							color: #9D0600;
+						}
+					}
+					width: 1.7em;
+				}
+				&.username {
+					padding: 0 10px;
+					width: 7em;
+				}
+				&.details {
+					line-height: 1.3em;
+					@media(max-width:768px) {
+						clear: left;
+						float: none;
+						padding-left: 2.4em;
+					}
+				}
+			}
+		}
+	}
+
+	div.result-container {
+
+		padding: 0.2em 1em;
+
+		& > table {
+			width: 100%;
+
+			tr.success td {
+			}
+			tr.error td {
+			}
+			& td {
+				line-height: 1.3em;
+				vertical-align: top;
+
+				&.status {
+
+				}
+				&.username {
+
+				}
+			}
+		}
+	}
+}

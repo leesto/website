@@ -9,7 +9,7 @@
     <blockquote @yield('_blockquote')>
         @include('emails.partials.multiline', ['text' => $content])
     </blockquote>
-    <p>{{ App\User::forename($name) }} can be contacted by:</p>
+    <p>{{ ucfirst($name) }} can be contacted by:</p>
     <p><strong>Email:</strong> <a href="mailto:{{ $email }}?subject=Your enquiry to BTS">{{ $email }}</a></p>
     @if($phone)
         <p><strong>Phone:</strong> {{ $phone }}</p>

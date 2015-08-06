@@ -1,1 +1,1 @@
-@if ($errors->default->has($name)) <p class="help-block">{{ $errors->default->first($name) }}</p> @endif
+@if ($errors->default->has($name)) <p class="help-block">{!! $errors->default->first($name) !!}</p> @endif

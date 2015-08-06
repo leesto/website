@@ -23,6 +23,7 @@
             <span class="input-group-addon"><span class="fa fa-quote-left"></span></span>
             {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => 'Describe the role', 'rows' => 5]) !!}
         </div>
+        <p class="help-block small">Use the phrase <code>[name]</code> to insert the user's forename.</p>
     </div>
 
     {{-- Select field for the user --}}

@@ -7,18 +7,14 @@
 @endsection
 
 @section('scripts')
-    $('#termsModal').on('shown.bs.modal', function(e) {
-        $('#btn_terms_accept').on('click', function() {
-            $('#termsModal').modal('hide');
-            $('input[name="terms"]').attr('checked', 'checked');
-        });
+    $('#termsModal').find('#btnAcceptTerms').on('click', function() {
+        $('#termsModal').modal('hide');
+        $('input[name="terms"]').attr('checked', 'checked');
     });
 @endsection
 
 @section('tab')
-    <p>Please use the following form if you wish to request a quote or enquire about booking Backstage. You will receive an acknowledgement of your request but
-        please note that this is not a confirmation that Backstage will crew your event. The Production Manager will get back to you with a definite answer as
-        soon as possible.</p>
+    <p>Please use the following form if you wish to request a quote or enquire about booking Backstage. You will receive an acknowledgement of your request but please note that this is not a confirmation that Backstage will crew your event. The Production Manager will get back to you with a definite answer as soon as possible.</p>
 
     {!! Form::open(['class' => 'formhorizontal']) !!}
         @include('partials.form.summary-errors')
@@ -171,5 +167,17 @@
 @endsection
 
 @section('modal')
+    @section('modal.header', '<h1>Terms and Conditions for the Provision of Services</h1>')
+    @section('modal.content')
+        @include('contact._book_terms')
+    @endsection
+    @section('modal.footer')
+        <div class="text-center">
+            <button class="btn btn-success" id="btnAcceptTerms">
+                <span class="fa fa-thumbs-up"></span>
+                <span>I have read and accept these terms</span>
+            </button>
+        </div>
+    @endsection
     @include('partials.modal.modal', ['id' => 'termsModal'])
 @endsection

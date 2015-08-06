@@ -24,11 +24,10 @@ class Validator extends BaseValidator
 		foreach($value as $n => $v) {
 			// Test each parameter
 			foreach($parameters as $rule) {
-				$validatable = $this->isValidatable($rule, $attribute, $value);
 				$method      = "validate{$rule}";
 
 				// If failed, add the message
-				if($validatable && !$this->$method($attribute, $v, $parameters, $this)) {
+				if($this->isValidatable($rule, $attribute, $value) && !$this->$method($attribute, $v, $parameters, $this)) {
 					$valid     = false;
 					$customKey = $attribute . '.each.' . $rule;
 					$message   = isset($this->customMessages[$customKey]) ? $this->customMessages[$customKey] : $this->translator->trans('validation.' . $rule);
@@ -50,6 +49,17 @@ class Validator extends BaseValidator
 	{
 		$value = preg_replace('/\s+/', '', $value);
 
-		return $this->validateRegex($attribute, $value, ["/^(([+][\d]{2})|(0))[\d]{10}/"]);
+		return $this->validateRegex($attribute, $value, ["/^(([+][\d]{2})|(0))[\d]{10}$/"]);
+	}
+
+	/**
+	 * Validate as a name.
+	 * @param $attribute
+	 * @param $value
+	 * @return bool
+	 */
+	public function validateName($attribute, $value)
+	{
+		return $this->validateRegex($attribute, $value, ["/^[a-zA-Z]+\s[a-zA-Z]+$/"]);
 	}
 }

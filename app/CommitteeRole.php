@@ -71,8 +71,8 @@ class CommitteeRole extends Model
 			}
 
 			// Get the necessary roles
-			$committee = Role::where('name', 'committee')->get()->first();
-			$member    = Role::where('name', 'member')->get()->first();
+			$committee = Role::where('name', 'committee')->first();
+			$member    = Role::where('name', 'member')->first();
 
 			// Look through the database for any other committee roles for
 			// the old user. If they exist then we don't want to remove

@@ -97,17 +97,27 @@ Route::group([
 	]);
 });
 
-// /members
+// Members
 Route::group([
 	'middleware' => 'auth',
 	'prefix'     => 'members',
 ], function () {
-	Route::get('{dash?}', [
-		'as'   => 'members.dash',
+	// Dashboard
+	Route::get('', [
+		'as'   => 'members.index',
 		'uses' => function () {
-			return redirect(route('home'));
+			return redirect(route('members.dash'));
 		},
-	])->where('dash', 'dash');
+	]);
+	Route::get('dash', [
+		'as'   => 'members.dash',
+		'uses' => 'MembersController@dash',
+	]);
+	// Profile
+	Route::get('profile/{username}', [
+		'as'   => 'members.profile',
+		'uses' => 'MembersController@profile',
+	])->where('username', '[\w]+');
 });
 
 // Pages
@@ -235,6 +245,10 @@ Route::group([
 		'as'   => 'user.index',
 		'uses' => 'UsersController@index',
 	]);
+	Route::post('', [
+		'as'   => 'user.index.do',
+		'uses' => 'UsersController@bulkUpdate',
+	]);
 	// Create
 	Route::get('create', [
 		'as'   => 'user.create',
@@ -244,15 +258,13 @@ Route::group([
 		'as'   => 'user.create.do',
 		'uses' => 'UsersController@store',
 	]);
-	// Create multiple
-	Route::get('create/bulk', [
-		'as'   => 'user.create.bulk',
-		'uses' => 'UsersController@createBulk',
-	]);
-	Route::post('create/bulk', [
-		'as'   => 'user.create.bulk.do',
-		'uses' => 'UsersController@storeBulk',
-	]);
+	// View
+	Route::get('{username}', [
+		'as'   => 'user.view',
+		'uses' => function ($username) {
+			return redirect(route('members.profile', $username));
+		},
+	])->where('username', '[\w]+');
 	// Edit
 	Route::get('{username}/edit', [
 		'as'   => 'user.edit',
@@ -261,7 +273,7 @@ Route::group([
 	Route::post('{username}/edit', [
 		'as'   => 'user.edit.do',
 		'uses' => 'UsersController@update',
-	]);
+	])->where('username', '[\w]+');
 });
 
 // Authentication

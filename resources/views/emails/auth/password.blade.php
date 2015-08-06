@@ -1,6 +1,6 @@
 @extends('emails.base')
 
-@section('title', 'Hi ' . $user->getForename() . ',')
+@section('title', 'Hi ' . $user->forename . ',')
 
 @section('content')
     <p>We recently received a request to reset your password from {{ Request::getClientIp() }}.</p>

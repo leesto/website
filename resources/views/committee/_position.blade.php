@@ -30,7 +30,7 @@
     </div>
     <div class="description">
         @if($role)
-            {!! nl2br($role->description) !!}
+            {!! nl2br(str_replace('[name]', $role->user->forename, $role->description)) !!}
         @endif
     </div>
 </div>

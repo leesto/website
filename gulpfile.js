@@ -18,6 +18,7 @@ elixir(function (mix) {
 		.sass('app/partials/committee.scss', 'public/css/partials/committee.css')
 		.sass('app/partials/quotes.scss', 'public/css/partials/quotes.css')
 		.sass('app/partials/polls.scss', 'public/css/partials/polls.css')
+		.sass('app/partials/users.scss', 'public/css/partials/users.css')
 		.sass('tinymce/tinymce.scss', 'public/css/tinymce.css')
 		.sass('font-awesome/font-awesome.scss', 'resources/assets/css/font-awesome.css')
 		.styles([
@@ -31,6 +32,7 @@ elixir(function (mix) {
 		.scripts([
 			'date.format.js',
 			'jquery.js',
+			'jquery.tabify.js',
 			'jquery.CloseMessages.js',
 			'jquery.DisableSubmitButtons.js',
 			'jquery.ModalPopup.js',
