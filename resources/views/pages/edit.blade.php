@@ -16,7 +16,7 @@
             <span class="fa fa-trash"></span>
             <span>Delete Page</span>
         </a>
-        <a class="btn btn-danger" href="{{ route('page.show', $page->slug) }}">
+        <a class="btn btn-danger" href="{{ route('page.index') }}">
             <span class="fa fa-undo"></span>
             <span>Cancel</span>
         </a>

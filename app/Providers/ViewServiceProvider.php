@@ -71,7 +71,7 @@ class ViewServiceProvider extends ServiceProvider
 			$menu->add(route('page.show', 'about'), 'About Us');
 			$menu->add(route('committee.view'), 'The Committee');
 			$menu->add('#', 'Galleries');
-			$menu->add(route('members.dash'), 'Members\' Area', Menu::items('members'));
+			$menu->add(route('members.dash'), 'Members\' Area', Menu::items('members'))->activePattern('\/members');
 			if($isAdmin) {
 				$menu->add('#', 'Committee', Menu::items('committee'));
 			}
@@ -84,13 +84,13 @@ class ViewServiceProvider extends ServiceProvider
 				$members = $menu->find('members');
 
 				if($isMember || $isAdmin) {
-					$members->add('#', 'My Profile', Menu::items('members.profile'), [], ['class' => 'profile'])
+					$members->add(route('members.myprofile'), 'My Profile', Menu::items('members.profile'), [], ['class' => 'profile'])
 					        ->add('#', 'Events Diary', Menu::items('members.events'), [], ['class' => 'events'])
-					        ->add('#', 'The Membership')
+					        ->add(route('membership'), 'The Membership')
 					        ->add(route('quotes.index'), 'Quotes Board')
 					        ->add('#', 'Equipment', Menu::items('members.equipment'), [], ['class' => 'equipment'])
 					        ->add('#', 'Training', Menu::items('members.training'), [], ['class' => 'training'])
-					        ->add(route('polls.index'), 'Polls')
+					        ->add(route('polls.index'), 'Polls')->activePattern('\/polls')
 					        ->raw('', null, ['class' => 'divider'])
 					        ->add('#', 'Elections Home')
 					        ->add('#', 'BTS Awards')
@@ -133,8 +133,8 @@ class ViewServiceProvider extends ServiceProvider
 			// Build the committee sub-menu
 			if($isAdmin) {
 				$menu->find('committee')
-				     ->add(route('page.index'), 'Webpages', Menu::items('committee.webpages'), [], ['class' => 'admin-webpages'])
-				     ->add(route('user.index'), 'Users', Menu::items('committee.users'), [], ['class' => 'admin-users']);
+				     ->add(route('page.index'), 'Webpages', Menu::items('committee.webpages'), [], ['class' => 'admin-webpages'])->activePattern('\/page')
+				     ->add(route('user.index'), 'Users', Menu::items('committee.users'), [], ['class' => 'admin-users'])->activePattern('\/users');
 
 
 				$menu->find('committee.webpages')

@@ -198,7 +198,7 @@ h3 {
 h4 {
   color: #777;
   font-size: 17px;
-  font-weight: 100;
+  font-weight: 400;
   margin: 0.9em 0 0.5em 0; }
 
 h1 a:not(.btn), h1 a:visited:not(.btn), h2 a:not(.btn), h2 a:visited:not(.btn), h3 a:not(.btn), h3 a:visited:not(.btn), h4 a:not(.btn), h4 a:visited:not(.btn) {
@@ -493,6 +493,43 @@ div[role='tabpanel'], div.tabpanel {
     background-color: rgba(255, 255, 255, 0.1); }
   .table.table-striped > tbody > tr > td {
     border: none; }
+
+span.tool-colour {
+  margin: 0 0.3em; }
+  span.tool-colour > span:nth-child(even) {
+    margin-left: -1.1em;
+    transform: scaleX(-1);
+    -webkit-transform: scaleX(-1); }
+  span.tool-colour > span:first-of-type:not(:last-of-type) {
+    margin-left: 0.5em; }
+  span.tool-colour:not(:first-of-type) {
+    margin-left: -0.5em; }
+  span.tool-colour .red {
+    color: #FF0000; }
+  span.tool-colour .blue {
+    color: #007BFF; }
+  span.tool-colour .green {
+    color: #008000; }
+  span.tool-colour .yellow {
+    color: #FFFF00; }
+  span.tool-colour .white {
+    color: #FFF; }
+  span.tool-colour .black {
+    color: #000;
+    margin-left: 0.2em;
+    text-shadow: -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF, 1px 1px 0 #FFF; }
+  span.tool-colour .brown {
+    color: #5e3415; }
+  span.tool-colour .purple {
+    color: #973fff; }
+  span.tool-colour .grey {
+    color: #444; }
+  span.tool-colour .orange {
+    color: #F60; }
+  span.tool-colour:first-child {
+    margin-left: 0; }
+  span.tool-colour:last-child {
+    margin-right: 0; }
 
 div.g-recaptcha-center > div.g-recaptcha {
   display: block;

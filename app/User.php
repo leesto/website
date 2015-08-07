@@ -8,7 +8,6 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Szykra\Notifications\Flash;
@@ -19,7 +18,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	use Authenticatable, CanResetPassword, EntrustUserTrait;
 
 	/**
-	 * User account types
+	 * User account type constants
 	 */
 	const MEMBER    = 1;
 	const COMMITTEE = 2;
@@ -58,12 +57,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 	/**
 	 * The attributes that are mass assignable.
+	 * Some of these are "pseudo-attributes" as they don't exist
+	 * in the database but are used to add functionality
 	 * @var array
 	 */
 	protected $fillable = [
 		'username',
 		'forename',
 		'surname',
+		'name', // Pseudo
 		'email',
 		'password',
 		'status',
@@ -75,7 +77,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		'show_phone',
 		'show_address',
 		'show_age',
-		'type',
+		'type', // Pseudo
 	];
 
 	/**
@@ -156,11 +158,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->hasMany('App\Quote', 'added_by');
 	}
 
+	/**
+	 * Get the list of rules for validating the profile save inputs.
+	 * @return array
+	 */
 	public function getProfileValidationRules()
 	{
 		return [
 			'name'         => 'required|name',
-			'username'     => 'required|regex:/[a-z0-9]+/i|unique:users,username,' . $this->id,
+			'username'     => 'required|alpha_num|unique:users,username,' . $this->id,
 			'email'        => 'required|email|unique:users,email,' . $this->id,
 			'phone'        => 'phone',
 			'dob'          => 'date_format:Y-m-d',
@@ -171,10 +177,23 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		];
 	}
 
+	/**
+	 * Get the list of error messages for the profile save validation.
+	 * @return array
+	 */
 	public function getProfileValidationMessages()
 	{
 		return [
-
+			'name.required'      => 'Please enter the user\'s name',
+			'name.name'          => 'Please enter their forename and surname',
+			'username.required'  => 'Please enter their BUCS username',
+			'username.alpha_num' => 'Please use only letters and numbers',
+			'username.unique'    => 'A user with that username already exists',
+			'email.required'     => 'Please enter the user\'s email address',
+			'email.email'        => 'Please enter a valid email address',
+			'email.unique'       => 'That email address is already in use by another user',
+			'phone.phone'        => 'Please enter a valid phone number',
+			'dob.date_format'    => 'Please enter their DOB in the format YYYY-mm-dd',
 		];
 	}
 
@@ -353,6 +372,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	}
 
 	/**
+	 * @param string $after
+	 * @return string
+	 */
+	public function getPossessiveName($after = '')
+	{
+		return $this->name . "'" . (substr($this->name, -1) == 's' ? '' : 's') . ' ' . $after;
+	}
+
+	/**
 	 * Change the user's avatar and resize to 500x500.
 	 * @param UploadedFile $image
 	 * @return $this
@@ -399,5 +427,49 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 		return ($absolute ? base_path('public') : '') . $path;
 
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getToolColours()
+	{
+		// Sanitise
+		$toolColours = strtolower($this->tool_colours);
+		$toolColours = str_replace('and', '&', $toolColours);
+
+		$recognised = ["red", "blue", "green", "yellow", "white", "black", "brown", "purple", "grey", "earth", "orange"];
+
+		if(!empty(preg_replace("/[,;&]/", '', $toolColours))) {
+			// Initialise
+			$html = '';
+
+			// Look for the separators
+			preg_match_all("/([a-z]+)([,;&]\s?)?/", $toolColours, $matches);
+			if(isset($matches[1]) && is_array($matches[1])) {
+				foreach($matches[1] as $colour) {
+					$c = trim($colour);
+					if($c) {
+						if(!in_array($c, $recognised)) {
+							return $toolColours;
+						}
+
+						$html .= '<span class="tool-colour" title="' . ucfirst($c) . '">';
+						if($c == "earth") {
+							$html .= '<span class="fa fa-wrench green"></span>';
+							$html .= '<span class="fa fa-wrench yellow"></span>';
+						} else {
+							$html .= '<span class="fa fa-wrench ' . $c . '"></span>';
+						}
+						$html .= '</span>';
+					}
+				}
+			}
+
+			// Return the string
+			return $html;
+		} else {
+			return "- none -";
+		}
 	}
 }

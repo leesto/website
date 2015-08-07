@@ -118,7 +118,22 @@ Route::group([
 		'as'   => 'members.profile',
 		'uses' => 'MembersController@profile',
 	])->where('username', '[\w]+');
+	// My profile
+	Route::get('my-profile', [
+		'as'   => 'members.myprofile',
+		'uses' => 'MembersController@getMyProfile',
+	]);
+	Route::post('my-profile', [
+		'as'   => 'members.myprofile.do',
+		'uses' => 'MembersController@postMyProfile',
+	]);
 });
+
+// Membership
+Route::get('membership', [
+	'as'   => 'membership',
+	'uses' => 'MembersController@membership',
+]);
 
 // Pages
 Route::group([

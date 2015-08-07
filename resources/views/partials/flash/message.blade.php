@@ -7,7 +7,7 @@
         @if(!empty($title))
                 <h1>{{ $title }}</h1>
             @endif
-            <p>{!! $message !!}</p>
+            <p>{!! str_replace(PHP_EOL, '</p><p>', $message) !!}</p>
     </span>
     </div>
 </li>

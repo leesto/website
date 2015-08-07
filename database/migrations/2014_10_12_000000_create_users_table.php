@@ -19,10 +19,10 @@ class CreateUsersTable extends Migration
 			$table->string('password');
 			$table->string('forename');
 			$table->string('surname');
-			$table->string('phone', 13);
-			$table->text('address');
-			$table->string('tool_colours');
-			$table->date('dob');
+			$table->string('phone', 13)->nullable()->default(null);
+			$table->text('address')->nullable()->default(null);
+			$table->string('tool_colours')->nullable()->default(null);
+			$table->date('dob')->nullable()->default(null);
 			$table->boolean('show_email')->default(1);
 			$table->boolean('show_phone')->default(0);
 			$table->boolean('show_address')->default(0);

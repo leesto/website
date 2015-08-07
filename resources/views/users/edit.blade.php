@@ -9,6 +9,7 @@
 @section('scripts')
     $('#cancelModal').on('click', function() {
         $('#picModal').modal('hide');
+        return false;
     });
 @endsection
 
@@ -31,7 +32,7 @@
                         {!! Form::label('name', 'Name:', ['class' => 'control-label col-sm-3']) !!}
                         <div class="col-sm-9">
                             <div class="input-group">
-                                <span class="input-group-addon"><span class="fa fa-font"></span></span>
+                                <span class="input-group-addon"><span class="fa fa-user"></span></span>
                                 {!! Form::text('name', null, ['class' => 'form-control']) !!}
                             </div>
                             @include('partials.form.input-error', ['name' => 'name'])
@@ -72,7 +73,7 @@
                         <div class="col-sm-9">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="fa fa-phone"></span></span>
-                                {!! Form::text('phone', null, ['class' => 'form-control']) !!}
+                                {!! Form::text('phone', null, ['class' => 'form-control', 'placeholder' => 'This will only be shared if you allow it']) !!}
                             </div>
                             @include('partials.form.input-error', ['name' => 'phone'])
                         </div>
@@ -84,7 +85,7 @@
                         <div class="col-sm-9">
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
-                                {!! Form::text('dob', $user->dob->format('Y-m-d'), ['class' => 'form-control']) !!}
+                                {!! Form::text('dob', $user->dob ? $user->dob->format('Y-m-d') : '', ['class' => 'form-control', 'placeholder' => 'yyyy-mm-dd']) !!}
                             </div>
                             @include('partials.form.input-error', ['name' => 'dob'])
                         </div>
@@ -193,14 +194,21 @@
                         <img class="profile img-rounded" src="{{ $user->getAvatarUrl() }}">
                     </p>
                     <div class="form-group text-center">
-                        <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#picModal">
-                            <span class="fa fa-upload"></span>
-                            <span>Change</span>
-                        </a>
-                        <button class="btn btn-danger btn-sm" name="action" value="remove-pic"{{ !$user->hasAvatar() ? ' disabled=disabled' : '' }}>
-                            <span class="fa fa-remove"></span>
-                            <span>Remove</span>
-                        </button>
+                        @if($user->hasAvatar())
+                            <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#picModal">
+                                <span class="fa fa-upload"></span>
+                                <span>Change</span>
+                            </a>
+                            <button class="btn btn-danger btn-sm" name="action" value="remove-pic">
+                                <span class="fa fa-remove"></span>
+                                <span>Remove</span>
+                            </button>
+                        @else
+                            <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#picModal">
+                                <span class="fa fa-upload"></span>
+                                <span>Upload photo</span>
+                            </a>
+                        @endif
                     </div>
                 </fieldset>
             </div>
@@ -215,6 +223,8 @@
         <div class="form-group">
             {!! Form::label('avatar', 'Select their new picture:') !!}
             {!! Form::file('avatar') !!}
+            <p class="em">This automatically resizes the image to 500x500px, while maintaining its aspect ratio.</p>
+            <p class="em">At the moment you don't have any control over this - I will look into improving this in the future.</p>
         </div>
     @endsection
     @section('modal.footer')
