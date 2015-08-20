@@ -643,7 +643,7 @@ div#content {
 		}
 
 		&.maintenance {
-			margin: 10em 0;
+			margin: 100px 0 0;
 			padding: 0;
 			text-align: center;
 			width: auto;
@@ -783,6 +783,21 @@ div#footer {
 				margin: 0;
 				padding: 0;
 			}
+		}
+	}
+}
+
+// Slim footer
+@media(min-width: 992px) {
+	body.slim-footer {
+		& > div#main-wrapper {
+			margin-bottom: -$dimFooterLowerHeight;
+		}
+		& > div#footer > div.upper {
+			display: none;
+		}
+		div#footer-wrapper, div#main-wrapper:after {
+			height: $dimFooterLowerHeight;
 		}
 	}
 }

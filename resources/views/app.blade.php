@@ -11,7 +11,7 @@
             @yield('styles')
         </style>
     </head>
-    <body>
+    <body{{ app()->isDownForMaintenance() ? ' class=slim-footer' : ''  }}>
         <div id="message-centre">
             <ul>
                 @yield('messages')
