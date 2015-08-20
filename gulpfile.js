@@ -36,7 +36,6 @@ elixir(function (mix) {
 			'jquery.tabify.js',
 			'jquery.CloseMessages.js',
 			'jquery.DisableSubmitButtons.js',
-			'jquery.ModalPopup.js',
 			'bootstrap.min.js',
 			'select2.min.js',
 		], 'public/js/app.js')

@@ -26,7 +26,7 @@
 @endsection
 
 @section('content')
-    <h1 class="slim deco">Webpage Manager</h1>
+    <h1 class="page-header">Webpage Manager</h1>
     <table class="table table-striped">
         <thead>
             <tr>

@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Menu\Items\Contents\Link;
@@ -77,7 +79,7 @@ class ViewServiceProvider extends ServiceProvider
 			}
 			$menu->add('#', 'Resources', Menu::items('resources'));
 			$menu->add(route('contact.enquiries'), 'Enquiries');
-			$menu->add(route('contact.book'), 'Book Us');
+			$menu->add(route('contact.book'), 'Book Us')->activePattern('\/contact\/book');
 
 			// Build the members sub-menu
 			if($isRegistered) {
@@ -133,7 +135,7 @@ class ViewServiceProvider extends ServiceProvider
 			// Build the committee sub-menu
 			if($isAdmin) {
 				$menu->find('committee')
-				     ->add(route('page.index'), 'Webpages', Menu::items('committee.webpages'), [], ['class' => 'admin-webpages'])->activePattern('\/page')
+				     ->add(route('page.index'), 'Webpages', Menu::items('committee.webpages'), [], ['class' => 'admin-webpages'])->activePattern('\/page\/.*\/edit')
 				     ->add(route('user.index'), 'Users', Menu::items('committee.users'), [], ['class' => 'admin-users'])->activePattern('\/users');
 
 
@@ -195,10 +197,18 @@ class ViewServiceProvider extends ServiceProvider
 			$menu->add(route('contact.enquiries'), 'General Enquiries')
 			     ->add(route('contact.book'), 'Book Us')
 			     ->add(route('contact.feedback'), 'Provide Feedback');
-
-			// Add the necessary classes
 			$menu->addClass('nav nav-tabs');
+			$view->with('menu', $menu->render());
+		});
 
+		// Compose the profile sub-menu
+		View::composer('members.profile', function ($view) {
+			$username = $view->getData()['user']->username;
+			$menu = Menu::handler('profileMenu');
+			$menu->add(route('members.profile', $username), 'Details')
+			     ->add('#', 'Events')
+			     ->add('#', 'Training');
+			$menu->addClass('nav nav-tabs');
 			$view->with('menu', $menu->render());
 		});
 	}
@@ -209,7 +219,7 @@ class ViewServiceProvider extends ServiceProvider
 	private function attachUserList()
 	{
 		// Get the users
-		$users        = User::orderBy('username', 'ASC')->get();
+		$users        = User::active()->orderBy('username', 'ASC')->get();
 		$users_select = [];
 		foreach($users as $user) {
 			$users_select[$user->id] = sprintf('%s (%s)', $user->name, $user->username);

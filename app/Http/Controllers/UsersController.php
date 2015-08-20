@@ -251,6 +251,7 @@ class UsersController extends Controller
 					'show_address' => $request->has('show_address'),
 					'show_age'     => $request->has('show_age'),
 				];
+			$data['dob']  = $data['dob'] ?: null;
 			if($ownAccount) {
 				$data['username'] = $user->username;
 				$data['type']     = $user->type;

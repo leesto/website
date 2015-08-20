@@ -4,7 +4,7 @@
 
 @section('content')
     @if($page->slug != 'home')
-    <h1 class="slim deco">{{ $page->title }}</h1>
+    <h1 class="page-header">{{ $page->title }}</h1>
     @endif
     {!! $page->content !!}
 @endsection

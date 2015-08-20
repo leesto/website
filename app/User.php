@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Szykra\Notifications\Flash;
@@ -121,6 +122,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		$password                  = str_random(15);
 		$newAttributes['password'] = bcrypt($password);
 		$newAttributes['status']   = true;
+		$newAttributes['type']     = $attributes['type'];
 
 		// Create the user
 		$user = parent::create($newAttributes);
@@ -128,13 +130,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		if($user) {
 			// Send an email to the new user
 			// TODO: re-enable
-			//Mail::queue('emails.users.create', [
-			//	'name'     => $user->forename,
-			//	'password' => $password,
-			//], function ($message) use ($user) {
-			//	$message->subject('Your new Backstage account')
-			//	        ->to($user->email, $user->name);
-			//});
+			Mail::queue('emails.users.create', [
+				'name'     => $user->forename,
+				'password' => $password,
+			], function ($message) use ($user) {
+				$message->subject('Your new Backstage account')
+				        ->to($user->email, $user->name);
+			});
 		}
 
 		return $user;
@@ -156,6 +158,27 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public function quotes()
 	{
 		return $this->hasMany('App\Quote', 'added_by');
+	}
+
+	/**
+	 * Add a scope for only getting active accounts.
+	 * @param $query
+	 */
+	public function scopeActive($query)
+	{
+		$query->where('status', true);
+	}
+
+	/**
+	 * Add a scope for only getting BTS member accounts.
+	 * @param $query
+	 */
+	public function scopeMember($query)
+	{
+		$query->select('users.*')
+		      ->join('role_user', 'users.id', '=', 'role_user.user_id')
+		      ->join('roles', 'role_user.role_id', '=', 'roles.id')
+		      ->whereIn('roles.name', ['member', 'committee', 'associate']);
 	}
 
 	/**
@@ -311,9 +334,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		} else if($value == self::SU) {
 			$this->roles()->sync([Role::where('name', 'su')->first()->id]);
 		} else if($value == self::ASSOCIATE) {
-			$this->makeAssociate();
+			$this->roles()->sync([Role::where('name', 'associate')->first()->id]);
 		} else if($value == self::COMMITTEE) {
-			$this->makeCommittee();
+			$this->roles()->sync([Role::where('name', 'committee')->first()->id]);
 		} else {
 			$this->roles()->sync([Role::where('name', 'member')->first()->id]);
 		}

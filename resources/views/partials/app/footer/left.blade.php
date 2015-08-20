@@ -1,6 +1,22 @@
 <h1>Contact Us</h1>
-<ul class="list-unstyled">
-    <li><span class="fa fa-at"></span> <a href="mailto:info@bts-crew.com">info@bts-crew.com</a></li>
-    <li><span class="fa fa-phone"></span> +44 (0) 1225 383067</li>
-    <li><span class="fa fa-home"></span> 1E 3.17</li>
-</ul>
+<div class="row">
+    <span class="fa fa-envelope pull-left"></span>
+    <span class="pull-left"><a href="mailto:info@bts-crew.com">info@bts-crew.com</a></span>
+</div>
+<div class="row">
+    <span class="fa fa-phone pull-left"></span>
+    <span class="pull-left">+44 (0) 1225 383067</span>
+</div>
+<div class="row">
+    <span class="fa fa-home pull-left"></span>
+    <span class="pull-left">1E 3.17</span>
+</div>
+<div class="row">
+    <span class="fa fa-map-marker pull-left"></span>
+    <div class="pull-left">
+        University of Bath Students' Union<br>
+        Claverton Down<br>
+        Bath<br>
+        BA2 7AY
+    </div>
+</div>

@@ -3,7 +3,7 @@
 @section('title', 'Edit a Page')
 
 @section('content')
-    <h1 class="slim">Edit a New Page</h1>
+    <h1 class="page-header">Edit a New Page</h1>
     {!! Form::model($page, ['route' => ['page.update', $page->slug], 'style' => 'max-width:700px;']) !!}
     @include('pages.form')
 

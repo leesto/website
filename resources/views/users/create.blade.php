@@ -19,7 +19,7 @@
 @endsection
 
 @section('content')
-    <h1>@yield('title')</h1>
+    <h1 class="page-header">@yield('title')</h1>
     {!! Form::open(['route' => ['user.create.do'], 'style' => 'max-width:25em;']) !!}
         <div class="tabpanel" id="modeTab">
             <ul class="nav nav-tabs">

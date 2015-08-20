@@ -56,17 +56,12 @@
                 </div>
             </div>
         </div>
-        <div id="footer-wrapper">
-            <div class="container-fluid" id="footer">
-                <div class="col-sm-4">
-                    @include('partials.app.footer.left')
-                </div>
-                <div class="col-sm-4 text-center">
-                    @include('partials.app.footer.centre')
-                </div>
-                <div class="col-sm-4 text-right">
-                    @include('partials.app.footer.right')
-                </div>
+        <div id="footer">
+            <div class="upper">
+                @include('partials.app.footer.upper')
+            </div>
+            <div class="lower">
+                @include('partials.app.footer.lower')
             </div>
         </div>
         @yield('modal')

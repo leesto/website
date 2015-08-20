@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <h1 class="slim deco">Poll</h1>
+    <h1 class="page-header">Poll</h1>
     {!! Form::open(['id' => 'viewPoll']) !!}
         <div class="width-wrapper">
             <div class="poll-details-wrapper">

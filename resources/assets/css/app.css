@@ -182,6 +182,23 @@ h1 {
   @media (max-width: 768px) {
     h1 {
       font-size: 2em; } }
+  h1.page-header {
+    border: none;
+    font-weight: 300;
+    letter-spacing: 1px;
+    padding: 0;
+    margin: 0.6em 0 1em 0; }
+    @media (min-width: 768px) {
+      h1.page-header {
+        margin-bottom: 1.2em; }
+        h1.page-header:after, h1.page-header:before {
+          background: #FFCF00;
+          content: "";
+          display: inline-block;
+          height: 2px;
+          margin: 0 0.6em;
+          vertical-align: middle;
+          width: 0.526em; } }
 
 h2 {
   color: #FFCF00;
@@ -554,7 +571,7 @@ div#main-wrapper {
   @media (min-width: 992px) {
     div#main-wrapper {
       min-height: 100%;
-      margin-bottom: -185px; } }
+      margin-bottom: -378px; } }
   div#main-wrapper:after {
     content: "";
     display: block; }
@@ -976,20 +993,6 @@ div#content {
         margin-top: 0; } }
   div#content img, div#content p {
     max-width: 100%; }
-  div#content h1 {
-    font-weight: 300;
-    letter-spacing: 1px; }
-    @media (min-width: 768px) {
-      div#content h1 {
-        margin-bottom: 1.2em; }
-        div#content h1:after, div#content h1:before {
-          background: #FFCF00;
-          content: "";
-          display: inline-block;
-          height: 2px;
-          margin: 0 0.6em;
-          vertical-align: middle;
-          width: 0.526em; } }
   @media (min-width: 768px) {
     div#content div#fatal-error {
       margin: 0 auto;
@@ -1070,83 +1073,123 @@ div#content {
 
 @media (min-width: 992px) {
   div#footer-wrapper, div#main-wrapper:after {
-    height: 185px; } }
+    height: 378px; } }
 
-div#footer-wrapper {
-  background: #191919;
-  color: #FFCF00;
-  font-size: 0.867em;
+div#footer {
+  color: #666;
+  font-size: 13px;
   font-weight: 300;
-  letter-spacing: 0.05em; }
-  div#footer-wrapper * {
+  line-height: 1.3; }
+  div#footer * {
     color: inherit; }
-  div#footer-wrapper div#footer {
+  div#footer a:hover, div#footer a:focus {
+    -webkit-transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
+    -webkit-transition-property: background-color, border-color, box-shadow, color, opacity;
+    -webkit-transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
+    -moz-transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
+    -moz-transition-property: background-color, border-color, box-shadow, color, opacity;
+    -moz-transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
+    -o-transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
+    -o-transition-property: background-color, border-color, box-shadow, color, opacity;
+    -o-transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
+    -ms-transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
+    -ms-transition-property: background-color, border-color, box-shadow, color, opacity;
+    -ms-transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
+    transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
+    transition-property: background-color, border-color, box-shadow, color, opacity;
+    transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
+    color: #DDD;
+    outline: none;
+    text-decoration: none; }
+  div#footer div.container {
     width: 100%;
-    color: #999;
-    padding: 0; }
+    padding: 2em 0; }
     @media (min-width: 970px) {
-      div#footer-wrapper div#footer {
+      div#footer div.container {
         margin-left: auto;
         margin-right: auto;
         max-width: 100%;
         width: 970px; } }
-    div#footer-wrapper div#footer > div {
-      padding: 2em 0; }
-      div#footer-wrapper div#footer > div p {
-        line-height: 1;
-        margin: 1.5em 0 0;
-        text-align: inherit; }
-      div#footer-wrapper div#footer > div h1 {
-        font-size: 15px;
-        font-weight: 700;
-        letter-spacing: 0;
-        text-align: inherit;
-        margin: 0; }
-      div#footer-wrapper div#footer > div ul {
+  div#footer div.upper {
+    background: #0F0F0F; }
+    div#footer div.upper div.container > div:nth-child(2) {
+      padding-right: 2.5em; }
+    div#footer div.upper div.row {
+      margin: 0; }
+      div#footer div.upper div.row span.fa {
+        font-size: 16px;
+        line-height: inherit;
+        margin-right: 0.6em;
+        text-align: center;
+        width: 1.3em; }
+      div#footer div.upper div.row:not(:last-child) {
+        margin-bottom: 0.5em; }
+    @media (max-width: 768px) {
+      div#footer div.upper div.container > div:not(:first-child) h1 {
+        margin-top: 1.8em; } }
+  div#footer div.lower {
+    background: #151515; }
+    div#footer div.lower p {
+      color: #999;
+      line-height: 1;
+      margin: 0; }
+      div#footer div.lower p.extra {
+        color: #666;
+        font-size: 13px;
+        margin-top: 0.75em; }
+  div#footer p {
+    line-height: 1.3;
+    text-align: inherit; }
+    div#footer p:last-child {
+      margin-bottom: 0; }
+  div#footer h1, div#footer h2, div#footer h3, div#footer h4 {
+    color: #BBB;
+    font-size: 15px;
+    font-weight: 100;
+    letter-spacing: 0;
+    margin: 0 0 0.8em 0;
+    text-align: inherit; }
+  div#footer ul {
+    margin: 0;
+    padding: 0; }
+    div#footer ul li {
+      list-style-position: inside;
+      margin: 0.5em 0; }
+  div#footer div.social {
+    margin: 2em 0 0;
+    text-align: center; }
+    div#footer div.social a {
+      -webkit-transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
+      -webkit-transition-property: background-color, border-color, box-shadow, color, opacity;
+      -webkit-transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
+      -moz-transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
+      -moz-transition-property: background-color, border-color, box-shadow, color, opacity;
+      -moz-transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
+      -o-transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
+      -o-transition-property: background-color, border-color, box-shadow, color, opacity;
+      -o-transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
+      -ms-transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
+      -ms-transition-property: background-color, border-color, box-shadow, color, opacity;
+      -ms-transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
+      transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
+      transition-property: background-color, border-color, box-shadow, color, opacity;
+      transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
+      background: #222;
+      border-radius: 20px;
+      color: inherit;
+      display: inline-block;
+      font-size: 17px;
+      height: 40px;
+      line-height: 40px;
+      margin: 0 0.2em;
+      text-align: center;
+      width: 40px; }
+      div#footer div.social a:hover {
+        background: #343434;
+        color: #CCC;
+        text-decoration: none; }
+      div#footer div.social a:focus {
+        outline: none; }
+      div#footer div.social a span.fa {
         margin: 0;
         padding: 0; }
-      div#footer-wrapper div#footer > div a:focus {
-        outline-color: #999; }
-      div#footer-wrapper div#footer > div:nth-child(1) span.fa {
-        font-size: 15px;
-        margin-right: 0.5em; }
-      div#footer-wrapper div#footer > div:nth-child(1) ul {
-        margin: 1.5em 0 0 0; }
-        div#footer-wrapper div#footer > div:nth-child(1) ul li {
-          line-height: 1;
-          margin: 1em 0; }
-      div#footer-wrapper div#footer > div:nth-child(2) span.fa {
-        -webkit-transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
-        -webkit-transition-property: background-color, border-color, box-shadow, color, opacity;
-        -webkit-transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
-        -moz-transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
-        -moz-transition-property: background-color, border-color, box-shadow, color, opacity;
-        -moz-transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
-        -o-transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
-        -o-transition-property: background-color, border-color, box-shadow, color, opacity;
-        -o-transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
-        -ms-transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
-        -ms-transition-property: background-color, border-color, box-shadow, color, opacity;
-        -ms-transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
-        transition-duration: 0.1s, 0.1s, 0.1s, 0.1s, 0.1s;
-        transition-property: background-color, border-color, box-shadow, color, opacity;
-        transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-in;
-        font-size: 22px; }
-        div#footer-wrapper div#footer > div:nth-child(2) span.fa.fa-facebook-official:hover {
-          color: #3b5998; }
-        div#footer-wrapper div#footer > div:nth-child(2) span.fa.fa-twitter:hover {
-          color: #55acee; }
-        div#footer-wrapper div#footer > div:nth-child(2) span.fa.fa-google-plus-square:hover {
-          color: #dd4b39; }
-      div#footer-wrapper div#footer > div:nth-child(2) p {
-        margin-top: 0.8em; }
-      @media (max-width: 768px) {
-        div#footer-wrapper div#footer > div {
-          padding-left: 1em;
-          padding-right: 1em;
-          text-align: center; }
-          div#footer-wrapper div#footer > div:not(:last-child) {
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1); } }
-      @media (min-width: 768px) {
-        div#footer-wrapper div#footer > div {
-          padding-top: 3em; } }

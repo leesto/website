@@ -20,7 +20,7 @@
 @endif
 
 @section('content')
-    <h1>@yield('title')</h1>
+    <h1 class="page-header">@yield('title')</h1>
     <div id="editUser">
         {!! Form::model($user, ['class' => 'form-horizontal', 'route' => ['user.edit.do', $user->username]]) !!}
         <div class="row">

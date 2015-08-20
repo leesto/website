@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <h1 class="slim deco">Create Poll</h1>
+    <h1 class="page-header">Create Poll</h1>
     {!! Form::open(['route' => 'polls.store', 'id' => 'createPoll']) !!}
         <h2>Question</h2>
         <div class="form-group @include('partials.form.error-class', ['name' => 'question'])">

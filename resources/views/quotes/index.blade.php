@@ -18,7 +18,7 @@
 @endsection
 
 @section('content')
-    <h1 class="slim deco">Quotesboard</h1>
+    <h1 class="page-header">Quotesboard</h1>
     @if(count($quotes) > 0)
         {!! Form::open(['route' => 'quotes.delete']) !!}
             @foreach($quotes as $i => $quote)

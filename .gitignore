@@ -1,6 +1,7 @@
 /node_modules/
 Homestead.yaml
 .env
+.env.bts
 /.idea/
 /storage/*
 /database/migrations/2015_07_28_004034_populate_base_data.php

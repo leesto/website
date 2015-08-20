@@ -3,7 +3,7 @@
 @section('title', 'Reset Your Password')
 
 @section('content')
-	<h1 class="slim deco">Reset Your Password</h1>
+	<h1 class="page-header">Reset Your Password</h1>
     <p>If you have forgotten the password for your Backstage account, simply enter your email address into the field below. You will be sent a code which will
         allow you to change your password.</p>
 

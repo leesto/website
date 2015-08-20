@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-    <h1 class="slim deco">Contact Backstage</h1>
+    <h1 class="page-header">Contact Us</h1>
     <div class="tabpanel">
         {!! $menu !!}
         <div class="tab-content">

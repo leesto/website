@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <h1 class="slim deco">Polls</h1>
+    <h1 class="page-header">Polls</h1>
     @if(count($polls) > 0)
         {!! Form::open(['id' => 'listPolls']) !!}
         @foreach($polls as $i => $poll)

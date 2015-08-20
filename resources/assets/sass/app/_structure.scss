@@ -551,25 +551,6 @@ div#content {
 		max-width: 100%;
 	}
 
-	h1 {
-		font-weight: 300;
-		letter-spacing: 1px;
-
-		@media(min-width: 768px) {
-			margin-bottom: 1.2em;
-
-			&:after, &:before {
-				background: $btsyellow;
-				content: "";
-				display: inline-block;
-				height: 2px;
-				margin: 0 0.6em;
-				vertical-align: middle;
-				width: 0.526em;
-			}
-		}
-	}
-
 	// Errors
 	div#fatal-error {
 		@media(min-width: 768px) {
@@ -685,91 +666,124 @@ div#content {
 }
 
 // Footer
-div#footer-wrapper {
-	background: #191919;
-	color: $btsyellow;
-	font-size: 0.867em;
+div#footer {
+	color: #666;
+	font-size: 13px;
 	font-weight: 300;
-	letter-spacing: 0.05em;
+	line-height: 1.3;
 
 	* {
 		color: inherit;
 	}
-
-	div#footer {
+	a:hover, a:focus {
+		@include transition();
+		color: #DDD;
+		outline: none;
+		text-decoration: none;
+	}
+	div.container {
 		@include wrapper();
-		color: #999;
+		padding: 2em 0;
+
+	}
+	div.upper {
+		background: #0F0F0F;
+
+		div.container > div {
+			//padding:0;
+
+			&:nth-child(2) {
+				padding-right: 2.5em;
+			}
+		}
+		div.row {
+			margin: 0;
+			span.fa {
+				font-size: 16px;
+				line-height: inherit;
+				margin-right: 0.6em;
+				text-align: center;
+				width: 1.3em;
+			}
+			&:not(:last-child) {
+				margin-bottom: 0.5em;
+			}
+		}
+
+		@media(max-width:768px) {
+			div.container > div:not(:first-child) h1 {
+				margin-top: 1.8em;
+			}
+		}
+	}
+	div.lower {
+		background: #151515;
+
+		p {
+			color: #999;
+			line-height: 1;
+			margin: 0;
+
+			&.extra {
+				color: #666;
+				font-size: 13px;
+				margin-top: 0.75em;
+			}
+		}
+	}
+	p {
+		line-height: 1.3;
+		text-align: inherit;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+	h1, h2, h3, h4 {
+		color: #BBB;
+		font-size: 15px;
+		font-weight: 100;
+		letter-spacing: 0;
+		margin: 0 0 0.8em 0;
+		text-align: inherit;
+	}
+	ul {
+		margin: 0;
 		padding: 0;
 
-		& > div {
-			padding: 2em 0;
-			p {
-				line-height: 1;
-				margin: 1.5em 0 0;
-				text-align: inherit;
+		li {
+			list-style-position: inside;
+			margin: 0.5em 0;
+		}
+	}
+	div.social {
+		margin: 2em 0 0;
+		text-align: center;
 
-			}
-			h1 {
-				font-size: 15px;
-				font-weight: 700;
-				letter-spacing: 0;
-				text-align: inherit;
-				margin: 0;
-			}
+		a {
+			@include transition();
+			background: #222;
+			border-radius: 20px;
+			color: inherit;
+			display: inline-block;
+			font-size: 17px;
+			height: 40px;
+			line-height: 40px;
+			margin: 0 0.2em;
+			text-align: center;
+			width: 40px;
 
-			ul {
+			&:hover {
+				background: #343434;
+				color: #CCC;
+				text-decoration: none;
+			}
+			&:focus {
+				outline: none;
+			}
+			span.fa {
 				margin: 0;
 				padding: 0;
-			}
-			a:focus {
-				outline-color: #999;
-			}
-
-			&:nth-child(1) {
-				span.fa {
-					font-size: 15px;
-					margin-right: 0.5em;
-				}
-				ul {
-					margin: 1.5em 0 0 0;
-
-					li {
-						line-height: 1;
-						margin: 1em 0;
-					}
-				}
-			}
-			&:nth-child(2) {
-				span.fa {
-					@include transition();
-					font-size: 22px;
-
-					&.fa-facebook-official:hover {
-						color: #3b5998;
-					}
-					&.fa-twitter:hover {
-						color: #55acee;
-					}
-					&.fa-google-plus-square:hover {
-						color: #dd4b39;
-					}
-				}
-				p {
-					margin-top: 0.8em;
-				}
-			}
-
-			@media (max-width: 768px) {
-				padding-left: 1em;
-				padding-right: 1em;
-				text-align: center;
-
-				&:not(:last-child) {
-					border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-				}
-			}
-			@media (min-width: 768px) {
-				padding-top: 3em;
 			}
 		}
 	}

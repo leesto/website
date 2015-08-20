@@ -3,7 +3,7 @@
 @section('title', 'Login')
 
 @section('content')
-        <h1 class="slim deco">Login</h1>
+        <h1 class="page-header">Login</h1>
         <p>To access the members' area you need a username and password; these are provided once you have attended our induction. If you have attended this
             induction but have not received your login details please <a href="mailto:sec@bts-crew.com">contact the secretary</a>.</p>
 

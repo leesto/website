@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <h1>User Manager</h1>
+    <h1 class="page-header">User Manager</h1>
     <p>This table lists all user accounts entered into the database, including non-members and archived accounts. To ensure that all past events display properly it is not possible to delete users; instead use the archive function to disable their account and remove them from any signup lists.</p>
     <a class="btn btn-success" href="{{ route('user.create') }}">
         <span class="fa fa-user-plus"></span>
@@ -54,10 +54,10 @@
                         <td class="date">{{ $user->created_at }}</td>
                         <td class="actions">
                             <div class="btn-group">
-                                <a class="btn btn-warning btn-sm" href="{{ route('user.edit', $user->username) }}" title="Edit">
-                                    <span class="fa fa-edit"></span>
+                                <a class="btn btn-default btn-sm" href="{{ route('user.edit', $user->username) }}" title="Edit">
+                                    <span class="fa fa-pencil"></span>
                                 </a>
-                                <button class="btn btn-danger btn-sm" name="archive-user" title="Archive" value="{{ $user->id }}" {{ !$user->status || $user->id == Auth::user()->id ? ' disabled' : '' }}>
+                                <button class="btn btn-default btn-sm" name="archive-user" title="Archive" value="{{ $user->id }}"{{ !$user->status || $user->id == Auth::user()->id ? ' disabled' : '' }}>
                                     <span class="fa fa-archive"></span>
                                 </button>
                             </div>

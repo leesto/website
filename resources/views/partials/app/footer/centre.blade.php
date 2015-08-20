@@ -1,24 +1,3 @@
-<ul class="list-inline">
-    <li>
-        <span class="fa fa-html5"></span>
-    </li>
-    <li>
-        <span class="fa fa-css3"></span>
-    </li>
-    <li>
-        <a href="https://www.facebook.com/BackstageTechnicalServices" target="_blank">
-            <span class="fa fa-facebook-official" title="Follow us on facebook"></span>
-        </a>
-    </li>
-    <li>
-        <a href="https://twitter.com/backstagetechs" target="_blank">
-            <span class="fa fa-twitter" title="Follow us on twitter"></span>
-        </a>
-    </li>
-    <li>
-        <a href="https://plus.google.com/104029009513703982895" target="_blank">
-            <span class="fa fa-google-plus-square" title="Follow us on G+"></span>
-        </a>
-    </li>
-</ul>
-<p>&copy; Backstage Technical Services {{ date('Y') }}.</p>
+<h1>Who are we?</h1>
+<p>We are a student-run society at the University of Bath that provides technical expertise to other Students' Union clubs and societies.</p>
+<p>We support every kind of event - from small band nights in the Tub to the experiences that are Freshers' Week and Summer Ball.</p>

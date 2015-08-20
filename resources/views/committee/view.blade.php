@@ -11,7 +11,7 @@
 @endsection
 
 @section('content')
-    <h1>The Committee</h1>
+    <h1 class="page-header">The Committee</h1>
     <div id="viewCommittee">
         @if(count($roles))
             <div class="container-fluid">

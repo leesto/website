@@ -3,7 +3,7 @@
 @section('title', 'Reset Your Password')
 
 @section('content')
-	<h1 class="slim deco">Reset Your Password</h1>
+	<h1 class="page-header">Reset Your Password</h1>
     <p style="text-align: center;">To complete the process, confirm your email address and enter a new password.</p>
     {!! Form::open(['style' => 'max-width:450px;']) !!}
         <input type="hidden" name="token" value="{{ $token }}">

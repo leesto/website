@@ -1,0 +1,131 @@
+@import "../vars";
+
+#viewProfile {
+	margin-top: 2em;
+
+	& > div.header {
+		margin-bottom: 2em;
+
+		h1 {
+			margin: 0 0 0.3em 0;
+			text-align: center;
+		}
+		h3 {
+			font-size: 25px;
+			margin: 0;
+			text-align: center;
+		}
+
+		@media(min-width: 768px) {
+			div {
+				height: 150px;
+			}
+			img {
+				margin-right: 10px;
+				max-height: 100%;
+			}
+			h1 {
+				font-size: 45px;
+				margin: 20px 0 10px 0;
+				text-align: left;
+			}
+			h3 {
+				font-size: 35px;
+				margin: 0;
+				text-align: left;
+			}
+		}
+	}
+	div.box {
+		h1 {
+			font-size: 22px;
+			font-weight: 100;
+			text-align: left;
+		}
+
+		table {
+			width: 100%;
+			td {
+				font-size: 17px;
+				padding: 4px 0;
+				vertical-align: top;
+
+				&:first-child {
+					padding-right: 15px;
+					text-align: right;
+				}
+			}
+
+			span.tool-colour {
+				font-size: 1.33333em;
+				line-height: 0.75em;
+				vertical-align: -15%;
+			}
+			a {
+				color: inherit;
+
+				&:hover, &:focus {
+					color: $btsyellow;
+				}
+			}
+		}
+	}
+}
+#viewMembership {
+	.table {
+		margin-bottom: 1em;
+		width: 100%;
+
+		& > tbody > tr {
+			height: 3em;
+
+			& > td {
+				border: none;
+
+				em {
+					color: inherit;
+				}
+			}
+		}
+		a, a:visited {
+			color: $colour_text;
+
+			&:hover {
+				color: $btsyellow;
+				text-decoration: none;
+			}
+		}
+		.pic {
+			padding-right: 1.5em;
+			text-align: center;
+			width: 4.5em;
+
+			img {
+				max-height: 2.5em;
+				max-width: 2.5em;
+			}
+		}
+		.email {
+			@media(min-width:768px) {
+				width: 20em;
+			}
+		}
+		.phone {
+			width: 9em;
+		}
+		.tool {
+			span.fa {
+				font-size: 1.4em;
+				&.black {
+					font-size: 1.3em;
+				}
+			}
+			width: 5em;
+		}
+	}
+
+	h3.no-members {
+		font-size: 1.5em;
+		text-align: center;
+	}
+}

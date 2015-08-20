@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <h1 class="slim deco">Report an Accident</h1>
+    <h1 class="page-header">Report an Accident</h1>
     <p>Use this form to report an accident that occurred during a Backstage-supported event or activity. Please note that this form is automatically sent to the Students' Union as well as Backstage.</p>
 
     {!! Form::open(['class' => 'form-horizontal']) !!}
