@@ -8,6 +8,8 @@ This is the git repository of the website for Backstage Technical Services.
 
 	> This site requires both `mysql` and `smtp` settings
 *   Run `php artisan key:generate` and `php artisan migrate`
+
+	> Note: while `php artisan migrate` will create the necessary database structure, it will not be populated with any data
 *   Run the PHP server or configure your own server to point to the *public* directory
 
 ### Description
