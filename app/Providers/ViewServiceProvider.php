@@ -218,18 +218,19 @@ class ViewServiceProvider extends ServiceProvider
 	 */
 	private function attachUserList()
 	{
-		// Get the users
-		$users        = User::active()->orderBy('username', 'ASC')->get();
-		$users_select = [];
-		foreach($users as $user) {
-			$users_select[$user->id] = sprintf('%s (%s)', $user->name, $user->username);
-		}
-
 		// Attach to each view
 		View::composer([
 			'committee.view',
 			'pages.form',
-		], function ($view) use ($users_select) {
+		], function ($view) {
+			// Get the users
+			$users        = User::active()->orderBy('username', 'ASC')->get();
+			$users_select = [];
+			foreach($users as $user) {
+				$users_select[$user->id] = sprintf('%s (%s)', $user->name, $user->username);
+			}
+
+			// Attach
 			$view->with('users', $users_select);
 		});
 	}
