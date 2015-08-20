@@ -3,6 +3,8 @@ Homestead.yaml
 .env
 .env.bts
 /.idea/
-/storage/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
 /database/migrations/2015_07_28_004034_populate_base_data.php
 /vendor
