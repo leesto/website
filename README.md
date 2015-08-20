@@ -5,6 +5,7 @@ This is the git repository of the website for Backstage Technical Services.
 *   Clone the repo using `git clone`
 *   Install the dependencies using `composer install`
 *   Create your *.env* file using the included *.env.example* as a template
+
 	> This site requires both *mysql* and *smtp* settings 
 *   Run `php artisan key:generate` and `php artisan migrate`
 *   Run the PHP server or configure your own server to point to the *public* directory
