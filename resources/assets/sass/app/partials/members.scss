@@ -122,6 +122,29 @@
 			}
 			width: 5em;
 		}
+		@media(max-width: 768px) {
+			em {
+				display: none;
+			}
+			.pic {
+				padding-right: 0;
+				text-align: left;
+				width: 3em;
+
+				img {
+					max-height: 2em;
+					max-width: 2em;
+				}
+			}
+			.name {
+				font-size: 16px;
+
+				span.email a {
+					color: #777;
+					font-size: 14px;
+				}
+			}
+		}
 	}
 
 	h3.no-members {

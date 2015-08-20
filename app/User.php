@@ -492,7 +492,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 			// Return the string
 			return $html;
 		} else {
-			return "- none -";
+			return '';
 		}
 	}
 }

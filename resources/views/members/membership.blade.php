@@ -11,39 +11,46 @@
     <div id="viewMembership">
         @if(count($members) > 0)
             <table class="table">
-                <thead>
+                <thead class="hidden-xs hidden-sm">
                     <tr>
-                        <th class="pic hidden-xs hidden-sm"></th>
+                        <th class="pic"></th>
                         <th class="name">Name</th>
                         <th class="email">Email Address</th>
-                        <th class="phone text-center hidden-xs">Phone</th>
-                        <th class="tool text-center hidden-xs">Tools</th>
+                        <th class="phone text-center">Phone</th>
+                        <th class="tool text-center">Tools</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($members as $member)
                         <tr onclick="document.location='{{ route('members.profile', $member->username) }}';">
-                            <td class="pic hidden-xs hidden-sm">
+                            <td class="pic">
                                 <img class="img-circle" src="{{ $member->getAvatarUrl() }}">
                             </td>
                             <td class="name">
                                 {!! link_to_route('members.profile', $member->name, [$member->username]) !!}
+                                <span class="email visible-xs visible-sm">
+                                    @if($member->show_email)
+                                        <a href="mailto:{{ $member->email }}">{{ $member->email }}</a>
+                                    @else
+                                        <em>- hidden -</em>
+                                    @endif
+                                </span>
                             </td>
-                            <td class="email">
+                            <td class="email hidden-xs hidden-sm">
                                 @if($member->show_email)
                                     <a href="mailto:{{ $member->email }}">{{ $member->email }}</a>
                                 @else
                                     <em>- hidden -</em>
                                 @endif
                             </td>
-                            <td class="phone text-center hidden-xs">
+                            <td class="phone text-center hidden-xs hidden-sm">
                                 @if($member->show_phone)
                                     {{ $member->phone }}
                                 @else
                                     <em>- hidden -</em>
                                 @endif
                             </td>
-                            <td class="tool text-center hidden-xs">
+                            <td class="tool text-center">
                                 {!! $member->getToolColours() !!}
                             </td>
                         </tr>
