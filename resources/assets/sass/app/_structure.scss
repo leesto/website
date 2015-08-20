@@ -687,11 +687,9 @@ div#footer {
 
 	}
 	div.upper {
-		background: #0F0F0F;
+		background: #151515;
 
 		div.container > div {
-			//padding:0;
-
 			&:nth-child(2) {
 				padding-right: 2.5em;
 			}
@@ -717,7 +715,7 @@ div#footer {
 		}
 	}
 	div.lower {
-		background: #151515;
+		background: #121212;
 
 		p {
 			color: #999;
