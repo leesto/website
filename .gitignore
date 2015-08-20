@@ -9,3 +9,4 @@ Homestead.yaml
 /storage/logs/*
 /database/migrations/2015_07_28_004034_populate_base_data.php
 /vendor
+/public/images/*

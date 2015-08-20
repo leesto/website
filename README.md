@@ -1,6 +1,13 @@
 ### About
 This is the git repository of the website for Backstage Technical Services. 
 
+### Installation
+* Clone the repo using `git clone`
+* Install the dependencies using `composer install`
+* Create your *.env* file using the included *.env.example* as a template
+* Run `php artisan key:generate` and `php artisan migrate`
+* Run the PHP server or configure your own server to point to the *public* directory
+
 ### Description
 The current Backstage website (v2) has been well-used by the membership for many years but the gradual addition of features has left the file structure in disrepair. It has also been a while since the core functionality was reviewed and this has left it using some fairly outdated and insecure functions.
 
