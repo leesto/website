@@ -19,7 +19,7 @@
     <div class="name {{ $role && $role->user ? '' : 'em' }}">{{ $role ? ($role->user ? $role->user->name : '&ndash; unassigned &ndash;'): '&nbsp;' }}</div>
     <div class="picture">
         @if($role)
-            <img class="img-rounded" src="{{ $role->user ? $role->user->getAvatarUrl() : '/images/profiles/blank.png' }}">
+            <img class="img-rounded" src="{{ $role->user ? $role->user->getAvatarUrl() : '/images/profiles/blank.jpg' }}">
         @endif
     </div>
     <div class="email">
@@ -30,7 +30,7 @@
     </div>
     <div class="description">
         @if($role)
-            {!! nl2br(str_replace('[name]', $role->user->forename, $role->description)) !!}
+            {!! nl2br(str_replace('[name]', $role->user ? $role->user->forename : 'They', $role->description)) !!}
         @endif
     </div>
 </div>
