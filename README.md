@@ -6,7 +6,8 @@ This is the git repository of the website for Backstage Technical Services.
 *   Install the dependencies using `composer install`
 *   Create your *.env* file using the included *.env.example* as a template
 
-	> This site requires both `mysql` and `smtp` settings
+	> This site requires both `mysql` and `smtp` settings  
+		This also requires an App ID (`FACEBOOK_APP_ID`) and Secret (`FACEBOOK_APP_SECRET`) for Facebook's Graph API
 *   Run `php artisan key:generate` and `php artisan migrate`
 *   Run `php artisan db:seed` to insert the default data
 
