@@ -1,0 +1,65 @@
+@import "../mixins";
+
+h4.header {
+	font-size: 26px;
+	margin: -1em 0 1.5em;
+	text-align: center;
+}
+#viewGallery, #viewAlbum {
+	box-sizing: border-box;
+	font-size: 0;
+	text-align: left;
+	overflow: hidden;
+	width: 100%;
+
+	div.box {
+		@include transition();
+		display: inline-block;
+		box-sizing: border-box;
+		padding: 10px;
+		width: 25%;
+		vertical-align: text-top;
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.1);
+			cursor: pointer;
+		}
+
+		div.photo {
+			background-position: 50% 25%;
+			background-repeat: no-repeat;
+			background-size: cover;
+			display: inline-block;
+			height: 150px;
+			width: 100%;
+		}
+		p {
+			font-size: 14px;
+			margin: 0;
+			text-align: left;
+
+			&.photo-count {
+				color: #999;
+				font-size: 12px;
+			}
+			&.comment {
+				font-size: 13px;
+				margin: 5px 0 0;
+			}
+		}
+	}
+
+	h3.no-entries, h4.no-entries {
+		text-align: center;
+	}
+	h3.no-entries {
+		font-size: 24px;
+	}
+	h4.no-entries {
+		font-size: 22px;
+	}
+}
+
+#viewAlbum {
+	margin-bottom: 25px;
+}

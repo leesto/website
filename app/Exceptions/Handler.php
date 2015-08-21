@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Facebook\Exceptions\FacebookResponseException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Response;
@@ -41,7 +42,7 @@ class Handler extends ExceptionHandler
 		// Make sure a 404 is thrown for:
 		//   ModelNotFound
 		//   ReflectionException
-		if($e instanceof ModelNotFoundException || $e instanceof ReflectionException) {
+		if($e instanceof ModelNotFoundException || $e instanceof ReflectionException || $e instanceof FacebookResponseException) {
 			return Response::view('errors.404', ['exception' => $e], 404);
 		}
 

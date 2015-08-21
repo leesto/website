@@ -154,7 +154,7 @@ return [
 		Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
 		Ktquez\Tinymce\TinymceServiceProvider::class,
 		\Intervention\Image\ImageServiceProvider::class,
-
+		SammyK\LaravelFacebookSdk\LaravelFacebookSdkServiceProvider::class
 	],
 
 	/*

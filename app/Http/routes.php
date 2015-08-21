@@ -147,6 +147,22 @@ Route::group([
 	]);
 });
 
+// Gallery
+Route::group([
+	'prefix' => 'gallery',
+], function () {
+	// Index
+	Route::get('', [
+		'as'   => 'gallery.index',
+		'uses' => 'GalleryController@index',
+	]);
+	// Album
+	Route::get('album/{id}', [
+		'as'   => 'gallery.album',
+		'uses' => 'GalleryController@show',
+	]);
+});
+
 // Members
 Route::group([
 	'middleware' => 'auth',

@@ -17,6 +17,8 @@ elixir(function (mix) {
 	mix.sass('app/app.scss', 'resources/assets/css/app.css')
 		.sass('app/partials/committee.scss', 'public/css/partials/committee.css')
 		.sass('app/partials/equipment.scss', 'public/css/partials/equipment.css')
+		.sass('app/partials/events.scss', 'public/css/partials/events.css')
+		.sass('app/partials/gallery.scss', 'public/css/partials/gallery.css')
 		.sass('app/partials/members.scss', 'public/css/partials/members.css')
 		.sass('app/partials/quotes.scss', 'public/css/partials/quotes.css')
 		.sass('app/partials/polls.scss', 'public/css/partials/polls.css')
