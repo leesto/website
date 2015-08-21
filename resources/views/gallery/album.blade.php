@@ -1,13 +1,13 @@
 @extends('app')
 
-@section('title', $album['name'])
+@section('title', 'Gallery: ' . $album['name'])
 
 @section('stylesheets')
     @include('partials.tags.style', ['path' => 'partials/gallery'])
 @endsection
 
 @section('content')
-    <h1>@yield('title')</h1>
+    <h1>{{ $album['name'] }}</h1>
     <h4 class="header">{{ $album['count'] }} photos</h4>
     <div id="viewAlbum">
         @foreach($photos as $photo)
