@@ -8,7 +8,6 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Szykra\Notifications\Flash;
@@ -115,21 +114,23 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public static function create(array $attributes = [], $sendEmail = true)
 	{
 		// Set up the default parameters
-		$newAttributes             = [];
-		$newAttributes['username'] = $attributes['username'];
-		$newAttributes['email']    = $newAttributes['username'] . '@bath.ac.uk';
-		$newAttributes['name']     = $attributes['name'];
-		$password                  = str_random(15);
-		$newAttributes['password'] = bcrypt($password);
-		$newAttributes['status']   = true;
-		$newAttributes['type']     = $attributes['type'];
+		if(!isset($attributes['email']) && isset($attributes['username'])) {
+			$attributes['email'] = $attributes['username'] . '@bath.ac.uk';
+		}
+		if(!isset($attributes['password'])) {
+			$password               = str_random(15);
+			$attributes['password'] = bcrypt($password);
+		}
+		if(!isset($attributes['status'])) {
+			$attributes['status'] = true;
+		}
+
 
 		// Create the user
-		$user = parent::create($newAttributes);
+		$user = parent::create($attributes);
 
-		if($user) {
+		if($user && $sendEmail && isset($password)) {
 			// Send an email to the new user
-			// TODO: re-enable
 			Mail::queue('emails.users.create', [
 				'name'     => $user->forename,
 				'password' => $password,
