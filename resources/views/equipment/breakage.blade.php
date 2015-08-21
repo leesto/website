@@ -41,7 +41,7 @@
     <div class="form-group">
         {!! Form::label('user_id', 'Reported by:', ['class' => 'control-label col-md-4']) !!}
         <div class="col-md-8">
-            <p class="form-control-static">{{ $breakage->user->name }} ({{ $breakage->user->username }})<br>{{ $breakage->created_at->diffForHumans() }}</p>
+            <p class="form-control-static">{!! $breakage->user ? ($breakage->user->name . '(' . $breakage->user->username . ')') : '<em>- unknown -</em>' !!}<br>{{ $breakage->created_at->diffForHumans() }}</p>
         </div>
     </div>
 
