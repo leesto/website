@@ -14,6 +14,11 @@ This is the git repository of the website for Backstage Technical Services.
 	> This will insert the su2bc account, default webpages and initial committee structure.
 *   Run the PHP server or configure your own server to point to the *public* directory
 
+### Warning
+Just a warning:
+
+> This repository will be reset once it is released to bring everything to "First commit"
+
 ### Description
 The current Backstage website (v2) has been well-used by the membership for many years but the gradual addition of features has left the file structure in disrepair. It has also been a while since the core functionality was reviewed and this has left it using some fairly outdated and insecure functions.
 
