@@ -93,12 +93,9 @@ class EquipmentController extends Controller
 
 		// Email the E&S officer
 		Mail::queue('emails.equipment.new_breakage', [
-			'name'        => $breakage->name,
-			'location'    => $breakage->location,
-			'label'       => $breakage->label,
-			'description' => $breakage->description,
-			'user_name'   => $breakage->user->name,
-			'username'    => $breakage->user->username,
+			'breakage'  => $breakage,
+			'user_name' => $breakage->user->name,
+			'username'  => $breakage->user->username,
 		], function ($message) {
 			$message->subject('Equipment breakage')
 			        ->to('equip@bts-crew.com');
