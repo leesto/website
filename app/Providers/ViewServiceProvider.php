@@ -70,7 +70,7 @@ class ViewServiceProvider extends ServiceProvider
 			$menu->add(route('home'), 'Home')->activePattern('\/page\/home');
 			$menu->add(route('page.show', 'about'), 'About Us');
 			$menu->add(route('committee.view'), 'The Committee');
-			$menu->add(route('gallery.index'), 'Galleries');
+			$menu->add(route('gallery.index'), 'Galleries')->activePattern('\/gallery');
 			$menu->add(route('members.dash'), 'Members\' Area', Menu::items('members'))->activePattern('\/members');
 			if($isAdmin) {
 				$menu->add('#', 'Committee', Menu::items('committee'));
