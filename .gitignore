@@ -7,6 +7,5 @@ Homestead.yaml
 /storage/framework/sessions/*
 /storage/framework/views/*
 /storage/logs/*
-/database/migrations/2015_07_28_004034_populate_base_data.php
 /vendor
 /public/images/*
