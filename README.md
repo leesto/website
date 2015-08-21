@@ -10,6 +10,9 @@ This is the git repository of the website for Backstage Technical Services.
 *   Run `php artisan key:generate` and `php artisan migrate`
 
 	> While `php artisan migrate` will create the necessary database structure, it will not be populated with any data
+*   If you are in a testing environment, run `php artisan db:seed` to insert the default data
+
+	> This will insert the su2bc account, default webpages and initial committee structure.
 *   Run the PHP server or configure your own server to point to the *public* directory
 
 ### Description
