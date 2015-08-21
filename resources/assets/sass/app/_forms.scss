@@ -18,14 +18,17 @@ form {
 			margin: 0.3em 0.7em 0 -0.1em;
 		}
 	}
-}
 
-label {
-	font-weight: normal;
+	&:not(.form-horizontal) .control-label {
+		font-weight: normal;
+	}
 }
 
 .form-control-static {
 	@include user_select_none();
+	min-height: 0;
+	margin-bottom: 0;
+	padding: 5px 0;
 }
 
 .btn {

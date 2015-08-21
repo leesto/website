@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\EquipmentBreakage;
 use App\Http\Requests;
 use App\Http\Requests\GenericRequest;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
@@ -63,7 +62,7 @@ class EquipmentController extends Controller
 	 */
 	public function getAddRepair()
 	{
-		return View::make('equipment.repairs_add');
+		return View::make('equipment.add_breakage');
 	}
 
 	/**
@@ -118,16 +117,34 @@ class EquipmentController extends Controller
 	 */
 	public function view($id)
 	{
-		return $id;
+		$breakage = EquipmentBreakage::findOrFail($id);
+
+		return View::make('equipment.breakage')->withBreakage($breakage);
 	}
 
 	/**
 	 * Process the form for updating a repair's details.
-	 * @param $id
-	 * @return Response
+	 * @param                                   $id
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @return \Illuminate\Http\Response
 	 */
-	public function update($id)
+	public function update($id, GenericRequest $request)
 	{
-		return $id;
+		// Get the breakage entry
+		$breakage = EquipmentBreakage::findOrFail($id);
+
+		// Validate
+		$this->validate($request, [
+			'status' => 'required|in:' . implode(',', array_keys(EquipmentBreakage::$status)),
+		], [
+			'status.required' => 'Please choose a status for the breakage',
+			'status.in'       => 'Please choose a valid status',
+		]);
+
+		// Update, message and redirect
+		$breakage->update($request->stripped('comment', 'status'));
+		Flash::success('Breakage updated');
+
+		return redirect(route('equipment.repairs'));
 	}
 }

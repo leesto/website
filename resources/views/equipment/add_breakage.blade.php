@@ -25,13 +25,13 @@
         </div>
 
         {{-- Marked --}}
-        <div class="form-group @include('partials.form.error-class', ['name' => 'marked'])">
+        <div class="form-group @include('partials.form.error-class', ['name' => 'label'])">
             {!! Form::label('label', 'Labelling:', ['class' => 'control-label']) !!}
             <div class="input-group">
                 <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                 {!! Form::text('label', null, ['class' => 'form-control', 'placeholder' => 'How is the item marked as broken?']) !!}
             </div>
-            @include('partials.form.input-error', ['name' => 'marked'])
+            @include('partials.form.input-error', ['name' => 'label'])
         </div>
 
         {{-- Damage description --}}
