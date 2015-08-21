@@ -69,7 +69,7 @@ class ViewServiceProvider extends ServiceProvider
 
 			// Create the parent menu
 			$menu = Menu::handler('mainNav');
-			$menu->add(route('home'), 'Home');
+			$menu->add(route('home'), 'Home')->activePattern('\/page\/home');
 			$menu->add(route('page.show', 'about'), 'About Us');
 			$menu->add(route('committee.view'), 'The Committee');
 			$menu->add('#', 'Galleries');
