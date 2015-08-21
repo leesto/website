@@ -15,9 +15,9 @@
 		"szykra/laravel-flash-notifications": "~0.3",
 		"zizaco/entrust"                    : "dev-laravel-5",
 		"ktquez/laravel-tinymce"            : "~1.0",
-		"vespakoen/menu": "3.*",
-		"greggilbert/recaptcha": "2.*",
-		"intervention/image": "^2.3"
+		"vespakoen/menu"                    : "3.*",
+		"greggilbert/recaptcha"             : "2.*",
+		"intervention/image"                : "^2.3"
 	},
 	"require-dev" : {
 		"fzaninotto/faker": "~1.4",

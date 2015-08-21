@@ -8,8 +8,6 @@ This is the git repository of the website for Backstage Technical Services.
 
 	> This site requires both `mysql` and `smtp` settings
 *   Run `php artisan key:generate` and `php artisan migrate`
-
-	> While `php artisan migrate` will create the necessary database structure, it will not be populated with any data
 *   Run `php artisan db:seed` to insert the default data
 
 	> This will insert the su2bc account, default webpages and initial committee structure.
