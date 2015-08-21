@@ -8,7 +8,7 @@
         <a href="https://www.facebook.com/BackstageTechnicalServices" target="_blank">
             <span class="fa fa-facebook" title="Follow us on facebook"></span>
         </a>
-        <a href="https://twitter.com/backstagetechs" target="_blank">
+        <a href="https://www.twitter.com/backstagetech" target="_blank">
             <span class="fa fa-twitter" title="Follow us on twitter"></span>
         </a>
         <a href="https://plus.google.com/104029009513703982895" target="_blank">

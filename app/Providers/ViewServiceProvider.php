@@ -90,7 +90,7 @@ class ViewServiceProvider extends ServiceProvider
 					        ->add('#', 'Events Diary', Menu::items('members.events'), [], ['class' => 'events'])
 					        ->add(route('membership'), 'The Membership')
 					        ->add(route('quotes.index'), 'Quotes Board')
-					        ->add('#', 'Equipment', Menu::items('members.equipment'), [], ['class' => 'equipment'])
+					        ->add(route('equipment.dash'), 'Equipment', Menu::items('members.equipment'), [], ['class' => 'equipment'])
 					        ->add('#', 'Training', Menu::items('members.training'), [], ['class' => 'training'])
 					        ->add(route('polls.index'), 'Polls')->activePattern('\/polls')
 					        ->raw('', null, ['class' => 'divider'])
@@ -98,7 +98,7 @@ class ViewServiceProvider extends ServiceProvider
 					        ->add('#', 'BTS Awards')
 					        ->raw('', null, ['class' => 'divider']);
 					if($isAdmin) {
-						$members->add('#', 'View SU Area')
+						$members->add(route('su.dash'), 'View SU Area')
 						        ->raw('', null, ['class' => 'divider']);
 					}
 					$members->add(route('contact.accident'), 'Report an Accident');
@@ -119,8 +119,8 @@ class ViewServiceProvider extends ServiceProvider
 
 					// Build the equipment sub-menu
 					$menu->find('members.equipment')
-					     ->add('#', 'View repairs db')
-					     ->add('#', 'Report broken kit');
+					     ->add(route('equipment.repairs'), 'View repairs db')
+					     ->add(route('equipment.repairs.add'), 'Report broken kit');
 
 					// Build the training sub-menu
 					$training = $menu->find('members.training');

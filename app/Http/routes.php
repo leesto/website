@@ -97,6 +97,45 @@ Route::group([
 	]);
 });
 
+// Equipment
+Route::group([
+	'prefix' => 'equipment',
+], function () {
+	// Dashboard
+	Route::get('', [
+		'as'   => 'equipment.dash',
+		'uses' => 'EquipmentController@dash',
+	]);
+	// Repairs DB
+	Route::group([
+		'prefix' => 'repairs',
+	], function () {
+		// List
+		Route::get('', [
+			'as'   => 'equipment.repairs',
+			'uses' => 'EquipmentController@repairsDb',
+		]);
+		// Add
+		Route::get('add', [
+			'as'   => 'equipment.repairs.add',
+			'uses' => 'EquipmentController@getAddRepair',
+		]);
+		Route::post('add', [
+			'as'   => 'equipment.repairs.add.do',
+			'uses' => 'EquipmentController@postAddRepair',
+		]);
+		// View/edit
+		Route::get('{id}', [
+			'as'   => 'equipment.repairs.view',
+			'uses' => 'EquipmentController@view',
+		])->where('id', '[\d]+');
+		Route::post('{id}', [
+			'as'   => 'equipment.repairs.view.do',
+			'uses' => 'EquipmentController@update',
+		])->where('id', '[\d]+');
+	});
+});
+
 // Members
 Route::group([
 	'middleware' => 'auth',
@@ -128,6 +167,12 @@ Route::group([
 		'uses' => 'MembersController@postMyProfile',
 	]);
 });
+
+// SU dashboard
+Route::get('su-dash', [
+	'as'   => 'su.dash',
+	'uses' => 'MembersController@dashSU',
+]);
 
 // Membership
 Route::get('membership', [

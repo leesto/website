@@ -1,0 +1,31 @@
+#repairsDb {
+	table.table {
+		td {
+			vertical-align: top;
+		}
+		.status, .date {
+			text-align: center;
+			width: 8em;
+		}
+		td.date {
+			font-size: 14px;
+		}
+		.item {
+			p {
+				margin: 0;
+				&.name {
+					font-size: 16px;
+				}
+				&.location {
+					color: #777;
+					font-size: 14px;
+				}
+			}
+		}
+		.description, .comment {
+			@media(min-width:768px) {
+				width: 12em;
+			}
+		}
+	}
+}
