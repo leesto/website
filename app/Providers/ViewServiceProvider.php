@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use App\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Menu\Items\Contents\Link;
@@ -87,7 +85,7 @@ class ViewServiceProvider extends ServiceProvider
 
 				if($isMember || $isAdmin) {
 					$members->add(route('members.myprofile'), 'My Profile', Menu::items('members.profile'), [], ['class' => 'profile'])
-					        ->add('#', 'Events Diary', Menu::items('members.events'), [], ['class' => 'events'])
+					        ->add(route('events.diary'), 'Events Diary', Menu::items('members.events'), [], ['class' => 'events'])
 					        ->add(route('membership'), 'The Membership')
 					        ->add(route('quotes.index'), 'Quotes Board')
 					        ->add(route('equipment.dash'), 'Equipment', Menu::items('members.equipment'), [], ['class' => 'equipment'])
@@ -135,7 +133,8 @@ class ViewServiceProvider extends ServiceProvider
 			// Build the committee sub-menu
 			if($isAdmin) {
 				$menu->find('committee')
-				     ->add(route('page.index'), 'Webpages', Menu::items('committee.webpages'), [], ['class' => 'admin-webpages'])->activePattern('\/page\/.*\/edit')
+				     ->add(route('page.index'), 'Webpages', Menu::items('committee.webpages'), [], ['class' => 'admin-webpages'])
+				     ->activePattern('\/page\/.*\/edit')
 				     ->add(route('user.index'), 'Users', Menu::items('committee.users'), [], ['class' => 'admin-users'])->activePattern('\/users');
 
 
@@ -158,7 +157,8 @@ class ViewServiceProvider extends ServiceProvider
 			}
 			$resources->add('#', 'Safety Information')
 			          ->add('#', 'Weather Forecast')
-			          ->add(route('page.show', 'links'), 'Links');
+			          ->add(route('page.show', 'links'), 'Links')
+			          ->add(route('page.show', 'faq'), 'FAQ');
 
 
 			// Add the necessary classes
@@ -204,7 +204,7 @@ class ViewServiceProvider extends ServiceProvider
 		// Compose the profile sub-menu
 		View::composer('members.profile', function ($view) {
 			$username = $view->getData()['user']->username;
-			$menu = Menu::handler('profileMenu');
+			$menu     = Menu::handler('profileMenu');
 			$menu->add(route('members.profile', $username), 'Details')
 			     ->add('#', 'Events')
 			     ->add('#', 'Training');
