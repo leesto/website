@@ -136,6 +136,17 @@ Route::group([
 	});
 });
 
+// Events diary
+Route::group([
+	'prefix' => 'events',
+], function () {
+	// Diary
+	Route::get('diary', [
+		'as'   => 'events.diary',
+		'uses' => 'EventsController@diary',
+	]);
+});
+
 // Members
 Route::group([
 	'middleware' => 'auth',
