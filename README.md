@@ -18,17 +18,17 @@ While the functionality will remain the same, this newer website will adjust the
 1. General database structure improvements
 2. Preparation for future improvements
 
-As a result the site cannot simply use the current database, meaning that the data will need to be automatically migrated over. This will require that the current site is LOCKED and SHUTDOWN for a period of time whilst the database is migrated and the migrated is tested.
+As a result the site cannot simply use the current database, meaning that the data will need to be automatically migrated over. This will require that the current site is LOCKED and SHUTDOWN for a period of time whilst the database is migrated and the migration is tested.
 
 The migration will take place during a time of low-activity to reduce its impact on our clients and a clear warning will be provided for a significant amount of time leading up to this process.
 
 ## Development issues
 The re-development was originally planned to be completed in time for the new Semester in October 2015. This would have allowed the switch to take place during the holiday, which is when the site's usage is at its lowest.
 
-Unfortunately development issues resulted in a change of framework to [Laravel 5](http://laravel.com/). This meant that a significant amount of code would be re-worked and the deadline would be pushed back by at least several months.
+Unfortunately development issues resulted in a change of framework, to [Laravel 5](http://laravel.com/). This meant that a significant amount of code would need to be re-worked and the deadline would be pushed back by at least several months.
 
 ## Completion date
-There is currently no concrete release date. However it is hoped that the newer site can be implemented during 'Inter-Semester Break' after the January 2016 exams as this is another period of low-activity for the website.
+There is currently no concrete release date. However it is hoped that the newer site can be implemented during 'Inter-Semester Break' after the January 2016 exams, as this is another period of low-activity for the website.
 
 # Development
 A huge bonus of using `git` to manage the website is that anyone can clone the repository and work on a feature.
@@ -46,7 +46,7 @@ If you wish to do so, follow the instructions below.
 *   Run `php artisan db:seed` to insert the default data
 
 	> This will insert the su2bc account, default webpages and initial committee structure.
-*   Run the PHP server or configure your own server to point to the *public* directory
+*   Run the PHP server or configure your own server to point to the `public` directory
 
 ## Disclaimer
 While anyone can make changes and submit pull requests, I do assume a sufficient level of knowledge on the use of PHP, Apache/nginx, MySQL, git, composer and Laravel to install this repo and get it running.
