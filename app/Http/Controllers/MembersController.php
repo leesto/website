@@ -52,7 +52,7 @@ class MembersController extends Controller
 	{
 		// The SU dashboard is restricted to SU
 		// officers and BTS committee members
-		if(!$this->user->isCommittee() || !$this->user->isSU()) {
+		if(!$this->user->isAdmin() || !$this->user->isSU()) {
 			return redirect(route('members.dash'));
 		}
 

@@ -158,6 +158,107 @@ span.tool-colour {
 	}
 }
 
+// Event colours
+.event {
+	$event: #F33;
+	$training: #6CF;
+	$social: rgb(255, 192, 203);
+	$meeting: #3C0;
+	$hidden: #666;
+	$booking: rgb(255, 165, 0);
+
+	color: $event !important;
+
+	&.training {
+		color: $training !important;
+	}
+	&.social {
+		color: $social !important;
+	}
+	&.meeting {
+		color: $meeting !important;
+	}
+	&.bts {
+		color: $hidden !important;
+		font-style: italic;
+	}
+	&.booking {
+		color: $booking !important;
+	}
+
+	a {
+		color: inherit !important;
+	}
+}
+ul.event-list {
+	$font-size: 12px;
+	font-size: $font-size;
+
+	li {
+		font-size: #{18px / $font-size}em;
+		line-height: 0;
+		list-style: square inside;
+		margin: 0;
+		padding: 0;
+
+		&:not(:last-child) {
+			margin-bottom: 0.5em;
+		}
+		a, span {
+			color: #CCC !important;
+			display: inline;
+			font-size: $font-size;
+			line-height: 1.2;
+		}
+		a:focus {
+			outline-color: #CCC !important;
+		}
+	}
+}
+
+div.event-key {
+	background: #191919;
+	border-radius: 3px;
+	font-size: 13px;
+	margin: 2em 0;
+	padding: 1em;
+
+	h1 {
+		color: #666;
+		font-size: 18px;
+		margin: 0 0 0.75em 0.2em;
+		text-align: left;
+		text-transform: uppercase;
+
+		@media (min-width: 768px) {
+			margin-left: 0.5em;
+		}
+	}
+	ul {
+		margin: 0;
+		padding: 0;
+
+		li {
+			list-style-type: none;
+			white-space: nowrap;
+
+			@media (min-width: 768px) {
+				display: inline-block;
+				margin: 0 0.5em 0;
+			}
+
+			&:before {
+				content: "\2014";
+				font-size: #{18em/13};
+				line-height: 1em;
+				padding-right: 0.3em;
+
+				vertical-align: middle;
+			}
+		}
+	}
+}
+
 // reCAPTCHA fix
 div.g-recaptcha-center {
 	& > div.g-recaptcha {

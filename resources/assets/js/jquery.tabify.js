@@ -21,7 +21,10 @@
 					});
 
 					// Default
-					if(TabLinks.filter(".active").length) {
+					var hash = window.location.hash.substr(1);
+					if(hash && TabLinks.filter('#' + hash).length) {
+						TabLinks.filter('#' + hash).eq(0).trigger("click");
+					} else if(TabLinks.filter(".active").length) {
 						TabLinks.filter(".active").eq(0).trigger("click");
 					} else {
 						TabLinks.eq(0).trigger("click");

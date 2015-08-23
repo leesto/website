@@ -550,6 +550,10 @@ div#content {
 			margin-top: 0;
 		}
 	}
+	@media (min-width: 992px) {
+		padding-left: 0;
+		padding-right: 0;
+	}
 	img, p {
 		max-width: 100%;
 	}

@@ -12,13 +12,28 @@ h4.header {
 	overflow: hidden;
 	width: 100%;
 
+	@media(max-width:768px) {
+		text-align: center;
+	}
+
 	div.box {
 		@include transition();
 		display: inline-block;
 		box-sizing: border-box;
 		padding: 10px;
-		width: 25%;
 		vertical-align: text-top;
+		width: 100%;
+
+
+		@media (min-width: 480px) and (max-width: 768px) {
+			width: 50%;
+		}
+		@media (min-width: 768px) and (max-width: 992px) {
+			width: 33%;
+		}
+		@media (min-width: 992px) {
+			width: 25%;
+		}
 
 		&:hover {
 			background: rgba(255, 255, 255, 0.1);

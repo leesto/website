@@ -29,7 +29,7 @@ abstract class Controller extends BaseController
 	 */
 	public function __construct()
 	{
-		$this->user = Auth::user() ?: null;
+		$this->user = Auth::user() ?: new User();
 	}
 
 	/**
