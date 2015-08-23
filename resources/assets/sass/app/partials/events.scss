@@ -37,11 +37,16 @@
 			}
 		}
 		span.month {
+			@include user_select_none();
 			font-size: 25px;
 			font-weight: 100;
 			height: 100%;
 			margin: 0 0.75em;
 			width: 250px;
+
+			&:hover {
+				cursor: pointer;
+			}
 		}
 	}
 	div.diary {
