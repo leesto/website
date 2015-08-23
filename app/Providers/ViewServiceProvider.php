@@ -86,6 +86,7 @@ class ViewServiceProvider extends ServiceProvider
 				if($isMember || $isAdmin) {
 					$members->add(route('members.myprofile'), 'My Profile', Menu::items('members.profile'), [], ['class' => 'profile'])
 					        ->add(route('events.diary'), 'Events Diary', Menu::items('members.events'), [], ['class' => 'events'])
+					        ->activePattern('\/events\/diary')
 					        ->add(route('membership'), 'The Membership')
 					        ->add(route('quotes.index'), 'Quotes Board')
 					        ->add(route('equipment.dash'), 'Equipment', Menu::items('members.equipment'), [], ['class' => 'equipment'])
@@ -103,13 +104,13 @@ class ViewServiceProvider extends ServiceProvider
 
 					// Build the profile sub-menu
 					$menu->find('members.profile')
-					     ->add('#', 'My training')
-					     ->add('#', 'My events');
+					     ->add(route('members.myprofile') . '#training', 'My training')
+					     ->add(route('members.myprofile') . '#events', 'My events');
 
 					// Build the events sub-menu
 					$events = $menu->find('members.events');
 					$events->add('#', 'My diary')
-					       ->add('#', 'Event sign-up')
+					       ->add(route('events.signup'), 'Event sign-up')
 					       ->add('#', 'Submit event report');
 					if($isAdmin) {
 						$events->add('#', 'View booking requests');
@@ -205,9 +206,9 @@ class ViewServiceProvider extends ServiceProvider
 		View::composer('members.profile', function ($view) {
 			$username = $view->getData()['user']->username;
 			$menu     = Menu::handler('profileMenu');
-			$menu->add(route('members.profile', $username), 'Details')
-			     ->add('#', 'Events')
-			     ->add('#', 'Training');
+			$menu->add(route('members.profile', $username), 'Details', null, [], ['id' => 'profile'])
+			     ->add(route('members.profile', $username) . '#events', 'Events', null, [], ['id' => 'events'])
+			     ->add(route('members.profile', $username) . '#training', 'Training', null, [], ['id' => 'training']);
 			$menu->addClass('nav nav-tabs');
 			$view->with('menu', $menu->render());
 		});
@@ -222,6 +223,7 @@ class ViewServiceProvider extends ServiceProvider
 		View::composer([
 			'committee.view',
 			'pages.form',
+			'events.create',
 		], function ($view) {
 			// Get the users
 			$users        = User::active()->orderBy('username', 'ASC')->get();

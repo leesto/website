@@ -1,3 +1,174 @@
-#diary {
+@import "../vars";
+@import "../mixins";
 
+#diary {
+	div.date-header {
+		display: table;
+		$height: 35px;
+		height: $height;
+		line-height: $height;
+		margin: 0 auto 2em;
+
+		& > a, & > span {
+			display: table-cell;
+			text-align: center;
+			vertical-align: middle;
+		}
+		a {
+			border-radius: 5px;
+			color: inherit;
+			font-size: 25px;
+			line-height: 1;
+			padding-top: 0.05em;
+			width: $height;
+
+			&:hover {
+				background: rgba(255, 255, 255, 0.1);
+				color: $btsyellow;
+			}
+			&:focus {
+				outline: none;
+			}
+			&.prev span.fa {
+				padding-right: 0.1em;
+			}
+			&.next span.fa {
+				padding-left: 0.1em;
+			}
+		}
+		span.month {
+			font-size: 25px;
+			font-weight: 100;
+			height: 100%;
+			margin: 0 0.75em;
+			width: 250px;
+		}
+	}
+	div.diary {
+		$border_colour: #444;
+		width: 100%;
+
+		.cell {
+			@include transition();
+			display: block;
+			width: 100%;
+
+			@media (min-width: 500px) {
+				float: left;
+			}
+			@media (min-width: 500px) and (max-width: 768px) {
+				width: 50%;
+			}
+			@media (min-width: 768px) and (max-width: 992px) {
+				width: 33.333%;
+			}
+			@media (min-width: 992px) {
+				width: #{100%/7};
+			}
+		}
+		& > div.day-headers, & > div.calendar {
+			overflow: hidden;
+			width: 100%;
+		}
+		& > div.day-headers {
+			display: none;
+
+			@media (min-width: 992px) {
+				display: block;
+
+				.cell {
+					border: none;
+					color: #999;
+					font-size: 16px;
+					font-weight: 100;
+					height: 50px;
+					line-height: 50px;
+					text-align: center;
+					vertical-align: middle;
+				}
+			}
+		}
+		& > div.calendar {
+			.cell {
+				border: 1px solid $border_colour;
+				height: 160px;
+				line-height: 1;
+				padding-top: 2.75em;
+				position: relative;
+
+				&:not(.blank):hover {
+					background: rgba(255, 255, 255, 0.1);
+					cursor: pointer;
+				}
+				&.blank {
+					background: #131313;
+					display: none;
+					font-size: 0;
+
+					@media (min-width: 992px) {
+						display: block;
+					}
+				}
+				span.date {
+					box-sizing: border-box;
+					color: #BBB;
+					display: block;
+					font-size: 17px;
+					font-weight: 100;
+					left: 0;
+					padding: 0.5em 0.5em 0 0;
+					position: absolute;
+					text-align: right;
+					top: 0;
+					width: 100%;
+				}
+				ul {
+					box-sizing: border-box;
+					height: 100%;
+					margin: 0;
+					overflow-y: auto;
+					padding: 0 0.5em;
+					width: 100%;
+
+					@media (max-width: 992px) {
+						padding: 0 1.2em;
+					}
+
+					ul {
+						display: none;
+					}
+				}
+				@media (max-width: 500px) {
+					&:not(:last-of-type) {
+						border-bottom: none;
+					}
+				}
+				@media (min-width: 500px) and (max-width: 768px) {
+					&:nth-of-type(even) {
+						border-left: none;
+					}
+					&:nth-of-type(n+3) {
+						border-top: none;
+					}
+				}
+				@media (min-width: 768px) and (max-width: 992px) {
+					&:not(:nth-of-type(3n-2)) {
+						border-left: none;
+					}
+					&:nth-of-type(n+4) {
+						border-top: none;
+					}
+				}
+				@media (min-width: 992px) {
+					border-bottom: none;
+					border-right: none;
+
+					&.blank:last-child {
+						border-right: 1px solid $border_colour;
+						border-bottom: 1px solid $border_colour;
+					}
+				}
+			}
+		}
+	}
 }

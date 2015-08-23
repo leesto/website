@@ -141,9 +141,28 @@ Route::group([
 	'prefix' => 'events',
 ], function () {
 	// Diary
-	Route::get('diary', [
+	Route::get('diary/{year?}/{month?}', [
 		'as'   => 'events.diary',
 		'uses' => 'EventsController@diary',
+	])->where('year', '[\d]{4}')->where('month', '[\d]{1,2}');
+	// View
+	Route::get('{id}', [
+		'as'   => 'events.view',
+		'uses' => 'EventsController@view',
+	])->where('id', '[\d]+');
+	// Add
+	Route::get('add', [
+		'as'   => 'events.add',
+		'uses' => 'EventsController@create',
+	]);
+	Route::post('add', [
+		'as'   => 'events.add.do',
+		'uses' => 'EventsController@store',
+	]);
+	// Signup
+	Route::get('signup', [
+		'as'   => 'events.signup',
+		'uses' => 'EventsController@signup',
 	]);
 });
 
