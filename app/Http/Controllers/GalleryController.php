@@ -47,7 +47,7 @@ class GalleryController extends Controller
 		$album    = $response->getDecodedBody();
 
 		// Get the album photos
-		$response = $fb->get("/{$id}/photos?fields=images,link,name,source");
+		$response = $fb->get("/{$id}/photos?fields=images,link,name,source&limit=500");
 		$photos   = $response->getDecodedBody()['data'];
 
 		return View::make('gallery.album')->withAlbum($album)->withPhotos($photos);
