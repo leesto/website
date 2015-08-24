@@ -159,13 +159,19 @@ span.tool-colour {
 }
 
 // Event colours
-.event {
-	$event: #F33;
-	$training: #6CF;
-	$social: rgb(255, 192, 203);
-	$meeting: #3C0;
-	$hidden: #666;
-	$booking: rgb(255, 165, 0);
+.event-entry {
+	$event: #A00;
+	$event_bg: $event;
+	$training: #05F;
+	$training_bg: $training;
+	$social: #EF0;
+	$social_bg: $social;
+	$meeting: #0A0;
+	$meeting_bg: $meeting;
+	$hidden: #999;
+	$hidden_bg: darken($hidden, 20%);
+	$booking: #F80;
+	$booking_bg: $hidden;
 
 	color: $event !important;
 
@@ -188,6 +194,49 @@ span.tool-colour {
 
 	a {
 		color: inherit !important;
+	}
+
+	&.tag {
+		//background-color: $event_bg;
+		//border-radius: 3px;
+		//color: #000 !important;
+		//display: inline-block;
+		//font-size: 11px;
+		//font-weight: 400;
+		//line-height: 1.4;
+		//margin: 0 0.5em;
+		//padding: 0.4em 0.7em 0.3em;
+		//text-transform: lowercase;
+		//
+		//&.training {
+		//	background-color: $training_bg;
+		//	color: #FFF !important;
+		//}
+		//&.social {
+		//	background-color: $social_bg;
+			//color: #000 !important;
+		//}
+		//&.meeting {
+		//	background-color: $meeting_bg;
+			//color: #000 !important;
+		//}
+		//&.bts {
+		//	background-color: $hidden_bg;
+			//color: #CCC !important;
+		//}
+		//&.booking {
+		//	background-color: $booking_bg;
+			//color: #000 !important;
+		//}
+		//&.upper {
+		//	text-transform: uppercase;
+		//}
+		&:first-child {
+			margin-left: 0;
+		}
+		&:last-child {
+			margin-right: 0;
+		}
 	}
 }
 ul.event-list {
