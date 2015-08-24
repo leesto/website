@@ -34,8 +34,10 @@
         submitForm($timeForm, $(this));
     });
     $timeModal.find('#deleteTime').on('click', function() {
-        $timeForm.attr('action', $(this).data('formAction'));
-        submitForm($timeForm, $(this));
+        if(confirm('Are you sure you wish to delete this event time?')) {
+            $timeForm.attr('action', $(this).data('formAction'));
+            submitForm($timeForm, $(this));
+        }
     });
 @endsection
 
