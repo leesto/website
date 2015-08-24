@@ -140,6 +140,11 @@ Route::group([
 Route::group([
 	'prefix' => 'events',
 ], function () {
+	// Index
+	Route::get('', [
+		'as'   => 'events.index',
+		'uses' => 'EventsController@index',
+	]);
 	// Diary
 	Route::get('diary/{year?}/{month?}', [
 		'as'   => 'events.diary',

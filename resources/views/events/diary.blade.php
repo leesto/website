@@ -7,7 +7,7 @@
 @endsection
 
 @section('javascripts')
-    @include('partials.tags.script', ['path' => 'partials/events'])
+{{--    @include('partials.tags.script', ['path' => 'partials/events'])--}}
 @endsection
 
 @section('scripts')
@@ -69,7 +69,7 @@
                         @if(isset($calendar[$i]) && count($calendar[$i]) > 0)
                             <ul class="event-list">
                                 @foreach($calendar[$i] as $event)
-                                    <li class="event {{ $event->type_class }}"
+                                    <li class="event-entry {{ $event->type_class }}"
                                         data-start="{{ $event->getEarliestStart(\Carbon\Carbon::createFromDate($date->year, $date->month, $i)) }}"
                                         data-end="{{ $event->getLatestEnd(\Carbon\Carbon::createFromDate($date->year, $date->month, $i)) }}"
                                         data-type="{{ $event->type_class }}">
@@ -91,7 +91,7 @@
             <h1>Key</h1>
             <ul class="event-list">
                 @foreach(\App\Event::$Types as $i => $type)
-                    <li class="event {{ \App\Event::$TypeClasses[$i] }}"><span>{{ $type }}</span></li>
+                    <li class="event-entry {{ \App\Event::$TypeClasses[$i] }}"><span>{{ $type }}</span></li>
                 @endforeach
             </ul>
         </div>

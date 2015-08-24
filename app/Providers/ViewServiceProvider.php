@@ -134,9 +134,10 @@ class ViewServiceProvider extends ServiceProvider
 			// Build the committee sub-menu
 			if($isAdmin) {
 				$menu->find('committee')
+				     ->add(route('events.index'), 'Events', Menu::items('committee.events'), [], ['class' => 'admin-events'])
+				     ->add(route('user.index'), 'Users', Menu::items('committee.users'), [], ['class' => 'admin-users'])->activePattern('\/users')
 				     ->add(route('page.index'), 'Webpages', Menu::items('committee.webpages'), [], ['class' => 'admin-webpages'])
-				     ->activePattern('\/page\/.*\/edit')
-				     ->add(route('user.index'), 'Users', Menu::items('committee.users'), [], ['class' => 'admin-users'])->activePattern('\/users');
+				     ->activePattern('\/page\/.*\/edit');
 
 
 				$menu->find('committee.webpages')
@@ -146,6 +147,10 @@ class ViewServiceProvider extends ServiceProvider
 				$menu->find('committee.users')
 				     ->add(route('user.index'), "User manager")
 				     ->add(route('user.create'), "Create a user");
+
+				$menu->find('committee.events')
+				     ->add(route('events.index'), 'Event manager')
+				     ->add(route('events.add'), 'Create a new event');
 			}
 
 			// Build the resources sub-menu

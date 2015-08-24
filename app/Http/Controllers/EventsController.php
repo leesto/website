@@ -34,6 +34,19 @@ class EventsController extends Controller
 		parent::__construct();
 	}
 
+	public function index()
+	{
+		$events = Event::select('events.*')
+		               ->join('event_times', 'events.id', '=', 'event_times.event_id')
+		               ->orderBy('event_times.start', 'DESC')
+		               ->distinct()
+		               ->distinctPaginate(15);
+
+		$this->checkPagination($events);
+
+		return View::make('events.index')->withEvents($events);
+	}
+
 	/**
 	 * View the event's diary
 	 * @param null $year
@@ -67,7 +80,14 @@ class EventsController extends Controller
 			App::abort(403);
 		}
 
-		return View::make('events.view')->withEvent($event);
+		return View::make('events.view')->with([
+			'event'    => $event,
+			'user'     => $this->user,
+			'isMember' => $this->user->isMember(),
+			'isAdmin'  => $this->user->isAdmin(),
+			'isEM'     => $event->isEM($this->user),
+			'canEdit'  => $this->user->isAdmin() || $event->isEM($this->user, false),
+		]);
 	}
 
 	/**

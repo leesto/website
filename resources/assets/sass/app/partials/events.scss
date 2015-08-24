@@ -177,3 +177,94 @@
 		}
 	}
 }
+
+#viewEvent {
+	@media (min-width: 768px) {
+		margin: 0 auto;
+		max-width: 90%;
+	}
+
+	h2 {
+		margin-bottom:1em;
+		span.crew-status {
+			color: #999;
+			font-size: 0.9em;
+			margin-left: 0.5em;
+		}
+	}
+
+	form div.form-group {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+	.paperwork {
+		padding: 0.6em 0.75em;
+		margin-left: -1.5em;
+
+		span.fa {
+			margin-right: 0.3em;
+
+			&.fa-remove {
+				color: $colour_danger;
+			}
+			&.fa-check {
+				color: $colour_success;
+			}
+		}
+	}
+	div.crew-list {
+		margin-bottom: 1.5em;
+		max-height: 400px;
+		overflow-y: auto;
+
+		p.form-control-static {
+			margin-bottom: -3px;
+		}
+	}
+	div.event-times {
+		margin-bottom: 2em;
+
+		div.event-time {
+			display: table;
+			margin: 0 0 0.5em 1em;
+			width: 100%;
+
+			& > div {
+				display: table-cell;
+				font-size: 14px;
+				vertical-align: text-top;
+			}
+			div.date {
+				color: $btsyellow;
+				font-size: 15px;
+				font-weight: 100;
+				width: 6em;
+			}
+			div.time {
+				color: #777;
+				width: 7em;
+			}
+		}
+	}
+}
+
+#eventList {
+	table.table {
+		tbody {
+			tr {
+				td {
+					a {
+						color: inherit;
+
+						&:focus {
+							outline: #CCC;
+						}
+					}
+					span.tag {
+						margin: 0.5em 0;
+					}
+				}
+			}
+		}
+	}
+}

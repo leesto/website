@@ -37,7 +37,7 @@
             <div class="form-group @include('partials.form.error-class', ['name' => 'description'])">
                 {!! Form::label('description', 'Description', ['class' => 'col-md-3 control-label']) !!}
                 <div class="col-md-9">
-                    {!! Form::textarea('description', null, ['class' => 'form-control', 'rows' => 3, 'placeholder' => 'Briefly describe what the event is about']) !!}
+                    {!! Form::textarea('description', null, ['class' => 'form-control', 'rows' => 4, 'placeholder' => 'Briefly describe what the event is about']) !!}
                     @include('partials.form.input-error', ['name' => 'description'])
                 </div>
             </div>
