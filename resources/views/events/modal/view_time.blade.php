@@ -8,34 +8,33 @@
                 {!! Form::open(['route' => ['events.update', $event->id], 'class' => 'form-horizontal']) !!}
                     {{-- Name --}}
                     <div class="form-group">
-                        {!! Form::label('name', 'Title:', ['class' => 'col-xs-4 control-label']) !!}
-                        <div class="col-xs-8">
+                        {!! Form::label('name', 'Title:', ['class' => 'col-xs-3 control-label']) !!}
+                        <div class="col-xs-9">
                             {!! Form::text('name', null, ['class' => 'form-control']) !!}
                         </div>
                     </div>
                     {{-- Date --}}
                     <div class="form-group">
-                        {!! Form::label('date', 'Date:', ['class' => 'col-xs-4 control-label']) !!}
-                        <div class="col-xs-8">
+                        {!! Form::label('date', 'Date:', ['class' => 'col-xs-3 control-label']) !!}
+                        <div class="col-xs-9">
                             {!! Form::text('date', null, ['class' => 'form-control', 'placeholder' => 'dd/mm/yyyy']) !!}
                         </div>
                     </div>
-                    {{-- Start time --}}
+                    {{-- Time --}}
                     <div class="form-group">
-                        {!! Form::label('start_time', 'Start Time:', ['class' => 'col-xs-4 control-label']) !!}
-                        <div class="col-xs-8">
+                        {!! Form::label('start_time', 'Time:', ['class' => 'col-xs-3 control-label']) !!}
+                        <div class="col-xs-4">
                             {!! Form::text('start_time', null, ['class' => 'form-control', 'placeholder' => 'hh:mm'])!!}
                         </div>
-                    </div>
-                    {{-- End time --}}
-                    <div class="form-group">
-                        {!! Form::label('end_time', 'End Time:', ['class' => 'col-xs-4 control-label']) !!}
-                        <div class="col-xs-8">
+                        <div class="col-xs-1" style="padding: 0;">
+                            <p class="form-control-static text-center" style="margin:3px 0 0;">to</p>
+                        </div>
+                        <div class="col-xs-4">
                             {!! Form::text('end_time', null, ['class' => 'form-control', 'placeholder' => 'hh:mm'])!!}
                         </div>
                     </div>
-                    {!! Form::input('hidden', 'id', null) !!}
                     {{-- Buttons --}}
+                    {!! Form::input('hidden', 'id', null) !!}
                     <div class="form-group" style="margin: 2em 0 0;">
                         <div class="col-xs-12 text-center">
                             <button class="btn btn-success" id="submitTimeModal" type="button">
