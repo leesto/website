@@ -266,11 +266,11 @@ class EventsController extends Controller
 
 	/**
 	 * Add a new event time.
-	 * @param \App\Http\Requests\EventTimeRequest $request
-	 * @param \App\Event                          $event
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @param \App\Event                        $event
 	 * @return \Illuminate\Support\Facades\Response
 	 */
-	private function updateAddTime(EventTimeRequest $request, Event $event)
+	private function updateAddTime(GenericRequest $request, Event $event)
 	{
 		// Validate
 		$this->validateEventTime($request);
