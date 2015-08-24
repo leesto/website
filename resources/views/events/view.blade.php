@@ -6,6 +6,33 @@
     @include('partials.tags.style', ['path' => 'partials/events'])
 @endsection
 
+@section('scripts')
+    var $timeModal = $('#eventTimeModal');
+    var $timeForm = $timeModal.find('form');
+    var $timeBtns = $timeModal.find('button');
+    $timeModal.on('show.bs.modal', function(e) {
+        var btn = $(e.relatedTarget);
+        $timeForm.trigger('reset');
+        clearModalForm($timeForm);
+        $timeForm.attr('action', btn.data('formAction'));
+        if(btn.data('mode') == 'edit') {
+            $timeModal.find('h1').text('Edit a Time');
+            $timeModal.find('#submitTimeModal').children('span').eq(1).text('Save');
+            $timeForm.find('[name="name"]').val(btn.data('name'));
+            $timeForm.find('[name="date"]').val(btn.data('date'));
+            $timeForm.find('[name="start_time"]').val(btn.data('start'));
+            $timeForm.find('[name="end_time"]').val(btn.data('end'));
+            $timeForm.find('[name="id"]').val(btn.data('timeId'));
+        } else {
+            $timeModal.find('h1').text('Add a New Time');
+            $timeModal.find('#submitTimeModal').children('span').eq(1).text('Add Time');
+        }
+    });
+    $timeModal.find('#submitTimeModal').on('click', function() {
+        submitForm($timeForm, $(this));
+    });
+@endsection
+
 @section('content')
     <h1>{{ $event->name }}</h1>
     <div id="viewEvent">
@@ -186,7 +213,20 @@
                         @if(count($event->event_times) > 0)
                             @foreach($event->event_times as $date => $times)
                                 @foreach($times as $i => $time)
+                                    @if($canEdit)
+                                    <div class="event-time"
+                                         data-toggle="modal"
+                                         data-target="#eventTimeModal"
+                                         data-mode="edit"
+                                         data-name="{{ $time->name }}"
+                                         data-date="{{ $time->start->format('d/m/Y') }}"
+                                         data-start="{{ $time->start->format('H:i') }}"
+                                         data-end="{{ $time->end->format('H:i') }}"
+                                         data-time-id="{{ $time->id }}"
+                                         data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'update-time']) }}">
+                                    @else
                                     <div class="event-time">
+                                    @endif
                                         <div class="date">{{ $i == 0 ? $date : '&nbsp;' }}</div>
                                         <div class="time">{{ $time->start->format('H:i') }} &ndash; {{ $time->end->format('H:i') }}</div>
                                         <div class="name">{{ $time->name }}</div>
@@ -197,7 +237,7 @@
                             <h4>No times exist for this event.</h4>
                         @endif
                     </div>
-                    <button class="btn btn-success" data-toggle="modal" data-target="#eventTimeModal" type="button">
+                    <button class="btn btn-success" data-toggle="modal" data-mode="new" data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'add-time']) }}" data-target="#eventTimeModal" type="button">
                         <span class="fa fa-clock-o"></span>
                         <span>Add a time</span>
                     </button>

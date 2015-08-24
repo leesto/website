@@ -2,34 +2,13 @@ var $modal = $('#newQuoteModal');
 var $form = $modal.find('form');
 var $btns = $modal.find('button');
 $modal.on('show.bs.modal', function() {
-	$form.find('input[name=date]').val(new Date().format("Y-m-d H:i"));
-});
-$modal.find('#cancelQuoteModal').on('click', function () {
-	$modal.modal('hide');
 	$form.trigger('reset');
 	clearModalForm($form);
+	$form.find('input[name=date]').val(new Date().format("Y-m-d H:i"));
+	$form.attr('action', '/quotesboard/add');
 });
 $modal.find('#addQuoteModal').on('click', function () {
-	var $btn = $(this);
-	$btns.attr('disabled', 'disabled');
-
-	$.ajax({
-		data      : $form.serialize(),
-		url       : "/quotesboard/add",
-		type      : "post",
-		success   : function () {
-			$btn.off('click');
-			location.reload();
-		},
-		error     : function (data) {
-			clearModalForm($form);
-			processFormErrors($form, data);
-			$btns.attr('disabled', false);
-		},
-		beforeSend: function () {
-			clearModalForm($form);
-		}
-	});
+	submitForm($form, $(this));
 });
 
 $('button[name="deleteQuote"]').on('click', function() {

@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Event;
 use App\EventTime;
 use App\Http\Requests;
+use App\Http\Requests\EventTimeRequest;
 use App\Http\Requests\GenericRequest;
 use Carbon\Carbon;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
 use Szykra\Notifications\Flash;
 
@@ -23,6 +24,7 @@ class EventsController extends Controller
 			'only' => [
 				'create',
 				'store',
+				'index',
 			],
 		]);
 		$this->middleware('auth.permission:member', [
@@ -41,7 +43,6 @@ class EventsController extends Controller
 		               ->orderBy('event_times.start', 'DESC')
 		               ->distinct()
 		               ->distinctPaginate(15);
-
 		$this->checkPagination($events);
 
 		return View::make('events.index')->withEvents($events);
@@ -88,6 +89,39 @@ class EventsController extends Controller
 			'isEM'     => $event->isEM($this->user),
 			'canEdit'  => $this->user->isAdmin() || $event->isEM($this->user, false),
 		]);
+	}
+
+	/**
+	 * Update the details of an event.
+	 * @param                                   $id
+	 * @param                                   $action
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @return Response
+	 */
+	public function update($id, $action, GenericRequest $request)
+	{
+		// Make sure the request is AJAX
+		$this->requireAjax($request);
+
+		// Get the event
+		$event = Event::find($id);
+		if(!$event) {
+			return Response::json(['error' => 'Couldn\'t find the event'], 404);
+		}
+
+		// Check that the user is either the EM or an admin
+		if(!$this->user->isAdmin() && !$event->isEM($this->user)) {
+			return Response::json(['error' => 'You need to be the EM or an admin to do that'], 422);
+		}
+
+		switch($action) {
+			case 'add-time':
+				return $this->updateAddTime($request, $event);
+			case 'update-time':
+				return $this->updateEditTime($request, $event);
+			default:
+				return Response::json(['error' => 'Unknown action'], 404);
+		}
 	}
 
 	/**
@@ -228,5 +262,80 @@ class EventsController extends Controller
 		}
 
 		return $events;
+	}
+
+	/**
+	 * Add a new event time.
+	 * @param \App\Http\Requests\EventTimeRequest $request
+	 * @param \App\Event                          $event
+	 * @return \Illuminate\Support\Facades\Response
+	 */
+	private function updateAddTime(EventTimeRequest $request, Event $event)
+	{
+		// Validate
+		$this->validateEventTime($request);
+
+		// Create the time
+		$event->times()->save(new EventTime([
+			'name'  => $request->get('name'),
+			'start' => Carbon::createFromFormat('d/m/Y H:i', $request->get('date') . ' ' . $request->get('start_time')),
+			'end'   => Carbon::createFromFormat('d/m/Y H:i', $request->get('date') . ' ' . $request->get('end_time')),
+		]));
+
+		Flash::success('Event time created');
+
+		return Response::json(true);
+	}
+
+	/**
+	 * Update the details of an event time.
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @param \App\Event                        $event
+	 * @return mixed
+	 */
+	private function updateEditTime(GenericRequest $request, Event $event)
+	{
+		// Get the event time
+		$time = EventTime::find($request->get('id'));
+		if(!$time) {
+			return Response::json(['error' => 'Couldn\'t find the event time to change'], 404);
+		}
+
+		// Validate
+		$this->validateEventTime($request);
+
+		// Update
+		$time->update([
+			'name'  => $request->get('name'),
+			'start' => Carbon::createFromFormat('d/m/Y H:i', $request->get('date') . ' ' . $request->get('start_time')),
+			'end'   => Carbon::createFromFormat('d/m/Y H:i', $request->get('date') . ' ' . $request->get('end_time')),
+		]);
+
+		Flash::success('Event time updated');
+
+		return Response::json(true);
+	}
+
+	/**
+	 * Validate an event time form submission.
+	 * @param \App\Http\Requests\GenericRequest $request
+	 */
+	private function validateEventTime(GenericRequest $request)
+	{
+		$this->validate($request, [
+			'name'       => 'required',
+			'date'       => 'required|date_format:d/m/Y',
+			'start_time' => 'required|date_format:H:i',
+			'end_time'   => 'required|date_format:H:i|after:start_time',
+		], [
+			'name.required'          => 'Please enter a title for the time',
+			'date.required'          => 'Please enter the date',
+			'date.date_format'       => 'Please enter a valid date',
+			'start_time.required'    => 'Please enter the start time',
+			'start_time.date_format' => 'Please enter a valid time',
+			'end_time.required'      => 'Please enter the end time',
+			'end_time.date_format'   => 'Please enter a valid time',
+			'end_time.after'         => 'It cannot end before it\'s begun!',
+		]);
 	}
 }

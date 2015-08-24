@@ -197,6 +197,9 @@
 		margin-top: 0;
 		margin-bottom: 0;
 	}
+	.tag {
+		margin: 0;
+	}
 	.paperwork {
 		padding: 0.6em 0.75em;
 		margin-left: -1.5em;
@@ -222,27 +225,33 @@
 		}
 	}
 	div.event-times {
+		display: table;
 		margin-bottom: 2em;
+		width: 100%;
 
 		div.event-time {
-			display: table;
-			margin: 0 0 0.5em 1em;
-			width: 100%;
+			display: table-row;
+			position: relative;
 
+			&[data-toggle='modal']:hover {
+				background: rgba(255, 255, 255, 0.1);
+				cursor: pointer;
+			}
 			& > div {
 				display: table-cell;
 				font-size: 14px;
+				padding: 0.5em;
 				vertical-align: text-top;
 			}
 			div.date {
 				color: $btsyellow;
 				font-size: 15px;
 				font-weight: 100;
-				width: 6em;
+				width: 6.5em;
 			}
 			div.time {
 				color: #777;
-				width: 7em;
+				width: 7.5em;
 			}
 		}
 	}
@@ -250,20 +259,37 @@
 
 #eventList {
 	table.table {
-		tbody {
-			tr {
-				td {
-					a {
-						color: inherit;
+		td {
+			padding-top: 1em;
+			padding-bottom: 1em;
+			a {
+				color: inherit;
 
-						&:focus {
-							outline: #CCC;
-						}
-					}
-					span.tag {
-						margin: 0.5em 0;
-					}
+				&:focus {
+					outline: #CCC;
 				}
+			}
+			&.date {
+				font-size: 14px;
+			}
+			.tag {
+				margin: 0.5em 0 -1em;
+			}
+		}
+		td, th {
+			&.crew {
+				text-align: center;
+				width: 4em;
+			}
+			&.venue {
+				width: 11em;
+			}
+			&.manager {
+				width: 11em;
+			}
+			&.date {
+				text-align: center;
+				width: 12em;
 			}
 		}
 	}

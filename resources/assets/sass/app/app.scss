@@ -161,16 +161,17 @@ span.tool-colour {
 // Event colours
 .event-entry {
 	$event: #A00;
-	$event_bg: $event;
 	$training: #05F;
-	$training_bg: $training;
-	$social: #EF0;
-	$social_bg: $social;
+	$social: rgb(255, 198, 203);
 	$meeting: #0A0;
-	$meeting_bg: $meeting;
 	$hidden: #999;
-	$hidden_bg: darken($hidden, 20%);
 	$booking: #F80;
+
+	$event_bg: rgb(255, 170, 170);
+	$training_bg: lighten($training, 30%);
+	$social_bg: $social;
+	$meeting_bg: lighten($meeting, 55%);
+	$hidden_bg: darken($hidden, 20%);
 	$booking_bg: $hidden;
 
 	color: $event !important;
@@ -197,45 +198,45 @@ span.tool-colour {
 	}
 
 	&.tag {
-		//background-color: $event_bg;
-		//border-radius: 3px;
-		//color: #000 !important;
-		//display: inline-block;
-		//font-size: 11px;
-		//font-weight: 400;
-		//line-height: 1.4;
-		//margin: 0 0.5em;
-		//padding: 0.4em 0.7em 0.3em;
-		//text-transform: lowercase;
-		//
-		//&.training {
-		//	background-color: $training_bg;
-		//	color: #FFF !important;
-		//}
-		//&.social {
-		//	background-color: $social_bg;
-			//color: #000 !important;
-		//}
-		//&.meeting {
-		//	background-color: $meeting_bg;
-			//color: #000 !important;
-		//}
-		//&.bts {
-		//	background-color: $hidden_bg;
-			//color: #CCC !important;
-		//}
-		//&.booking {
-		//	background-color: $booking_bg;
-			//color: #000 !important;
-		//}
-		//&.upper {
-		//	text-transform: uppercase;
-		//}
-		&:first-child {
-			margin-left: 0;
+		@include user_select_none();
+		$height: 18px;
+		background-color: $event_bg;
+		border-radius: 5px;
+		border-right-color: $event_bg;
+		color: #000 !important;
+		display: inline-block;
+		font-size: 11px;
+		font-weight: 400;
+		height: $height;
+		line-height: $height;
+		margin: 0 0 0 $height / 2;
+		padding: 0 0.6em;
+		position: relative;
+		text-align: center;
+		text-transform: lowercase;
+
+		&:hover {
+			cursor: default;
 		}
-		&:last-child {
-			margin-right: 0;
+		&.training {
+			background-color: $training_bg;
+			border-right-color: $training_bg;
+		}
+		&.social {
+			background-color: $social_bg;
+			border-right-color: $social_bg;
+		}
+		&.meeting {
+			background-color: $meeting_bg;
+			border-right-color: $meeting_bg;
+		}
+		&.bts {
+			background-color: $hidden_bg;
+			border-right-color: $hidden_bg;
+		}
+		&.booking {
+			background-color: $booking_bg;
+			border-right-color: $booking_bg;
 		}
 	}
 }

@@ -54,6 +54,15 @@ div.modal {
 			color: #666;
 			font-style: italic;
 		}
+		.form-group {
+			&.has-error, &.has-success {
+				.help-block.errormsg {
+					color: $colour_danger !important;
+					font-style: normal;
+					margin: 5px 0;
+				}
+			}
+		}
 
 		div.modal-body {
 			max-height: 600px;

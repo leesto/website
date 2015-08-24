@@ -68,40 +68,6 @@
         @yield('javascripts')
         @include('tinymce::tpl')
         <script>
-            function clearModalForm($form) {
-                $form.find('.has-error,.has-success');
-                $form.find('.has-error').removeClass('has-error').children('p.errormsg').remove();
-                $form.find('.has-success').removeClass('has-success');
-            }
-            function processFormErrors(form, errors)
-            {
-                if(typeof(errors.responseJSON) == "object") {
-                    errors = errors.responseJSON;
-                    form.find('input,textarea,select').each(function () {
-                        var $input = $(this);
-                        var $group = $input.parents('.form-group');
-                        if($input.attr('name') in errors) {
-                            $group.addClass('has-error');
-                            $group.append('<p class="help-block errormsg">' + errors[$input.attr('name')][0] + '</p>');
-                        } else {
-                            $group.addClass('has-success');
-                        }
-                    });
-                } else {
-                    alert("Oops, an error occurred");
-                    console.log(errors.responseText);
-                }
-            }
-            $.ajaxSetup({
-                headers : {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                method  : "GET",
-                dataType: "json"
-            });
-            $('select[select2]').each(function () {
-                $(this).select2({placeholder: $(this).attr('select2') || ''})
-            });
             @yield('scripts')
         </script>
     </body>

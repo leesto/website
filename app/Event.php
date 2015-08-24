@@ -221,12 +221,12 @@ class Event extends Model
 
 	public function getStartDateAttribute()
 	{
-		dd($this->event_times);
+		return $this->times->first()->start->format('d/m/Y');
 	}
 
 	public function getEndDateAttribute()
 	{
-		dd($this->event_times);
+		return $this->times->last()->end->format('d/m/Y');
 	}
 
 	/**

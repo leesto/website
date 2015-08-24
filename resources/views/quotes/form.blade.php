@@ -32,7 +32,7 @@
         <span class="fa fa-plus"></span>
         <span>Add quote</span>
     </button>
-    <button class="btn btn-danger" id="cancelQuoteModal">
+    <button class="btn btn-danger" data-toggle="modal" data-target="#newQuoteModal" id="cancelQuoteModal">
         <span class="fa fa-undo"></span>
         <span>Cancel</span>
     </button>

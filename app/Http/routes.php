@@ -151,10 +151,19 @@ Route::group([
 		'uses' => 'EventsController@diary',
 	])->where('year', '[\d]{4}')->where('month', '[\d]{1,2}');
 	// View
-	Route::get('{id}', [
-		'as'   => 'events.view',
-		'uses' => 'EventsController@view',
-	])->where('id', '[\d]+');
+	Route::group([
+		'prefix' => '{id}',
+		'where'  => ['id' => '[\d]+'],
+	], function () {
+		Route::get('', [
+			'as'   => 'events.view',
+			'uses' => 'EventsController@view',
+		]);
+		Route::post('{action}', [
+			'as'   => 'events.update',
+			'uses' => 'EventsController@update',
+		]);
+	});
 	// Add
 	Route::get('add', [
 		'as'   => 'events.add',

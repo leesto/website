@@ -40,9 +40,8 @@ elixir(function (mix) {
 			'jquery.DisableSubmitButtons.js',
 			'bootstrap.min.js',
 			'select2.min.js',
+			'app.js',
 		], 'public/js/app.js')
 		.copy('resources/assets/js/tinymce', 'public/js/tinymce')
 		.copy('resources/assets/js/partials', 'public/js/partials');
-
-	//console.log(elixir.config);
 });
