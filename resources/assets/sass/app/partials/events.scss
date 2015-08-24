@@ -259,9 +259,42 @@
 
 #eventList {
 	table.table {
+		td, th {
+			&.venue {
+				width: 11em;
+			}
+			&.crew {
+				width: 9em;
+			}
+			&.date {
+				text-align: center;
+				width: 8em;
+			}
+			&.paperwork {
+				width: 10em;
+			}
+		}
 		td {
 			padding-top: 1em;
 			padding-bottom: 1em;
+			font-size: 13px;
+			vertical-align: text-top;
+
+			ul {
+				margin: 0;
+				padding: 0;
+
+				li {
+					list-style-type: none;
+					margin: 0;
+					padding: 0;
+
+					span.fa {
+						text-align: center;
+						width: 2em;
+					}
+				}
+			}
 			a {
 				color: inherit;
 
@@ -269,27 +302,23 @@
 					outline: #CCC;
 				}
 			}
-			&.date {
-				font-size: 14px;
+			&.event {
+				font-size: 15px;
+
+				.tag {
+					margin: 0.5em 0 -1em;
+				}
 			}
-			.tag {
-				margin: 0.5em 0 -1em;
-			}
-		}
-		td, th {
 			&.crew {
-				text-align: center;
-				width: 4em;
+				.crew-list {
+					margin-top: 0.5em;
+					margin-left: 0.5em;
+					max-height: 10em;
+					overflow-y: auto;
+				}
 			}
-			&.venue {
-				width: 11em;
-			}
-			&.manager {
-				width: 11em;
-			}
-			&.date {
-				text-align: center;
-				width: 12em;
+			&.paperwork {
+				font-size: 13px;
 			}
 		}
 	}

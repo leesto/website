@@ -340,4 +340,13 @@ class Event extends Model
 
 		return false;
 	}
+
+	/**
+	 * Test if the event has an EM.
+	 * @return bool
+	 */
+	public function hasEM()
+	{
+		return !!$this->em_id;
+	}
 }

@@ -244,8 +244,8 @@
                         @endif
                     </div>
                     <button class="btn btn-success" data-toggle="modal" data-mode="new" data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'add-time']) }}" data-target="#eventTimeModal" type="button">
-                        <span class="fa fa-clock-o"></span>
-                        <span>Add a time</span>
+                        <span class="fa fa-plus"></span>
+                        <span>Add event time</span>
                     </button>
                 </div>
                 @if($event->crew_list_status > -1 && $isMember)

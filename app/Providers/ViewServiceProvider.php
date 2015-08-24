@@ -149,7 +149,7 @@ class ViewServiceProvider extends ServiceProvider
 				     ->add(route('user.create'), "Create a user");
 
 				$menu->find('committee.events')
-				     ->add(route('events.index'), 'Event manager')
+				     ->add(route('events.index'), 'Event list')
 				     ->add(route('events.add'), 'Create a new event');
 			}
 
