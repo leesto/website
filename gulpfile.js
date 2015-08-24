@@ -12,7 +12,6 @@ var elixir = require('laravel-elixir');
  */
 
 elixir.config.sourcemaps = false;
-elixir.config.autoprefix = false;
 elixir(function (mix) {
 	mix.sass('app/app.scss', 'resources/assets/css/app.css')
 		.sass('app/partials/committee.scss', 'public/css/partials/committee.css')
@@ -44,4 +43,6 @@ elixir(function (mix) {
 		], 'public/js/app.js')
 		.copy('resources/assets/js/tinymce', 'public/js/tinymce')
 		.copy('resources/assets/js/partials', 'public/js/partials');
+
+	//console.log(elixir.config);
 });
