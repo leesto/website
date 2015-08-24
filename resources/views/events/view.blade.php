@@ -97,78 +97,9 @@
                     @endif
                     @if($canEdit)
                         <h2>Paperwork</h2>
-                        {{-- RA --}}
-                        <div class="form-group">
-                            {!! Form::label('ra', 'Risk Assessment:', ['class' => 'col-md-5 control-label']) !!}
-                            <div class="col-md-7">
-                                <p class="form-control-static">
-                                    <span class="paperwork">
-                                        <span class="fa fa-check"></span>
-                                        <span>completed</span>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                        {{-- Insurance --}}
-                        <div class="form-group">
-                            {!! Form::label('insurance', 'Insurance:', ['class' => 'col-md-5 control-label']) !!}
-                            <div class="col-md-7">
-                                <p class="form-control-static">
-                                    <span class="paperwork">
-                                        <span class="fa fa-remove"></span>
-                                        <span>not completed</span>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                        {{-- Finance (EM) --}}
-                        <div class="form-group">
-                            {!! Form::label('finance_em', 'EM Finance:', ['class' => 'col-md-5 control-label']) !!}
-                            <div class="col-md-7">
-                                <p class="form-control-static">
-                                    <span class="paperwork">
-                                        <span class="fa fa-remove"></span>
-                                        <span>not completed</span>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                        {{-- Finance (Treasurer) --}}
-                        <div class="form-group">
-                            {!! Form::label('finance_treas', 'Treasurer Finance:', ['class' => 'col-md-5 control-label']) !!}
-                            <div class="col-md-7">
-                                <p class="form-control-static">
-                                    <span class="paperwork">
-                                        <span class="fa fa-remove"></span>
-                                        <span>not completed</span>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                        {{-- Report --}}
-                        <div class="form-group">
-                            {!! Form::label('event_report', 'Event Report:', ['class' => 'col-md-5 control-label']) !!}
-                            <div class="col-md-7">
-                                <p class="form-control-static">
-                                    <span class="paperwork">
-                                        <span class="fa fa-remove"></span>
-                                        <span>not completed</span>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                        {{-- Committee Report --}}
-                        <div class="form-group">
-                            {!! Form::label('committee_report', 'Committee Report:', ['class' => 'col-md-5 control-label']) !!}
-                            <div class="col-md-7">
-                                <p class="form-control-static">
-                                    <span class="paperwork">
-                                        <span class="fa fa-remove"></span>
-                                        <span>not completed</span>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
+                        @foreach(\App\Event::$Paperwork as $key => $name)
+                            @include('events._paperwork_status', ['key' => $key, 'name' => $name])
+                        @endforeach
                     @endif
                 </div>
                 {{-- Crew list --}}

@@ -62,6 +62,19 @@ class Event extends Model
 	];
 
 	/**
+	 * Define the types of paperwork
+	 * @var array
+	 */
+	public static $Paperwork = [
+		'risk_assessment'  => 'Risk Assessment',
+		'insurance'        => 'Insurance',
+		'finance_em'       => 'EM Finance',
+		'finance_treas'    => 'Treasurer Finance',
+		'event_report'     => 'Event Report',
+		'committee_report' => 'Committee Report',
+	];
+
+	/**
 	 * The attributes fillable by mass assignment.
 	 * @var array
 	 */
@@ -75,6 +88,11 @@ class Event extends Model
 		'crew_list_status',
 		'client_type',
 		'venue_type',
+		'paperwork',
+	];
+
+	protected $casts = [
+		'paperwork' => 'array',
 	];
 
 	/**

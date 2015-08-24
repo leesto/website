@@ -36,6 +36,10 @@ class EventsController extends Controller
 		parent::__construct();
 	}
 
+	/**
+	 * View a list of events.
+	 * @return mixed
+	 */
 	public function index()
 	{
 		$events = Event::select('events.*')
@@ -190,6 +194,14 @@ class EventsController extends Controller
 				'em_id'              => $request->get('em_id') ?: null,
 				'description_public' => $request->get('desc_public') ? $request->stripped('description') : '',
 				'crew_list_status'   => 1,
+				'paperwork'          => [
+					'risk_assessment'  => false,
+					'insurance'        => false,
+					'finance_em'       => false,
+					'finance_treas'    => false,
+					'event_report'     => false,
+					'committee_report' => false,
+				],
 			]);
 
 		// Create the event times

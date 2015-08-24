@@ -45,11 +45,9 @@
                             <td class="date">{{ $event->start_date }}<br>to<br>{{ $event->end_date }}</td>
                             <td class="paperwork">
                                 <ul>
-                                    <li><span class="fa fa-check success"></span> Risk Assessment</li>
-                                    <li><span class="fa fa-remove danger"></span>Insurance</li>
-                                    <li><span class="fa fa-remove danger"></span>EM Finance</li>
-                                    <li><span class="fa fa-remove danger"></span>Treasurer Finance</li>
-                                    <li><span class="fa fa-remove danger"></span>Event Report</li>
+                                    @foreach(\App\Event::$Paperwork as $key => $name)
+                                        <li><span class="fa {{ $event->paperwork[$key] ? 'fa-check success' : 'fa-remove danger' }}"></span> {{ $name }}</li>
+                                    @endforeach
                                 </ul>
                             </td>
                         </tr>

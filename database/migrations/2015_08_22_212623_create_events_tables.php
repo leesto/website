@@ -22,6 +22,7 @@ class CreateEventsTables extends Migration
 			$table->smallInteger('crew_list_status')->comment = '-1 = hidden, 0 = closed, 1 = open';
 			$table->unsignedInteger('client_type')->comment = '1 = su, 2 = uni, 3 = external';
 			$table->unsignedInteger('venue_type')->comment = '1 = on-campus, 2 = off-campus';
+			$table->text('paperwork');
 			$table->timestamps();
 
 			$table->foreign('em_id')->references('id')->on('users')->onDelete('set null');
