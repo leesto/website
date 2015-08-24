@@ -211,9 +211,9 @@ class ViewServiceProvider extends ServiceProvider
 		View::composer('members.profile', function ($view) {
 			$username = $view->getData()['user']->username;
 			$menu     = Menu::handler('profileMenu');
-			$menu->add(route('members.profile', $username), 'Details', null, [], ['id' => 'profile'])
-			     ->add(route('members.profile', $username) . '#events', 'Events', null, [], ['id' => 'events'])
-			     ->add(route('members.profile', $username) . '#training', 'Training', null, [], ['id' => 'training']);
+			$menu->add(route('members.profile', $username), 'Details', null, [], ['id' => 'profileTab'])
+			     ->add(route('members.profile', $username) . '#events', 'Events', null, [], ['id' => 'eventsTab'])
+			     ->add(route('members.profile', $username) . '#training', 'Training', null, [], ['id' => 'trainingTab']);
 			$menu->addClass('nav nav-tabs');
 			$view->with('menu', $menu->render());
 		});

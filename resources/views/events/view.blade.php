@@ -174,10 +174,12 @@
                             <h4>No times exist for this event.</h4>
                         @endif
                     </div>
-                    <button class="btn btn-success" data-toggle="modal" data-mode="new" data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'add-time']) }}" data-target="#eventTimeModal" type="button">
-                        <span class="fa fa-plus"></span>
-                        <span>Add event time</span>
-                    </button>
+                    @if($canEdit)
+                        <button class="btn btn-success" data-toggle="modal" data-mode="new" data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'add-time']) }}" data-target="#eventTimeModal" type="button">
+                            <span class="fa fa-plus"></span>
+                            <span>Add event time</span>
+                        </button>
+                    @endif
                 </div>
                 @if($event->crew_list_status > -1 && $isMember)
                 <div class="col-md-3"></div>
