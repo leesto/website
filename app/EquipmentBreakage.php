@@ -2,8 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
 class EquipmentBreakage extends Model
 {
 	// Define the 'resolved' and 'reported' statuses

@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Zizaco\Entrust\EntrustRole as Model;
+use Zizaco\Entrust\EntrustRole as RoleModel;
 
-class Role extends Model
+class Role extends RoleModel
 {
 	/**
 	 * Set the attributes that are mass-assignable.

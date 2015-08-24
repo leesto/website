@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Zizaco\Entrust\EntrustPermission as Model;
+use Zizaco\Entrust\EntrustPermission as PermissionModel;
 
-class Permission extends Model
+class Permission extends PermissionModel
 {
 	/**
 	 * Define the attributes that are mass-assignable.
