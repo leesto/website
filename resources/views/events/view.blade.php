@@ -23,12 +23,18 @@
             $timeForm.find('[name="start_time"]').val(btn.data('start'));
             $timeForm.find('[name="end_time"]').val(btn.data('end'));
             $timeForm.find('[name="id"]').val(btn.data('timeId'));
+            $timeForm.find('#deleteTime').show();
         } else {
             $timeModal.find('h1').text('Add a New Time');
             $timeModal.find('#submitTimeModal').children('span').eq(1).text('Add Time');
+            $timeForm.find('#deleteTime').hide();
         }
     });
     $timeModal.find('#submitTimeModal').on('click', function() {
+        submitForm($timeForm, $(this));
+    });
+    $timeModal.find('#deleteTime').on('click', function() {
+        $timeForm.attr('action', $(this).data('formAction'));
         submitForm($timeForm, $(this));
     });
 @endsection

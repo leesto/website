@@ -42,9 +42,9 @@
                                 <span class="fa fa-check"></span>
                                 <span>Add Time</span>
                             </button>
-                            <button class="btn btn-danger" data-toggle="modal" data-target="#eventTimeModal" id="cancelTimeModal" type="button">
-                                <span class="fa fa-undo"></span>
-                                <span>Cancel</span>
+                            <button class="btn btn-danger" data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'delete-time']) }}" id="deleteTime" type="button">
+                                <span class="fa fa-remove"></span>
+                                <span>Delete</span>
                             </button>
                         </div>
                     </div>

@@ -119,6 +119,8 @@ class EventsController extends Controller
 				return $this->updateAddTime($request, $event);
 			case 'update-time':
 				return $this->updateEditTime($request, $event);
+			case 'delete-time':
+				return $this->updateDeleteTime($request, $event);
 			default:
 				return Response::json(['error' => 'Unknown action'], 404);
 		}
@@ -297,7 +299,7 @@ class EventsController extends Controller
 	{
 		// Get the event time
 		$time = EventTime::find($request->get('id'));
-		if(!$time) {
+		if(!$time || $time->event_id != $event->id) {
 			return Response::json(['error' => 'Couldn\'t find the event time to change'], 404);
 		}
 
@@ -314,6 +316,25 @@ class EventsController extends Controller
 		Flash::success('Event time updated');
 
 		return Response::json(true);
+	}
+
+	/**
+	 * Delete an event time.
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @param \App\Event                        $event
+	 */
+	private function updateDeleteTime(GenericRequest $request, Event $event)
+	{
+		// Get the event time
+		$time = EventTime::find($request->get('id'));
+		if(!$time || $time->event_id != $event->id) {
+			return Response::json(['error' => 'Couldn\'t find the event time to change'], 404);
+		} else {
+			$time->delete();
+			Flash::success('Event time deleted');
+
+			return Response::json(true);
+		}
 	}
 
 	/**
