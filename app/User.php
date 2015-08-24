@@ -123,10 +123,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		if(!isset($attributes['status'])) {
 			$attributes['status'] = true;
 		}
-
+		if(isset($attributes['type'])) {
+			$type = $attributes['type'];
+			unset($attributes['type']);
+		}
 
 		// Create the user
 		$user = parent::create($attributes);
+		if(isset($type)) {
+			$user->type = $type;
+		}
 
 		if($user && $sendEmail && isset($password)) {
 			// Send an email to the new user
