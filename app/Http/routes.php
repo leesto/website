@@ -159,6 +159,10 @@ Route::group([
 			'as'   => 'events.view',
 			'uses' => 'EventsController@view',
 		]);
+		Route::post('volunteer', [
+			'as'   => 'events.volunteer',
+			'uses' => 'EventsController@toggleVolunteer',
+		]);
 		Route::post('{action}', [
 			'as'   => 'events.update',
 			'uses' => 'EventsController@update',

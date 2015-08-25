@@ -328,6 +328,12 @@ div.g-recaptcha-center {
 // Structure
 @import "structure";
 
+// Special styling
 div[data-type="modal-template"] {
 	display: none !important;
+}
+
+[data-editable='true']:hover {
+	background: rgba(255, 255, 255, 0.1);
+	cursor: pointer;
 }

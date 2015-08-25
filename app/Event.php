@@ -239,15 +239,13 @@ class Event extends Model
 
 		foreach($this->crew as $crew) {
 			if($crew->name) {
-				@$core[$crew->name][] = $crew->user->name;
+				@$core[$crew->name][] = $crew;
 			} else {
-				$general[] = $crew->user->name;
+				$general[] = $crew;
 			}
 		}
 
-		return $core + [
-			'General Crew' => empty($general) ? ['<em>&ndash; no general crew &ndash;</em>'] : $general,
-		];
+		return $core + (empty($general) ? [] : ['General Crew' => $general]);
 	}
 
 	/**

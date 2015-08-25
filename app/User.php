@@ -189,6 +189,59 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	}
 
 	/**
+	 * Add a scope for getting users that are signed up to an event.
+	 * @param            $query
+	 * @param \App\Event $event
+	 */
+	public function scopeCrewingEvent($query, Event $event)
+	{
+		$query->select('users.*')
+		      ->join('event_crew', 'users.id', '=', 'event_crew.user_id')
+		      ->where('event_crew.event_id', $event->id);
+	}
+
+	/**
+	 * Add a scope for getting users which are not signed up to an event.
+	 * @param            $query
+	 * @param \App\Event $event
+	 */
+	public function scopeNotCrewingEvent($query, Event $event)
+	{
+		$query->select('users.*')
+		      ->whereNotIn('users.id', self::crewingEvent($event)->lists('id'))
+		      ->whereNotIn('users.id', self::select('users.*')
+		                                   ->join('events', 'users.id', '=', 'events.em_id')
+		                                   ->where('events.id', $event->id)
+		                                   ->lists('id'));
+	}
+
+	/**
+	 * Add a scope to order the users by their name.
+	 * @param $query
+	 */
+	public function scopeNameOrder($query)
+	{
+		$query->orderBy('surname', 'ASC')
+		      ->orderBy('forename', 'ASC');
+	}
+
+	/**
+	 * Add a scope to get the results and produce an array suitable for <select> elements.
+	 * @param $query
+	 * @return array
+	 */
+	public function scopeGetSelect($query)
+	{
+		$results           = $query->get();
+		$results_formatted = [];
+		foreach($results as $result) {
+			$results_formatted[$result->id] = sprintf("%s (%s)", $result->name, $result->username);
+		}
+
+		return $results_formatted;
+	}
+
+	/**
 	 * Get the list of rules for validating the profile save inputs.
 	 * @return array
 	 */

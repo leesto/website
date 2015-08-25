@@ -8,7 +8,9 @@ use App\Http\Requests;
 use App\Http\Requests\EventRequest;
 use App\Http\Requests\EventTimeRequest;
 use App\Http\Requests\GenericRequest;
+use App\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
@@ -31,6 +33,8 @@ class EventsController extends Controller
 		$this->middleware('auth.permission:member', [
 			'only' => [
 				'signup',
+				'update',
+				'toggleVolunteer',
 			],
 		]);
 
@@ -158,7 +162,7 @@ class EventsController extends Controller
 		}
 
 		// Check that the user is either the EM or an admin
-		if(!$this->user->isAdmin() && !$event->isEM($this->user)) {
+		if(!$this->user->isAdmin() && !$event->isEM($this->user, false)) {
 			return Response::json(['error' => 'You need to be the EM or an admin to do that'], 403);
 		}
 
@@ -169,6 +173,12 @@ class EventsController extends Controller
 				return $this->update_EditTime($request, $event);
 			case 'delete-time':
 				return $this->update_DeleteTime($request, $event);
+			case 'add-crew':
+				return $this->update_AddCrew($request, $event);
+			case 'update-crew':
+				return $this->update_EditCrew($request, $event);
+			case 'delete-crew':
+				return $this->update_DeleteCrew($request, $event);
 			default:
 				return Response::json(['error' => 'Unknown action'], 404);
 		}
@@ -189,14 +199,54 @@ class EventsController extends Controller
 			App::abort(403);
 		}
 
+		// Get a list of users not signed up
+		$users = User::notCrewingEvent($event)->member()->nameOrder()->getSelect();
+
 		return View::make('events.view')->with([
 			'event'    => $event,
 			'user'     => $this->user,
+			'users'    => $users,
 			'isMember' => $this->user->isMember(),
 			'isAdmin'  => $this->user->isAdmin(),
 			'isEM'     => $event->isEM($this->user),
 			'canEdit'  => $this->user->isAdmin() || $event->isEM($this->user, false),
 		]);
+	}
+
+	/**
+	 * @param                                   $id
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @return \Illuminate\Support\Facades\Response
+	 */
+	public function toggleVolunteer($id, GenericRequest $request)
+	{
+		// Require ajax
+		$this->requireAjax($request);
+
+		// Get the event
+		$event = Event::findOrFail($id);
+
+		// Test if they are the EM
+		if($event->isEM($this->user)) {
+			return Response(['error' => 'You can\'t unvolunteer as you are the EM!'], 422);
+		}
+
+		// Test if the user is already crew
+		$crew = $event->crew->where('user_id', $this->user->id)->first();
+		if($crew) {
+			$crew->delete();
+			Flash::success('You have unvolunteered');
+		} else {
+			$event->crew()->create([
+				'name'    => null,
+				'user_id' => $this->user->id,
+			]);
+			Flash::success('You have volunteered');
+
+			// TODO: email
+		}
+
+		return Response::json(true);
 	}
 
 	/**
@@ -226,7 +276,7 @@ class EventsController extends Controller
 	 * Update the details of an event time.
 	 * @param \App\Http\Requests\GenericRequest $request
 	 * @param \App\Event                        $event
-	 * @return mixed
+	 * @return Reponse
 	 */
 	private function update_EditTime(GenericRequest $request, Event $event)
 	{
@@ -255,6 +305,7 @@ class EventsController extends Controller
 	 * Delete an event time.
 	 * @param \App\Http\Requests\GenericRequest $request
 	 * @param \App\Event                        $event
+	 * @return Response
 	 */
 	private function update_DeleteTime(GenericRequest $request, Event $event)
 	{
@@ -268,6 +319,83 @@ class EventsController extends Controller
 
 			return Response::json(true);
 		}
+	}
+
+	/**
+	 * Add a user to the crew.
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @param \App\Event                        $event
+	 */
+	private function update_AddCrew(GenericRequest $request, Event $event)
+	{
+		// Validate
+		$this->validateCrew($request);
+
+		// Check if the user is already crewing
+		$user = User::find($request->get('user_id'));
+		if($event->isCrew($user)) {
+			return Response::json(['error' => 'That user is already on the crew'], 422);
+		}
+
+		// Create
+		$event->crew()->create([
+			'user_id' => $user->id,
+			'name'    => $request->get('core') ? $request->get('name') : null,
+			'em'      => $request->get('core') ? $request->has('em') : false,
+		]);
+
+		// TODO: Send email
+
+		Flash::success('Crew role created');
+
+		return Response::json(true);
+	}
+
+	/**
+	 * Update a user's crew role.
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @param \App\Event                        $event
+	 */
+	private function update_EditCrew(GenericRequest $request, Event $event)
+	{
+		// Validate
+		$this->validateCrew($request);
+
+		// Get the event crew
+		$crew = $event->crew()->find($request->get('id'));
+		if(!$crew) {
+			return Response::json(['error' => 'Couldn\'t find the crew entry:' . $request->get('id')], 404);
+		}
+
+		// Update
+		$crew->update([
+			'name' => $request->get('core') ? $request->get('name') : null,
+			'em'   => $request->get('core') ? $request->has('em') : false,
+		]);
+		Flash::success('Crew role updated');
+
+		return Response::json(true);
+	}
+
+	/**
+	 * Delete a crew role.
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @param \App\Event                        $event
+	 * @return mixed
+	 */
+	private function update_DeleteCrew(GenericRequest $request, Event $event)
+	{
+		// Get the event crew
+		$crew = $event->crew()->find($request->get('id'));
+		if(!$crew) {
+			return Response::json(['error' => 'Couldn\'t find the crew entry:' . $request->get('id')], 404);
+		}
+
+		// Delete
+		$crew->delete();
+		Flash::success('Crew role deleted');
+
+		return Response::json(true);
 	}
 
 	/**
@@ -341,6 +469,22 @@ class EventsController extends Controller
 			'end_time.required'      => 'Please enter the end time',
 			'end_time.date_format'   => 'Please enter a valid time',
 			'end_time.after'         => 'It cannot end before it\'s begun!',
+		]);
+	}
+
+	/**
+	 * Validate a event crew form submission.
+	 * @param \App\Http\Requests\GenericRequest $request
+	 */
+	private function validateCrew(GenericRequest $request)
+	{
+		$this->validate($request, [
+			'user_id' => 'required|exists:users,id',
+			'name'    => 'required_if:core,1',
+		], [
+			'user_id.required' => 'Please select a member',
+			'user_id.exists'   => 'Please select a member',
+			'name.required_if' => 'Please enter a role title',
 		]);
 	}
 }

@@ -34,7 +34,8 @@
                   data-modal-template="diary_date"
                   data-modal-class="modal-sm"
                   data-modal-title="Change Date"
-                  title="Select month and year">{{ $date->format('F Y') }}</span>
+                  title="Select month and year"
+                  role="button">{{ $date->format('F Y') }}</span>
             <a class="next" href="{{ route('events.diary', ['year' => $date_next->year, 'month' => $date_next->month]) }}">
                 <span class="fa fa-caret-right"></span>
             </a>

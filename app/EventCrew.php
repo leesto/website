@@ -5,17 +5,15 @@ namespace App;
 class EventCrew extends Model
 {
 	/**
-	 * The database table used by the model.
-	 * @var string
-	 */
-	protected $table = 'event_crew';
-
-	/**
 	 * Disable timestamps
 	 * @var bool
 	 */
 	public $timestamps = false;
-
+	/**
+	 * The database table used by the model.
+	 * @var string
+	 */
+	protected $table = 'event_crew';
 	/**
 	 * The attributes fillable by mass assignment.
 	 * @var array
@@ -26,6 +24,15 @@ class EventCrew extends Model
 		'name',
 		'em',
 		'confirmed',
+	];
+
+	/**
+	 * Define the attributes that need type-casting.
+	 * @var array
+	 */
+	protected $casts = [
+		'em'        => 'boolean',
+		'confirmed' => 'boolean',
 	];
 
 	/**

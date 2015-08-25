@@ -231,14 +231,10 @@ class ViewServiceProvider extends ServiceProvider
 			'events.create',
 		], function ($view) {
 			// Get the users
-			$users        = User::active()->orderBy('username', 'ASC')->get();
-			$users_select = [];
-			foreach($users as $user) {
-				$users_select[$user->id] = sprintf('%s (%s)', $user->name, $user->username);
-			}
+			$users = User::active()->nameOrder()->getSelect();
 
 			// Attach
-			$view->with('users', $users_select);
+			$view->with('users', $users);
 		});
 	}
 }

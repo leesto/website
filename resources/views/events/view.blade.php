@@ -10,10 +10,11 @@
     $modal.on('show.bs.modal', function(event) {
         var btn = $(event.relatedTarget);
         var form = $modal.find('form');
-        var submitBtn = form.find('#submitTimeModal');
+        var submitBtn = form.find('#submitTimeModal, #submitCrewModal');
         submitBtn.data('formAction', btn.data('formAction'));
+        var action = btn.data('formAction').substr(btn.data('formAction').lastIndexOf('/') + 1);
 
-        if(btn.data('mode') == 'edit') {
+        if(action == 'update-time') {
             form.find('h1').text('Edit a Time');
             submitBtn.children('span').eq(1).text('Save');
             form.find('[name="name"]').val(btn.data('name'));
@@ -22,9 +23,29 @@
             form.find('[name="end_time"]').val(btn.data('end'));
             form.find('[name="id"]').val(btn.data('timeId'));
             form.find('#deleteTime').show();
-        } else {
+        } else if(action == 'add-time') {
             submitBtn.children('span').eq(1).text('Add Time');
             form.find('#deleteTime').hide();
+        } else if(action == 'add-crew') {
+            submitBtn.children('span').eq(1).text('Add Crew');
+            form.find('select[name="user_id"]').parent().show();
+            form.find('#deleteCrew').hide();
+        } else if(action == 'update-crew') {
+            submitBtn.children('span').eq(1).text('Save');
+            form.find('select[name="user_id"]').parent().hide();
+            form.find('input[name="core"]').prop('checked', !!btn.data('roleName')).trigger('change');
+            form.find('input[name="name"]').val(btn.data('roleName') ? btn.data('roleName') : '');
+            form.find('input[name="em"]').prop('checked', !!btn.data('roleEm'));
+            form.find('input[name="id"]').val(btn.data('roleId'));
+            form.find('#deleteCrew').show();
+        }
+    });
+    $modal.on('change', 'input[type="checkbox"][name="core"]', function() {
+        var disabled = $(this).prop('checked') ? '' : 'disabled';
+        $modal.find('input[name="name"]').prop('disabled', disabled);
+        $modal.find('input[name="em"]').prop('disabled', disabled);
+        if(disabled == 'disabled') {
+            $modal.find('input[name="em"]').prop('checked', false);
         }
     });
 @endsection
@@ -114,12 +135,26 @@
                     <h2>Crew List <span class="crew-status">[{{ $event->crewListOpen() ? 'open' : 'closed' }}]</span></h2>
                     @if(count($event->crew) > 0)
                         <div class="container-fluid crew-list">
-                            @foreach($event->crew_list as $role => $crew)
+                            @foreach($event->crew_list as $role => $crew_list)
                                 <div class="form-group">
                                     {!! Form::label('crew', $role . ':', ['class' => 'col-md-5 control-label']) !!}
                                     <div class="col-md-7">
-                                        @foreach($crew as $name)
-                                            <p class="form-control-static">{!! $name !!}</p>
+                                        @foreach($crew_list as $crew)
+                                            @if($canEdit && is_object($crew))
+                                                <p class="form-control-static"
+                                                   data-toggle="modal"
+                                                   data-target="#modal"
+                                                   data-modal-class="modal-sm"
+                                                   data-modal-template="event_crew"
+                                                   data-modal-title="Edit Crew Role"
+                                                   data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'update-crew']) }}"
+                                                   data-role-id="{{ $crew->id }}"
+                                                   data-role-name="{{ $crew->name }}"
+                                                   data-role-em="{{ $crew->em }}"
+                                                   data-editable="true">{{ $crew->user->name }}</p>
+                                            @else
+                                                <p class="form-control-static">{{ $crew->user->name }}</p>
+                                            @endif
                                         @endforeach
                                     </div>
                                 </div>
@@ -128,33 +163,39 @@
                     @else
                         <p>No one is crewing this event yet</p>
                     @endif
-                    @if($event->crewListOpen())
-                        <p>
+                    <p>
+                        @if($event->crewListOpen())
                             @if($event->isCrew($user))
-                                <button class="btn btn-danger" {!! $isEM ? ' title="You are the EM - you can\'t unvolunteer!" disabled' : '' !!}>
-                                    <span class="fa fa-user-times"></span>
+                                <button class="btn btn-danger" {!! $isEM ? ' title="You are the EM - you can\'t unvolunteer!" disabled' : '' !!}
+                                        data-submit-ajax="{{ route('events.volunteer', ['id' => $event->id]) }}"
+                                        type="button">
+                                    <span class="fa fa-user-times"
+                                            data-submit-ajax="{{ route('events.volunteer', ['id' => $event->id]) }}"></span>
                                     <span>Unvolunteer</span>
                                 </button>
                             @else
-                                <button class="btn btn-success">
+                                <button class="btn btn-success"
+                                        data-submit-ajax="{{ route('events.volunteer', ['id' => $event->id]) }}"
+                                        type="button">
                                     <span class="fa fa-user-plus"></span>
                                     <span>Volunteer</span>
                                 </button>
                             @endif
-                            @if($canEdit)
-                                <button class="btn btn-success"
-                                        data-toggle="modal"
-                                        data-target="#modal"
-                                        data-modal-template="add_crew"
-                                        data-modal-class="modal-sm"
-                                        data-modal-title="Add Crew Member"
-                                        type="button">
-                                    <span class="fa fa-user-plus"></span>
-                                    <span>Add crew</span>
-                                </button>
-                            @endif
-                        </p>
-                    @endif
+                        @endif
+                        @if($canEdit)
+                            <button class="btn btn-success"
+                                    data-toggle="modal"
+                                    data-target="#modal"
+                                    data-modal-template="event_crew"
+                                    data-modal-class="modal-sm"
+                                    data-modal-title="Add Crew Role"
+                                    data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'add-crew']) }}"
+                                    type="button">
+                                <span class="fa fa-user-plus"></span>
+                                <span>Add crew</span>
+                            </button>
+                        @endif
+                    </p>
                 </div>
                 @endif
                 @if($event->crew_list_status > -1 && $isMember)
@@ -170,6 +211,7 @@
                                 @foreach($times as $i => $time)
                                     @if($canEdit)
                                     <div class="event-time"
+                                         data-editable="true"
                                          data-toggle="modal"
                                          data-target="#modal"
                                          data-mode="edit"
@@ -181,7 +223,8 @@
                                          data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'update-time']) }}"
                                          data-modal-template="event_time"
                                          data-modal-title="Edit Event Time"
-                                         data-modal-class="modal-sm">
+                                         data-modal-class="modal-sm"
+                                         role="button">
                                     @else
                                     <div class="event-time">
                                     @endif
@@ -223,6 +266,9 @@
     @if($canEdit)
         <div data-type="modal-template" data-id="event_time">
             @include('events.modal.view_time')
+        </div>
+        <div data-type="modal-template" data-id="event_crew">
+            @include('events.modal.view_crew')
         </div>
     @endif
 @endsection

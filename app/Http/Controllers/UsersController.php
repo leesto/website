@@ -30,7 +30,7 @@ class UsersController extends Controller
 	 */
 	public function index()
 	{
-		$users = User::orderBy('username', 'ASC')->paginate(15);
+		$users = User::nameOrder()->paginate(15);
 
 		$this->checkPagination($users);
 

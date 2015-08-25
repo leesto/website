@@ -222,7 +222,9 @@
 		overflow-y: auto;
 
 		p.form-control-static {
+			margin-left: -0.75em;
 			margin-bottom: -3px;
+			padding-left: 0.75em;
 		}
 	}
 	div.event-times {
@@ -234,10 +236,6 @@
 			display: table-row;
 			position: relative;
 
-			&[data-toggle='modal']:hover {
-				background: rgba(255, 255, 255, 0.1);
-				cursor: pointer;
-			}
 			& > div {
 				display: table-cell;
 				font-size: 14px;
