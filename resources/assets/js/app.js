@@ -121,3 +121,13 @@ var $btns;
 		});
 	});
 })(jQuery);
+$.ajaxSetup({
+	headers : {
+		'X-XSRF-TOKEN': $('meta[name="xsrf-token"]').attr('content')
+	},
+	method  : "GET",
+	dataType: "json"
+});
+$('select[select2]').each(function () {
+	$(this).select2({placeholder: $(this).attr('select2') || ''})
+});
