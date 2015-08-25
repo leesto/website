@@ -34,7 +34,7 @@
                 <div class="tab-pane active">
                     <div style="margin:0 auto;max-width: 500px;">
                         <div class="row">
-                            <div class="col-xs-6 box">
+                            <div class="col-sm-6 box">
                                 <h1>Member Details</h1>
                                 <table>
                                     <tr>
@@ -57,7 +57,7 @@
                                     @endif
                                 </table>
                             </div>
-                            <div class="col-xs-6 box">
+                            <div class="col-sm-6 box">
                                 <h1>Contact Details</h1>
                                 @if($user->show_email || $user->show_phone || $user->show_address)
                                 <table>
