@@ -6,7 +6,6 @@
         <title>@yield('title') :: Backstage Technical Services</title>
         <link rel="stylesheet" href="/css/app.css">
         @yield('stylesheets')
-        <script src="/js/app.js"></script>
         <style>
             @yield('styles')
         </style>
@@ -64,7 +63,15 @@
                 @include('partials.app.footer.lower')
             </div>
         </div>
+        <div class="modal fade" id="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                </div>
+            </div>
+        </div>
         @yield('modal')
+        <script src="/js/app.js"></script>
         @yield('javascripts')
         @include('tinymce::tpl')
         <script>

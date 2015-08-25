@@ -6,8 +6,31 @@
     @include('partials.tags.style', ['path' => 'partials/committee'])
 @endsection
 
-@section('javascripts')
-    @include('partials.tags.script', ['path' => 'partials/committee']);
+@section('scripts')
+    $modal.on('show.bs.modal', function(event) {
+        var btn = $(event.relatedTarget);
+        var form = $modal.find('form');
+        var submitBtn = $modal.find('#modalSubmit');
+
+        form.find('select[name=order]').find('option').removeAttr('disabled');
+        submitBtn.data('formAction', btn.data('formAction'));
+        if(btn.data('mode') == 'edit') {
+            submitBtn.children('span:first').attr('class', 'fa fa-refresh');
+            submitBtn.children('span:last').text('Save changes');
+            $modal.find('#modalDelete').show();
+            form.find('input[name=name]').val(btn.data('roleName'));
+            form.find('input[name=email]').val(btn.data('roleEmail'));
+            form.find('input[name=id]').val(btn.data('roleId'));
+            form.find('textarea[name=description]').val(btn.data('roleDesc'));
+            form.find('select[name=user_id]').val(btn.data('roleUserId'));
+            form.find('select[name=order]').val(btn.data('roleOrder'));
+            form.find('select[name=order]').find('option[value=' + (btn.data('roleOrder') + 1) + ']').attr('disabled', 'disabled');
+        } else {
+            submitBtn.children('span:first').attr('class', 'fa fa-plus');
+            submitBtn.children('span:last').text('Add role');
+            $modal.find('#modalDelete').hide();
+        }
+    });
 @endsection
 
 @section('content')
@@ -27,7 +50,15 @@
         @endif
         @if(Auth::check() && Auth::user()->can('admin'))
             <hr>
-            <a class="btn btn-success" data-toggle="modal" data-target="#roleModal" data-url="{{ route('committee.add') }}" data-method="add" href="#">
+            <a class="btn btn-success"
+               data-toggle="modal"
+               data-target="#modal"
+               data-modal-template="committee_add"
+               data-modal-title="Add Committee Position"
+               data-modal-class="modal-sm"
+               data-form-action="{{ route('committee.add') }}"
+               data-mode="add"
+               href="#">
                 <span class="fa fa-plus"></span>
                 <span>Add a new role</span>
             </a>
@@ -37,6 +68,8 @@
 
 @section('modal')
     @if(Auth::check() && Auth::user()->can('admin'))
-    @include('committee.form')
+        <div data-type="modal-template" data-id="committee_add">
+            @include('committee.form')
+        </div>
     @endif
 @endsection

@@ -1,5 +1,4 @@
-@section('modal.header', '<h1>Add a Quote</h1>')
-@section('modal.content')
+<div class="modal-body">
     {!! Form::open() !!}
     {{-- Text field 'culprit' --}}
     <div class="form-group">
@@ -25,17 +24,14 @@
         </div>
     </div>
     {!! Form::close() !!}
-@endsection
-
-@section('modal.footer')
-    <button class="btn btn-success" id="addQuoteModal">
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" data-type="submit-modal" id="addQuoteModal">
         <span class="fa fa-plus"></span>
         <span>Add quote</span>
     </button>
-    <button class="btn btn-danger" data-toggle="modal" data-target="#newQuoteModal" id="cancelQuoteModal">
+    <button class="btn btn-danger" data-toggle="modal" data-target="#modal">
         <span class="fa fa-undo"></span>
         <span>Cancel</span>
     </button>
-@endsection
-
-@include('partials.modal.small', ['id' => 'newQuoteModal'])
+</div>

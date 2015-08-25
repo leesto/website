@@ -1,5 +1,4 @@
-@section('modal.header', '<h1>Add a Committee Position</h1>')
-@section('modal.content')
+<div class="modal-body">
     {!! Form::open() !!}
     {{-- Text field for the name --}}
     <div class="form-group">
@@ -41,20 +40,18 @@
     {{-- Hidden input for the id --}}
     {!! Form::input('hidden', 'id', null) !!}
     {!! Form::close() !!}
-@endsection
-
-@section('modal.footer')
-    <button class="btn btn-success" id="modalSubmit">
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" data-type="submit-modal" id="modalSubmit">
         <span class="fa fa-plus"></span>
         <span>Add role</span>
     </button>
-    <button class="btn btn-danger" id="modalDelete">
-        <span class="fa fa-remove"></span><span>Delete</span>
+    <button class="btn btn-danger" data-type="submit-modal" data-submit-confirm="Are you sure you want to delete this committee role?" data-form-action="{{ route('committee.delete') }}" id="modalDelete">
+        <span class="fa fa-remove"></span>
+        <span>Delete</span>
     </button>
-    <button class="btn btn-danger" id="modalCancel">
+    <button class="btn btn-danger" data-toggle="modal" data-target="#modal" id="modalCancel">
         <span class="fa fa-undo"></span>
         <span>Cancel</span>
     </button>
-@endsection
-
-@include('partials.modal.small', ['id' => 'roleModal'])
+</div>

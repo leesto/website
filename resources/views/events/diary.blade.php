@@ -7,23 +7,7 @@
 @endsection
 
 @section('javascripts')
-{{--    @include('partials.tags.script', ['path' => 'partials/events'])--}}
-@endsection
-
-@section('scripts')
-    var $modal = $('#diaryDateModal');
-    var $form = $modal.find('form');
-    var $btns = $modal.find('button');
-    $modal.find('#cancelDateModal').on('click', function () {
-        $modal.modal('hide');
-        $form.trigger('reset');
-        clearModalForm($form);
-    });
-    $modal.find('#submitDateModal').on('click', function() {
-        window.location = $(this).data('url')
-                                 .replace('%year',$form.find('select[name="year"]').val())
-                                 .replace('%month',$form.find('select[name="month"]').val());
-    });
+    @include('partials.tags.script', ['path' => 'partials/diary'])
 @endsection
 
 @section('styles')
@@ -44,7 +28,13 @@
             <a class="prev" href="{{ route('events.diary', ['year' => $date_prev->year, 'month' => $date_prev->month]) }}">
                 <span class="fa fa-caret-left"></span>
             </a>
-            <span class="month" data-toggle="modal" data-target="#diaryDateModal" title="Select month and year">{{ $date->format('F Y') }}</span>
+            <span class="month"
+                  data-toggle="modal"
+                  data-target="#modal"
+                  data-modal-template="diary_date"
+                  data-modal-class="modal-sm"
+                  data-modal-title="Change Date"
+                  title="Select month and year">{{ $date->format('F Y') }}</span>
             <a class="next" href="{{ route('events.diary', ['year' => $date_next->year, 'month' => $date_next->month]) }}">
                 <span class="fa fa-caret-right"></span>
             </a>
@@ -109,5 +99,7 @@
 @endsection
 
 @section('modal')
-    @include('events.modal.diary_date')
+    <div data-type="modal-template" data-id="diary_date">
+        @include('events.modal.diary_date')
+    </div>
 @endsection

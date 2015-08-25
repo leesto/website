@@ -199,13 +199,12 @@ span.tool-colour {
 
 	&.tag {
 		@include user_select_none();
-		$height: 18px;
+		$height: 1.6em;
 		background-color: $event_bg;
 		border-radius: 5px;
 		border-right-color: $event_bg;
 		color: #000 !important;
 		display: inline-block;
-		font-size: 11px;
 		font-weight: 400;
 		height: $height;
 		line-height: $height;
@@ -328,3 +327,7 @@ div.g-recaptcha-center {
 
 // Structure
 @import "structure";
+
+div[data-type="modal-template"] {
+	display: none !important;
+}

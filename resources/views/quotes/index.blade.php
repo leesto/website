@@ -2,16 +2,27 @@
 
 @section('title', 'Quotesboard')
 
-@section('javascripts')
-    @include('partials.tags.script', ['path' => 'partials/quotes'])
-@endsection
-
 @section('stylesheets')
     @include('partials.tags.style', ['path' => 'partials/quotes'])
 @endsection
 
+@section('scripts')
+    $modal.on('show.bs.modal', function(event) {
+        var btn = $(event.relatedTarget);
+        $modal.find('form input[name=date]').val(new Date().format("Y-m-d H:i"));
+        $modal.find('#addQuoteModal').data('formAction', btn.data('formAction'));
+    });
+@endsection
+
 @section('add_quote_button')
-    <button class="btn btn-success" data-toggle="modal" data-target="#newQuoteModal" id="newQuoteButton">
+    <button class="btn btn-success"
+            data-toggle="modal"
+            data-target="#modal"
+            data-modal-template="quote_add"
+            data-modal-class="modal-sm"
+            data-modal-title="Add a Quote"
+            data-form-action="{{ route('quotes.add') }}"
+            id="newQuoteButton">
         <span class="fa fa-plus"></span>
         <span>Add a new quote</span>
     </button>
@@ -58,5 +69,7 @@
 
 
 @section('modal')
-    @include('quotes.form')
+    <div data-type="modal-template" data-id="quote_add">
+        @include('quotes.form')
+    </div>
 @endsection

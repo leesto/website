@@ -7,36 +7,24 @@
 @endsection
 
 @section('scripts')
-    var $timeModal = $('#eventTimeModal');
-    var $timeForm = $timeModal.find('form');
-    var $timeBtns = $timeModal.find('button');
-    $timeModal.on('show.bs.modal', function(e) {
-        var btn = $(e.relatedTarget);
-        $timeForm.trigger('reset');
-        clearModalForm($timeForm);
-        $timeForm.attr('action', btn.data('formAction'));
+    $modal.on('show.bs.modal', function(event) {
+        var btn = $(event.relatedTarget);
+        var form = $modal.find('form');
+        var submitBtn = form.find('#submitTimeModal');
+        submitBtn.data('formAction', btn.data('formAction'));
+
         if(btn.data('mode') == 'edit') {
-            $timeModal.find('h1').text('Edit a Time');
-            $timeModal.find('#submitTimeModal').children('span').eq(1).text('Save');
-            $timeForm.find('[name="name"]').val(btn.data('name'));
-            $timeForm.find('[name="date"]').val(btn.data('date'));
-            $timeForm.find('[name="start_time"]').val(btn.data('start'));
-            $timeForm.find('[name="end_time"]').val(btn.data('end'));
-            $timeForm.find('[name="id"]').val(btn.data('timeId'));
-            $timeForm.find('#deleteTime').show();
+            form.find('h1').text('Edit a Time');
+            submitBtn.children('span').eq(1).text('Save');
+            form.find('[name="name"]').val(btn.data('name'));
+            form.find('[name="date"]').val(btn.data('date'));
+            form.find('[name="start_time"]').val(btn.data('start'));
+            form.find('[name="end_time"]').val(btn.data('end'));
+            form.find('[name="id"]').val(btn.data('timeId'));
+            form.find('#deleteTime').show();
         } else {
-            $timeModal.find('h1').text('Add a New Time');
-            $timeModal.find('#submitTimeModal').children('span').eq(1).text('Add Time');
-            $timeForm.find('#deleteTime').hide();
-        }
-    });
-    $timeModal.find('#submitTimeModal').on('click', function() {
-        submitForm($timeForm, $(this));
-    });
-    $timeModal.find('#deleteTime').on('click', function() {
-        if(confirm('Are you sure you wish to delete this event time?')) {
-            $timeForm.attr('action', $(this).data('formAction'));
-            submitForm($timeForm, $(this));
+            submitBtn.children('span').eq(1).text('Add Time');
+            form.find('#deleteTime').hide();
         }
     });
 @endsection
@@ -153,6 +141,18 @@
                                     <span>Volunteer</span>
                                 </button>
                             @endif
+                            @if($canEdit)
+                                <button class="btn btn-success"
+                                        data-toggle="modal"
+                                        data-target="#modal"
+                                        data-modal-template="add_crew"
+                                        data-modal-class="modal-sm"
+                                        data-modal-title="Add Crew Member"
+                                        type="button">
+                                    <span class="fa fa-user-plus"></span>
+                                    <span>Add crew</span>
+                                </button>
+                            @endif
                         </p>
                     @endif
                 </div>
@@ -171,14 +171,17 @@
                                     @if($canEdit)
                                     <div class="event-time"
                                          data-toggle="modal"
-                                         data-target="#eventTimeModal"
+                                         data-target="#modal"
                                          data-mode="edit"
                                          data-name="{{ $time->name }}"
                                          data-date="{{ $time->start->format('d/m/Y') }}"
                                          data-start="{{ $time->start->format('H:i') }}"
                                          data-end="{{ $time->end->format('H:i') }}"
                                          data-time-id="{{ $time->id }}"
-                                         data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'update-time']) }}">
+                                         data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'update-time']) }}"
+                                         data-modal-template="event_time"
+                                         data-modal-title="Edit Event Time"
+                                         data-modal-class="modal-sm">
                                     @else
                                     <div class="event-time">
                                     @endif
@@ -193,7 +196,15 @@
                         @endif
                     </div>
                     @if($canEdit)
-                        <button class="btn btn-success" data-toggle="modal" data-mode="new" data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'add-time']) }}" data-target="#eventTimeModal" type="button">
+                        <button class="btn btn-success"
+                                data-toggle="modal"
+                                data-mode="new"
+                                data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'add-time']) }}"
+                                data-target="#modal"
+                                data-modal-template="event_time"
+                                data-modal-class="modal-sm"
+                                data-modal-title="Add Event Time"
+                                type="button">
                             <span class="fa fa-plus"></span>
                             <span>Add event time</span>
                         </button>
@@ -209,5 +220,9 @@
 @endsection
 
 @section('modal')
-    @include('events.modal.view_time')
+    @if($canEdit)
+        <div data-type="modal-template" data-id="event_time">
+            @include('events.modal.view_time')
+        </div>
+    @endif
 @endsection
