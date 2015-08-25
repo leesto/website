@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Event;
 use App\EventTime;
 use App\Http\Requests;
+use App\Http\Requests\EventRequest;
 use App\Http\Requests\EventTimeRequest;
 use App\Http\Requests\GenericRequest;
 use Carbon\Carbon;
@@ -37,19 +38,12 @@ class EventsController extends Controller
 	}
 
 	/**
-	 * View a list of events.
+	 * View the form to add an event.
 	 * @return mixed
 	 */
-	public function index()
+	public function create()
 	{
-		$events = Event::select('events.*')
-		               ->join('event_times', 'events.id', '=', 'event_times.event_id')
-		               ->orderBy('event_times.start', 'DESC')
-		               ->distinct()
-		               ->distinctPaginate(15);
-		$this->checkPagination($events);
-
-		return View::make('events.index')->withEvents($events);
+		return View::make('events.create');
 	}
 
 	/**
@@ -71,63 +65,19 @@ class EventsController extends Controller
 	}
 
 	/**
-	 * View an event.
-	 * @param $id
-	 * @return Response
+	 * View a list of events.
+	 * @return mixed
 	 */
-	public function view($id)
+	public function index()
 	{
-		// Get the event
-		$event = Event::findOrFail($id);
+		$events = Event::select('events.*')
+		               ->join('event_times', 'events.id', '=', 'event_times.event_id')
+		               ->orderBy('event_times.start', 'DESC')
+		               ->distinct()
+		               ->distinctPaginate(15);
+		$this->checkPagination($events);
 
-		// Check the user can view it
-		if($event->type != Event::TYPE_EVENT && !$this->user->isMember()) {
-			App::abort(403);
-		}
-
-		return View::make('events.view')->with([
-			'event'    => $event,
-			'user'     => $this->user,
-			'isMember' => $this->user->isMember(),
-			'isAdmin'  => $this->user->isAdmin(),
-			'isEM'     => $event->isEM($this->user),
-			'canEdit'  => $this->user->isAdmin() || $event->isEM($this->user, false),
-		]);
-	}
-
-	/**
-	 * Update the details of an event.
-	 * @param                                   $id
-	 * @param                                   $action
-	 * @param \App\Http\Requests\GenericRequest $request
-	 * @return Response
-	 */
-	public function update($id, $action, GenericRequest $request)
-	{
-		// Make sure the request is AJAX
-		$this->requireAjax($request);
-
-		// Get the event
-		$event = Event::find($id);
-		if(!$event) {
-			return Response::json(['error' => 'Couldn\'t find the event'], 404);
-		}
-
-		// Check that the user is either the EM or an admin
-		if(!$this->user->isAdmin() && !$event->isEM($this->user)) {
-			return Response::json(['error' => 'You need to be the EM or an admin to do that'], 422);
-		}
-
-		switch($action) {
-			case 'add-time':
-				return $this->updateAddTime($request, $event);
-			case 'update-time':
-				return $this->updateEditTime($request, $event);
-			case 'delete-time':
-				return $this->updateDeleteTime($request, $event);
-			default:
-				return Response::json(['error' => 'Unknown action'], 404);
-		}
+		return View::make('events.index')->withEvents($events);
 	}
 
 	/**
@@ -145,50 +95,12 @@ class EventsController extends Controller
 	}
 
 	/**
-	 * View the form to add an event.
-	 * @return mixed
-	 */
-	public function create()
-	{
-		return View::make('events.create');
-	}
-
-	/**
 	 * Add an event to the diary.
-	 * @param \App\Http\Requests\GenericRequest $request
-	 * @return Response
+	 * @param \App\Http\Requests\EventRequest $request
+	 * @return \Illuminate\Support\Facades\Response
 	 */
-	public function store(GenericRequest $request)
+	public function store(EventRequest $request)
 	{
-		// Validate the form
-		$this->validate($request, [
-			'name'        => 'required',
-			'em_id'       => 'exists:users,id',
-			'type'        => 'required|in:' . implode(',', array_keys(Event::$Types)),
-			'description' => 'required',
-			'venue'       => 'required',
-			'venue_type'  => 'required|in:' . implode(',', array_keys(Event::$VenueTypes)),
-			'client_type' => 'required|in:' . implode(',', array_keys(Event::$Clients)),
-			'date_start'  => 'required|date_format:d/m/Y',
-			'date_end'    => 'required|date_format:d/m/Y|after:date_start',
-		], [
-			'name.required'          => 'Please enter the event\'s name',
-			'em_id.exists'           => 'Please select a valid user',
-			'type.required'          => 'Please select an event type',
-			'type.in'                => 'Please select a valid event type',
-			'description.required'   => 'Please enter a description of the event',
-			'venue.required'         => 'Please enter the venue',
-			'venue_type.required'    => 'Please select the venue type',
-			'venue_type.in'          => 'Please select a valid venue type',
-			'client_type.required'   => 'Please select a client type',
-			'client_type.in'         => 'Please select a valid client type',
-			'date_start.required'    => 'Please enter when this event starts',
-			'date_start.date_format' => 'Please enter a valid date',
-			'date_end.required'      => 'Please enter when this event ends',
-			'date_end.date_format'   => 'Please enter a valid date',
-			'date_end.after'         => 'This must be after the start date',
-		]);
-
 		// Create the event
 		$event = Event::create($request->stripped('name', 'venue', 'description', 'type', 'client_type', 'venue_type') + [
 				'em_id'              => $request->get('em_id') ?: null,
@@ -225,6 +137,137 @@ class EventsController extends Controller
 			'year'  => $date_start->year,
 			'month' => $date_start->month,
 		]));
+	}
+
+	/**
+	 * Update the details of an event.
+	 * @param                                   $id
+	 * @param                                   $action
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @return Response
+	 */
+	public function update($id, $action, GenericRequest $request)
+	{
+		// Make sure the request is AJAX
+		$this->requireAjax($request);
+
+		// Get the event
+		$event = Event::find($id);
+		if(!$event) {
+			return Response::json(['error' => 'Couldn\'t find the event'], 404);
+		}
+
+		// Check that the user is either the EM or an admin
+		if(!$this->user->isAdmin() && !$event->isEM($this->user)) {
+			return Response::json(['error' => 'You need to be the EM or an admin to do that'], 403);
+		}
+
+		switch($action) {
+			case 'add-time':
+				return $this->update_AddTime($request, $event);
+			case 'update-time':
+				return $this->update_EditTime($request, $event);
+			case 'delete-time':
+				return $this->update_DeleteTime($request, $event);
+			default:
+				return Response::json(['error' => 'Unknown action'], 404);
+		}
+	}
+
+	/**
+	 * View an event.
+	 * @param $id
+	 * @return Response
+	 */
+	public function view($id)
+	{
+		// Get the event
+		$event = Event::findOrFail($id);
+
+		// Check the user can view it
+		if($event->type != Event::TYPE_EVENT && !$this->user->isMember()) {
+			App::abort(403);
+		}
+
+		return View::make('events.view')->with([
+			'event'    => $event,
+			'user'     => $this->user,
+			'isMember' => $this->user->isMember(),
+			'isAdmin'  => $this->user->isAdmin(),
+			'isEM'     => $event->isEM($this->user),
+			'canEdit'  => $this->user->isAdmin() || $event->isEM($this->user, false),
+		]);
+	}
+
+	/**
+	 * Add a new event time.
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @param \App\Event                        $event
+	 * @return \Illuminate\Support\Facades\Response
+	 */
+	private function update_AddTime(GenericRequest $request, Event $event)
+	{
+		// Validate
+		$this->validateEventTime($request);
+
+		// Create the time
+		$event->times()->create([
+			'name'  => $request->get('name'),
+			'start' => Carbon::createFromFormat('d/m/Y H:i', $request->get('date') . ' ' . $request->get('start_time')),
+			'end'   => Carbon::createFromFormat('d/m/Y H:i', $request->get('date') . ' ' . $request->get('end_time')),
+		]);
+
+		Flash::success('Event time created');
+
+		return Response::json(true);
+	}
+
+	/**
+	 * Update the details of an event time.
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @param \App\Event                        $event
+	 * @return mixed
+	 */
+	private function update_EditTime(GenericRequest $request, Event $event)
+	{
+		// Get the event time
+		$time = $event->times()->find($request->get('id'));
+		if(!$time) {
+			return Response::json(['error' => 'Couldn\'t find the event time'], 404);
+		}
+
+		// Validate
+		$this->validateEventTime($request);
+
+		// Update
+		$time->update([
+			'name'  => $request->get('name'),
+			'start' => Carbon::createFromFormat('d/m/Y H:i', $request->get('date') . ' ' . $request->get('start_time')),
+			'end'   => Carbon::createFromFormat('d/m/Y H:i', $request->get('date') . ' ' . $request->get('end_time')),
+		]);
+
+		Flash::success('Event time updated');
+
+		return Response::json(true);
+	}
+
+	/**
+	 * Delete an event time.
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @param \App\Event                        $event
+	 */
+	private function update_DeleteTime(GenericRequest $request, Event $event)
+	{
+		// Get the event time
+		$time = $event->times()->find($request->get('id'));
+		if(!$time) {
+			return Response::json(['error' => 'Couldn\'t find the event time'], 404);
+		} else {
+			$time->delete();
+			Flash::success('Event time deleted');
+
+			return Response::json(true);
+		}
 	}
 
 	/**
@@ -276,77 +319,6 @@ class EventsController extends Controller
 		}
 
 		return $events;
-	}
-
-	/**
-	 * Add a new event time.
-	 * @param \App\Http\Requests\GenericRequest $request
-	 * @param \App\Event                        $event
-	 * @return \Illuminate\Support\Facades\Response
-	 */
-	private function updateAddTime(GenericRequest $request, Event $event)
-	{
-		// Validate
-		$this->validateEventTime($request);
-
-		// Create the time
-		$event->times()->save(new EventTime([
-			'name'  => $request->get('name'),
-			'start' => Carbon::createFromFormat('d/m/Y H:i', $request->get('date') . ' ' . $request->get('start_time')),
-			'end'   => Carbon::createFromFormat('d/m/Y H:i', $request->get('date') . ' ' . $request->get('end_time')),
-		]));
-
-		Flash::success('Event time created');
-
-		return Response::json(true);
-	}
-
-	/**
-	 * Update the details of an event time.
-	 * @param \App\Http\Requests\GenericRequest $request
-	 * @param \App\Event                        $event
-	 * @return mixed
-	 */
-	private function updateEditTime(GenericRequest $request, Event $event)
-	{
-		// Get the event time
-		$time = EventTime::find($request->get('id'));
-		if(!$time || $time->event_id != $event->id) {
-			return Response::json(['error' => 'Couldn\'t find the event time to change'], 404);
-		}
-
-		// Validate
-		$this->validateEventTime($request);
-
-		// Update
-		$time->update([
-			'name'  => $request->get('name'),
-			'start' => Carbon::createFromFormat('d/m/Y H:i', $request->get('date') . ' ' . $request->get('start_time')),
-			'end'   => Carbon::createFromFormat('d/m/Y H:i', $request->get('date') . ' ' . $request->get('end_time')),
-		]);
-
-		Flash::success('Event time updated');
-
-		return Response::json(true);
-	}
-
-	/**
-	 * Delete an event time.
-	 * @param \App\Http\Requests\GenericRequest $request
-	 * @param \App\Event                        $event
-	 */
-	private function updateDeleteTime(GenericRequest $request, Event $event)
-	{
-		// Get the event time
-		$time = EventTime::find($request->get('id'));
-		if(!$time || $time->event_id != $event->id) {
-			return Response::json(['error' => 'Couldn\'t find the event time to change'], 404);
-		} else {
-			$time->delete();
-			Flash::success('Event time deleted');
-
-			return Response::json(true);
-		}
 	}
 
 	/**

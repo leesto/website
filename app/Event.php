@@ -91,6 +91,10 @@ class Event extends Model
 		'paperwork',
 	];
 
+	/**
+	 * Define any type-casting.
+	 * @var array
+	 */
 	protected $casts = [
 		'paperwork' => 'array',
 	];
@@ -147,20 +151,44 @@ class Event extends Model
 				            $query->whereBetween('event_times.end', [$start, $end]);
 			            });
 		      })
-		      ->groupBy('events.id')
 		      ->distinct();
 	}
 
 	/**
-	 * Get a list of events that start in the future.
+	 * Add a scope for selecting events which are in the future.
 	 * @param $query
 	 */
 	public function scopeFuture($query)
 	{
 		$query->select('events.*')
 		      ->join('event_times', 'events.id', '=', 'event_times.event_id')
-		      ->where('event_times.start', '>', Carbon::now()->toDateTimeString())
-		      ->groupBy('events.id')
+		      ->where('event_times.start', '>', Carbon::now()->setTime(0, 0, 0)->toDateTimeString())
+		      ->distinct();
+	}
+
+	/**
+	 * Add a scope for selecting events which are currently occuring.
+	 * @param $query
+	 */
+	public function scopeActive($query)
+	{
+		$now = Carbon::now();
+		$query->select('events.*')
+		      ->join('event_times', 'events.id', '=', 'event_times.event_id')
+		      ->where('event_times.start', '>=', $now->setTime(0, 0, 0)->toDateTimeString())
+		      ->where('event_times.end', '<=', $now->setTime(23, 59, 59)->toDateTimeString())
+		      ->distinct();
+	}
+
+	/**
+	 * Add a scope for selecting events which have finished.
+	 * @param $query
+	 */
+	public function scopePast($query)
+	{
+		$query->select('events.*')
+		      ->join('event_times', 'events.id', '=', 'event_times.event_id')
+		      ->where('event_times.end', '<', Carbon::now()->setTime(23, 59, 59)->toDateTimeString())
 		      ->distinct();
 	}
 
