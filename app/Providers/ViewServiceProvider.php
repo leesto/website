@@ -110,7 +110,7 @@ class ViewServiceProvider extends ServiceProvider
 					// Build the events sub-menu
 					$events = $menu->find('members.events');
 					$events->add('#', 'My diary')
-					       ->add(route('events.signup'), 'Event sign-up')
+					       ->add(route('events.signup'), 'Event sign-up')->activePattern('\/events\/signup')
 					       ->add('#', 'Submit event report');
 					if($isAdmin) {
 						$events->add('#', 'View booking requests');
@@ -214,6 +214,15 @@ class ViewServiceProvider extends ServiceProvider
 			$menu->add(route('members.profile', $username), 'Details', null, [], ['id' => 'profileTab'])
 			     ->add(route('members.profile', $username) . '#events', 'Events', null, [], ['id' => 'eventsTab'])
 			     ->add(route('members.profile', $username) . '#training', 'Training', null, [], ['id' => 'trainingTab']);
+			$menu->addClass('nav nav-tabs');
+			$view->with('menu', $menu->render());
+		});
+
+		// Compose the signup sub-menu
+		View::composer('events.signup', function ($view) {
+			$menu = Menu::handler('signupMenu');
+			$menu->add(route('events.signup', 'em'), 'Requiring an EM')->activePattern('\/events\/signup$')
+			     ->add(route('events.signup', 'crew'), 'Requiring Crew');
 			$menu->addClass('nav nav-tabs');
 			$view->with('menu', $menu->render());
 		});

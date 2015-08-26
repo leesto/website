@@ -178,10 +178,10 @@ Route::group([
 		'uses' => 'EventsController@store',
 	]);
 	// Signup
-	Route::get('signup', [
+	Route::get('signup/{tab?}', [
 		'as'   => 'events.signup',
 		'uses' => 'EventsController@signup',
-	]);
+	])->where('tab', 'em|crew');
 });
 
 // Gallery

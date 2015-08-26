@@ -86,16 +86,30 @@ class EventsController extends Controller
 
 	/**
 	 * View the events needing an EM or crew.
-	 * @return Response
+	 * @param null $tab
+	 * @return \Illuminate\Support\Facades\Response
 	 */
-	public function signup()
+	public function signup($tab = null)
 	{
-		$require_em = Event::whereNull('em_id')
-		                   ->future()
-		                   ->orderBy('event_times.start', 'ASC')
-		                   ->paginate(15);
+		// Get the event lists depending on whether we
+		// are viewing the em tab or the crew tab
+		if($tab == 'crew') {
+			$list = Event::future()
+			             ->leftJoin('event_crew', 'events.id', '=', 'event_crew.event_id')
+			             ->whereNull('event_crew.event_id')
+			             ->orderBy('event_times.start', 'ASC')
+			             ->distinctPaginate(15);
+		} else {
+			$list = Event::whereNull('em_id')
+			             ->future()
+			             ->orderBy('event_times.start', 'ASC')
+			             ->distinctPaginate(15);
+		}
 
-		return View::make('events.signup')->with(compact('require_em'));
+		return View::make('events.signup')->with([
+			'list' => $list,
+			'em'   => $tab != 'crew',
+		]);
 	}
 
 	/**

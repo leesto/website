@@ -323,3 +323,36 @@
 		}
 	}
 }
+div#eventSignup {
+	table.table {
+		td {
+			padding-top: 1em;
+			padding-bottom: 1em;
+
+			&.event-tag {
+				padding: 0;
+				width: 9em;
+			}
+			&.venue {
+				width: 15em;
+			}
+			&.dates {
+				width: 15em;
+
+				@media (max-width: 768px) {
+					span {
+						display: block;
+					}
+					width: 9em;
+				}
+			}
+			& .tag {
+				font-size: 12px;
+				margin: 0;
+			}
+		}
+		.dates, .event-tag {
+			text-align: center;
+		}
+	}
+}
