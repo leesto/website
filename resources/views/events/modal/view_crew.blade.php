@@ -1,30 +1,42 @@
-{!! Form::open() !!}
+{!! Form::open(['class' => 'form-horizontal']) !!}
 <div class="modal-body">
     {{-- User --}}
     <div class="form-group">
-        {!! Form::label('user_id', 'User:', ['class' => 'control-label']) !!}
-        {!! Form::select('user_id', $users, null, ['class' => 'form-control']) !!}
+        {!! Form::label('user_id', 'Member:', ['class' => 'col-xs-3 control-label']) !!}
+        <div class="col-xs-9">
+            <div>
+            {!! Form::select('user_id', $users, null, ['class' => 'form-control']) !!}
+            </div>
+            <p class="form-control-static" id="existingCrewUser"></p>
+        </div>
     </div>
     {{-- Core --}}
     <div class="form-group">
-        <div class="checkbox">
-            <label>
-                {!! Form::checkbox('core', 1, null) !!}
-                Make this user core crew
-            </label>
+        <div class="col-xs-12">
+            <div class="checkbox">
+                <label>
+                    {!! Form::checkbox('core', 1, null) !!}
+                    Make this user core crew
+                </label>
+            </div>
         </div>
+
     </div>
     {{-- Core title --}}
     <div class="form-group">
-        {!! Form::text('name', null, ['class' => 'form-control', 'disabled' => 'disabled', 'placeholder' => 'Title']) !!}
+        <div class="col-xs-12">
+            {!! Form::text('name', null, ['class' => 'form-control', 'disabled' => 'disabled', 'placeholder' => 'Role name']) !!}
+        </div>
     </div>
     {{-- EM --}}
     <div class="form-group">
-        <div class="checkbox">
-            <label>
-                {!! Form::checkbox('em', 1, null, ['disabled' => 'disabled']) !!}
-                This is an EM role
-            </label>
+        <div class="col-xs-12">
+            <div class="checkbox">
+                <label>
+                    {!! Form::checkbox('em', 1, null, ['disabled' => 'disabled']) !!}
+                    This is an EM role
+                </label>
+            </div>
         </div>
     </div>
     {{-- Crew id --}}

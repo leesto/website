@@ -237,7 +237,7 @@ class Event extends Model
 		$core    = [];
 		$general = [];
 
-		foreach($this->crew as $crew) {
+		foreach($this->crew()->orderBy('event_crew.name')->get() as $crew) {
 			if($crew->name) {
 				@$core[$crew->name][] = $crew;
 			} else {

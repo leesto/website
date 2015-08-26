@@ -29,10 +29,12 @@
         } else if(action == 'add-crew') {
             submitBtn.children('span').eq(1).text('Add Crew');
             form.find('select[name="user_id"]').parent().show();
+            form.find('p#existingCrewUser').hide();
             form.find('#deleteCrew').hide();
         } else if(action == 'update-crew') {
             submitBtn.children('span').eq(1).text('Save');
             form.find('select[name="user_id"]').parent().hide();
+            form.find('p#existingCrewUser').text(btn.data('roleUser')).show();
             form.find('input[name="core"]').prop('checked', !!btn.data('roleName')).trigger('change');
             form.find('input[name="name"]').val(btn.data('roleName') ? btn.data('roleName') : '');
             form.find('input[name="em"]').prop('checked', !!btn.data('roleEm'));
@@ -150,6 +152,7 @@
                                                    data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'update-crew']) }}"
                                                    data-role-id="{{ $crew->id }}"
                                                    data-role-name="{{ $crew->name }}"
+                                                   data-role-user="{{ $crew->user->name }}"
                                                    data-role-em="{{ $crew->em }}"
                                                    data-editable="true">{{ $crew->user->name }}</p>
                                             @else

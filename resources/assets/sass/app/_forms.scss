@@ -25,9 +25,8 @@ form {
 }
 
 .form-control-static {
-	min-height: 0;
-	margin-bottom: 0;
-	padding: 5px 0;
+	min-height: 0 !important;
+	margin: 0 !important;
 }
 
 .btn {
