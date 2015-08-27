@@ -18,7 +18,8 @@
 		"vespakoen/menu"                    : "3.*",
 		"greggilbert/recaptcha"             : "2.*",
 		"intervention/image"                : "^2.3",
-		"sammyk/laravel-facebook-sdk"       : "~3.0"
+		"sammyk/laravel-facebook-sdk"       : "~3.0",
+		"guzzlehttp/guzzle": "~5.3"
 	},
 	"require-dev" : {
 		"fzaninotto/faker": "~1.4",
