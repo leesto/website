@@ -5,7 +5,7 @@
         {!! Form::label('user_id', 'Member:', ['class' => 'col-xs-3 control-label']) !!}
         <div class="col-xs-9">
             <div>
-            {!! Form::select('user_id', $users, null, ['class' => 'form-control']) !!}
+            {!! Form::select('user_id', $users_crew, null, ['class' => 'form-control']) !!}
             </div>
             <p class="form-control-static" id="existingCrewUser"></p>
         </div>
@@ -43,11 +43,11 @@
     {!! Form::input('hidden', 'id', null) !!}
 </div>
 <div class="modal-footer">
-    <button class="btn btn-success" data-type="submit-modal" id="submitCrewModal">
+    <button class="btn btn-success" data-type="submit-modal" id="submitCrewModal" type="button">
         <span class="fa fa-check"></span>
         <span>Add Crew</span>
     </button>
-    <button class="btn btn-danger" data-type="submit-modal" data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'delete-crew']) }}" id="deleteCrew">
+    <button class="btn btn-danger" data-type="submit-modal" data-submit-confirm="Are you sure you want to delete this crew role?" data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'delete-crew']) }}" id="deleteCrew" type="button">
         <span class="fa fa-remove"></span>
         <span>Delete</span>
     </button>

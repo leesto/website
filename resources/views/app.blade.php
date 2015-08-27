@@ -22,7 +22,8 @@
                             <span class="fa fa-exclamation"></span>
                             <span>
                                 <h1>Uh oh! No javascript!</h1>
-                                <p>We use javascript to improve the user experience and make things more interactive - things may not work if you have javascript turned off.</p>
+                                <p>We use javascript to improve the user experience and make things more interactive - things may not work if you have
+                                    javascript turned off.</p>
                             </span>
                         </div>
                     </li>

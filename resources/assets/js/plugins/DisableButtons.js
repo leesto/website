@@ -1,5 +1,5 @@
 (function ($) {
-	$.fn.DisableSubmitButton = function () {
+	$.fn.DisableButtons = function () {
 		this.each(function () {
 			var btn = $(this);
 			btn.on('click', function (e) {
@@ -13,6 +13,6 @@
 	};
 
 	jQuery(document).ready(function () {
-		$('button[disable-submit]').DisableSubmitButton();
+		$('button[disable-submit]').DisableButtons();
 	});
 })(jQuery);

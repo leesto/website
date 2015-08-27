@@ -329,11 +329,19 @@ div.g-recaptcha-center {
 @import "structure";
 
 // Special styling
-div[data-type="modal-template"] {
+div[data-type="modal-template"], [data-type="data-editable-source"], [data-type="data-toggle-template"] {
 	display: none !important;
 }
 
-[data-editable='true']:hover {
-	background: rgba(255, 255, 255, 0.1);
-	cursor: pointer;
+[data-editable] {
+	border-radius: 2px;
+	padding: 7px 0.75em;
+
+	&:hover {
+		background: rgba(255, 255, 255, 0.1);
+		cursor: pointer;
+	}
+	&.form-control-static {
+		margin-left: -0.75em;
+	}
 }

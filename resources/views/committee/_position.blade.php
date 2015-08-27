@@ -8,12 +8,7 @@
            data-modal-class="modal-sm"
            data-form-action="{{ route('committee.edit') }}"
            data-mode="edit"
-           data-role-id="{{ $role->id }}"
-           data-role-name="{{ $role->name }}"
-           data-role-email="{{ $role->email }}"
-           data-role-desc="{{ $role->description }}"
-           data-role-user-id="{{ $role->user_id }}"
-           data-role-order="{{ $role->order }}"
+           data-form-data="{{ json_encode(['id' => $role->id, 'name' => $role->name, 'email' => $role->email, 'description' => $role->description, 'user_id' => $role->user_id, 'order' => $role->order]) }}"
            title="Edit this role">
             <span class="fa fa-pencil"></span>
         </a>

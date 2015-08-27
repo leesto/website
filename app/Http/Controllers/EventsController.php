@@ -10,9 +10,10 @@ use App\Http\Requests\EventTimeRequest;
 use App\Http\Requests\GenericRequest;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Szykra\Notifications\Flash;
 
@@ -33,8 +34,12 @@ class EventsController extends Controller
 		$this->middleware('auth.permission:member', [
 			'only' => [
 				'signup',
-				'update',
 				'toggleVolunteer',
+			],
+		]);
+		$this->middleware('auth.permission:member,admin', [
+			'only' => [
+				'update',
 			],
 		]);
 
@@ -62,7 +67,7 @@ class EventsController extends Controller
 		$date = $year && $month ? Carbon::create($year, $month, 1) : Carbon::now();
 
 		// Get the events
-		$events = $this->getEventsInMonth($date, !$this->user->isMember());
+		$events = $this->getEventsInMonth($date, !($this->user->isMember() || $this->user->isAdmin()));
 
 		// Build the calendar
 		return $this->renderEventsDiary($date, $events);
@@ -172,12 +177,12 @@ class EventsController extends Controller
 		// Get the event
 		$event = Event::find($id);
 		if(!$event) {
-			return Response::json(['error' => 'Couldn\'t find the event'], 404);
+			return $this->ajaxError("Couldn't find the event", 404);
 		}
 
 		// Check that the user is either the EM or an admin
 		if(!$this->user->isAdmin() && !$event->isEM($this->user, false)) {
-			return Response::json(['error' => 'You need to be the EM or an admin to do that'], 403);
+			return $this->ajaxError('You need to be the EM or an admin to do that', 403);
 		}
 
 		switch($action) {
@@ -193,8 +198,12 @@ class EventsController extends Controller
 				return $this->update_EditCrew($request, $event);
 			case 'delete-crew':
 				return $this->update_DeleteCrew($request, $event);
+			case 'update-details':
+				return $this->update_UpdateDetails($request, $event);
+			case 'paperwork':
+				return $this->update_Paperwork($request, $event);
 			default:
-				return Response::json(['error' => 'Unknown action'], 404);
+				return $this->ajaxError('Unknown action', 404);
 		}
 	}
 
@@ -209,21 +218,23 @@ class EventsController extends Controller
 		$event = Event::findOrFail($id);
 
 		// Check the user can view it
-		if($event->type != Event::TYPE_EVENT && !$this->user->isMember()) {
+		if($event->type != Event::TYPE_EVENT && !($this->user->isMember() || $this->user->isAdmin())) {
 			App::abort(403);
 		}
 
 		// Get a list of users not signed up
-		$users = User::notCrewingEvent($event)->member()->nameOrder()->getSelect();
+		$users_crew = User::notCrewingEvent($event)->member()->nameOrder()->getSelect();
+		$users_em   = User::member()->nameOrder()->getSelect();
 
 		return View::make('events.view')->with([
-			'event'    => $event,
-			'user'     => $this->user,
-			'users'    => $users,
-			'isMember' => $this->user->isMember(),
-			'isAdmin'  => $this->user->isAdmin(),
-			'isEM'     => $event->isEM($this->user),
-			'canEdit'  => $this->user->isAdmin() || $event->isEM($this->user, false),
+			'event'      => $event,
+			'user'       => $this->user,
+			'users_crew' => $users_crew,
+			'users_em'   => $users_em,
+			'isMember'   => $this->user->isMember(),
+			'isAdmin'    => $this->user->isAdmin(),
+			'isEM'       => $event->isEM($this->user),
+			'canEdit'    => $this->user->isAdmin() || $event->isEM($this->user, false),
 		]);
 	}
 
@@ -242,7 +253,7 @@ class EventsController extends Controller
 
 		// Test if they are the EM
 		if($event->isEM($this->user)) {
-			return Response(['error' => 'You can\'t unvolunteer as you are the EM!'], 422);
+			return $this->ajaxError('You can\'t unvolunteer as you are the EM!');
 		}
 
 		// Test if the user is already crew
@@ -257,7 +268,30 @@ class EventsController extends Controller
 			]);
 			Flash::success('You have volunteered');
 
-			// TODO: email
+			// Send the email to the crew
+			$user = $this->user;
+			Mail::queue('emails.events.volunteered_crew', [
+				'event' => $event->name,
+				'user'  => $user->forename,
+				'em'    => $event->em_id ? $event->em->name : '',
+			], function ($message) use ($user, $event) {
+				$message->to($user->email, $user->name)
+				        ->subject("Volunteered to crew event '{$event->name}'");
+			});
+
+			// Send the email to the EM
+			if($event->em_id) {
+				$em = $event->em;
+				Mail::queue('emails.events.volunteered_em', [
+					'em'    => $em->forename,
+					'user'  => $user->name,
+					'event' => $event->name,
+				], function ($message) use ($em, $user, $event) {
+					$message->to($em->email, $em->name)
+					        ->from($user->email, $user->name)
+					        ->subject("Crew volunteered for '{$event->name}'");
+				});
+			}
 		}
 
 		return Response::json(true);
@@ -297,7 +331,7 @@ class EventsController extends Controller
 		// Get the event time
 		$time = $event->times()->find($request->get('id'));
 		if(!$time) {
-			return Response::json(['error' => 'Couldn\'t find the event time'], 404);
+			return $this->ajaxError("Couldn't find the event time", 404);
 		}
 
 		// Validate
@@ -326,7 +360,7 @@ class EventsController extends Controller
 		// Get the event time
 		$time = $event->times()->find($request->get('id'));
 		if(!$time) {
-			return Response::json(['error' => 'Couldn\'t find the event time'], 404);
+			return $this->ajaxError("Couldn't find the event time", 404);
 		} else {
 			$time->delete();
 			Flash::success('Event time deleted');
@@ -339,6 +373,7 @@ class EventsController extends Controller
 	 * Add a user to the crew.
 	 * @param \App\Http\Requests\GenericRequest $request
 	 * @param \App\Event                        $event
+	 * @return mixed
 	 */
 	private function update_AddCrew(GenericRequest $request, Event $event)
 	{
@@ -348,7 +383,7 @@ class EventsController extends Controller
 		// Check if the user is already crewing
 		$user = User::find($request->get('user_id'));
 		if($event->isCrew($user)) {
-			return Response::json(['error' => 'That user is already on the crew'], 422);
+			return $this->ajaxError("That user is already on the crew", 422);
 		}
 
 		// Create
@@ -358,7 +393,15 @@ class EventsController extends Controller
 			'em'      => $request->get('core') ? $request->has('em') : false,
 		]);
 
-		// TODO: Send email
+		// Send the email
+		Mail::queue('emails.events.add_crew', [
+			'event' => $event->name,
+			'user'  => $user->forename,
+			'em'    => $event->em_id ? $event->em->name : '',
+		], function ($message) use ($user, $event) {
+			$message->to($user->email, $user->name)
+			        ->subject("Volunteered to crew event '{$event->name}'");
+		});
 
 		Flash::success('Crew role created');
 
@@ -369,6 +412,7 @@ class EventsController extends Controller
 	 * Update a user's crew role.
 	 * @param \App\Http\Requests\GenericRequest $request
 	 * @param \App\Event                        $event
+	 * @return mixed
 	 */
 	private function update_EditCrew(GenericRequest $request, Event $event)
 	{
@@ -378,7 +422,7 @@ class EventsController extends Controller
 		// Get the event crew
 		$crew = $event->crew()->find($request->get('id'));
 		if(!$crew) {
-			return Response::json(['error' => 'Couldn\'t find the crew entry:' . $request->get('id')], 404);
+			return $this->ajaxError("Couldn't find the crew entry", 404);
 		}
 
 		// Update
@@ -402,12 +446,88 @@ class EventsController extends Controller
 		// Get the event crew
 		$crew = $event->crew()->find($request->get('id'));
 		if(!$crew) {
-			return Response::json(['error' => 'Couldn\'t find the crew entry:' . $request->get('id')], 404);
+			return $this->ajaxError("Couldn't find the crew entry", 404);
 		}
 
 		// Delete
 		$crew->delete();
 		Flash::success('Crew role deleted');
+
+		return Response::json(true);
+	}
+
+	/**
+	 * Update the event's venue
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @param \App\Event                        $event
+	 * @return mixed
+	 */
+	private function update_UpdateDetails(GenericRequest $request, Event $event)
+	{
+		// Check a field is specified
+		$field = $request->get('field') ?: @key($request->except('_token'));
+		$value = $request->get('value') ?: $request->get($field);
+		if(!$field) {
+			return $this->ajaxError('Invalid submission');
+		}
+
+		// Check if the field is the em id
+		if($field == 'em_id' && !$this->user->isAdmin()) {
+			return $this->ajaxError('You need to be an admin to change the EM');
+		}
+
+		// Validate
+		$validator = Validator::make([$field => $value], [$field => Event::getValidationRule($field)], Event::getValidationMessages($field));
+		if($validator->fails()) {
+			if(!$request->get('field')) {
+				$this->throwValidationException($request, $validator);
+			} else {
+				return $this->ajaxError($validator->messages()->first());
+			}
+		}
+
+		// Send email if the EM has been set
+		if($field == 'em_id' && $value != $event->em_id && $value) {
+			$user = User::find($value);
+			Mail::queue('emails.events.new_em', [
+				'event'    => $event->name,
+				'event_id' => $event->id,
+				'user'     => $user->forename,
+			], function ($message) use ($user) {
+				$message->to($user->email, $user->name)
+				        ->subject('Volunteered to EM event');
+			});
+		}
+
+		// Update
+		$event->update([
+			$field => $value,
+		]);
+		if(!$request->get('field')) {
+			Flash::success('Updated');
+		}
+
+		return Response::json(true);
+	}
+
+	/**
+	 * Update the status of some paperwork.
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @param \App\Event                        $event
+	 * @return mixed
+	 */
+	private function update_Paperwork(GenericRequest $request, Event $event)
+	{
+		// Check the paperwork type is valid
+		$type = $request->get('paperwork');
+		if(!isset(Event::$Paperwork[$type])) {
+			return $this->ajaxError('Unknown paperwork type: ' . $request->get('paperwork'));
+		}
+
+		// Save
+		$event->update([
+			'paperwork' => array_merge($event->paperwork, [$type => $request->get('value') === 'true']),
+		]);
 
 		return Response::json(true);
 	}

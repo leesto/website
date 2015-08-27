@@ -12,6 +12,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Response as ResponseFacade;
 use Illuminate\Support\Facades\Route;
 
 abstract class Controller extends BaseController
@@ -53,5 +54,16 @@ abstract class Controller extends BaseController
 		if(!$request->ajax()) {
 			App::abort(Response::HTTP_NOT_FOUND);
 		}
+	}
+
+	/**
+	 * Prepare a response for sending an error message over ajax.
+	 * @param     $errorText
+	 * @param int $code
+	 * @return mixed
+	 */
+	protected function ajaxError($errorText, $code = 422)
+	{
+		return ResponseFacade::json(['error' => (string) $errorText], (int) $code);
 	}
 }

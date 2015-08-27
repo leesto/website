@@ -190,6 +190,7 @@
 			color: #999;
 			font-size: 0.9em;
 			margin-left: 0.5em;
+			text-transform: lowercase;
 		}
 	}
 
@@ -202,9 +203,6 @@
 		margin: 0;
 	}
 	.paperwork {
-		padding: 0.6em 0.75em;
-		margin-left: -1.5em;
-
 		span.fa {
 			margin-right: 0.3em;
 
@@ -216,16 +214,13 @@
 			}
 		}
 	}
+	p.form-control-static {
+		text-align: left;
+	}
 	div.crew-list {
 		margin-bottom: 1.5em;
 		max-height: 400px;
 		overflow-y: auto;
-
-		p.form-control-static {
-			margin-left: -0.75em;
-			margin-bottom: -3px;
-			padding-left: 0.75em;
-		}
 	}
 	div.event-times {
 		display: table;

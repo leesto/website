@@ -15,16 +15,10 @@
         form.find('select[name=order]').find('option').removeAttr('disabled');
         submitBtn.data('formAction', btn.data('formAction'));
         if(btn.data('mode') == 'edit') {
+            form.find('select[name=order]').find('option[value=' + (btn.data('formData')['order'] + 1) + ']').attr('disabled', 'disabled');
             submitBtn.children('span:first').attr('class', 'fa fa-refresh');
             submitBtn.children('span:last').text('Save changes');
             $modal.find('#modalDelete').show();
-            form.find('input[name=name]').val(btn.data('roleName'));
-            form.find('input[name=email]').val(btn.data('roleEmail'));
-            form.find('input[name=id]').val(btn.data('roleId'));
-            form.find('textarea[name=description]').val(btn.data('roleDesc'));
-            form.find('select[name=user_id]').val(btn.data('roleUserId'));
-            form.find('select[name=order]').val(btn.data('roleOrder'));
-            form.find('select[name=order]').find('option[value=' + (btn.data('roleOrder') + 1) + ']').attr('disabled', 'disabled');
         } else {
             submitBtn.children('span:first').attr('class', 'fa fa-plus');
             submitBtn.children('span:last').text('Add role');

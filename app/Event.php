@@ -100,6 +100,86 @@ class Event extends Model
 	];
 
 	/**
+	 * Define the validation rules for the event attributes.
+	 * @param $name
+	 * @return string
+	 */
+	public static function getValidationRule($name)
+	{
+		switch($name) {
+			case 'name':
+				return 'required';
+			case 'em_id':
+				return 'exists:users,id';
+			case 'type':
+				return 'required|in:' . implode(',', array_keys(Event::$Types));
+			case 'description':
+			case 'description_public':
+				return 'required';
+			case 'venue':
+				return 'required';
+			case 'venue_type':
+				return 'required|in:' . implode(',', array_keys(Event::$VenueTypes));
+			case 'client_type':
+				return 'required|in:' . implode(',', array_keys(Event::$Clients));
+			case 'crew_list_status':
+				return 'in:-1,0,1';
+			default:
+				return '';
+		}
+	}
+
+	/**
+	 * Define the validation messages for the event attributes.
+	 * @param $name
+	 * @return array
+	 */
+	public static function getValidationMessages($name)
+	{
+		switch($name) {
+			case 'name':
+				return [
+					'name.required' => 'Please enter the event\'s name',
+				];
+			case 'em_id':
+				return [
+					'em_id.exists' => 'Please select a valid user',
+				];
+			case 'type':
+				return [
+					'type.required' => 'Please select an event type',
+					'type.in'       => 'Please select a valid event type',
+				];
+			case 'description':
+			case 'description_public':
+				return [
+					'description.required'        => 'Please enter the event description',
+					'description_public.required' => 'Please enter the event description',
+				];
+			case 'venue':
+				return [
+					'venue.required' => 'Please enter the venue',
+				];
+			case 'venue_type':
+				return [
+					'venue_type.required' => 'Please select the venue type',
+					'venue_type.in'       => 'Please select a valid venue type',
+				];
+			case 'client_type':
+				return [
+					'client_type.required' => 'Please select a client type',
+					'client_type.in'       => 'Please select a valid client type',
+				];
+			case 'crew_list_status':
+				return [
+					'crew_list_status.in' => 'Please select a status for the crew list',
+				];
+			default:
+				return [];
+		}
+	}
+
+	/**
 	 * Define the foreign key relationship with the EM.
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
@@ -359,8 +439,6 @@ class Event extends Model
 					return true;
 				}
 			}
-
-			return false;
 		}
 
 		return false;
