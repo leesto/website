@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="xsrf-token" content="{{ app('Illuminate\Encryption\Encrypter')->encrypt(csrf_token()) }}">
+        <meta name="description" content="Backstage is a student-run society at the University of Bath that provides technical expertise to other Students' Union clubs and societies. We support every kind of event - from small band nights in the Tub to the experiences that are Freshers' Week and Summer Ball.">
         <title>@yield('title') :: Backstage Technical Services</title>
         <link rel="stylesheet" href="/css/app.css">
         @yield('stylesheets')
