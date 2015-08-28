@@ -196,8 +196,8 @@ class EventsController extends Controller
 		while($date->lte($date_end)) {
 			$event->times()->save(new EventTime([
 				'name'  => $event->name,
-				'start' => $date->setTime(0, 0, 0)->toDateTimeString(),
-				'end'   => $date->setTime(23, 59, 59)->toDateTimeString(),
+				'start' => $date->setTime(19, 0, 0)->toDateTimeString(),
+				'end'   => $date->setTime(22, 30, 0)->toDateTimeString(),
 			]));
 			$date->setTime(0, 0, 0);
 			$date->day++;
