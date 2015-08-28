@@ -237,6 +237,12 @@ span.tool-colour {
 			background-color: $booking_bg;
 			border-right-color: $booking_bg;
 		}
+		&.success {
+			background-color: $colour_success;
+		}
+		&.danger {
+			background-color: $colour_danger;
+		}
 	}
 }
 ul.event-list {

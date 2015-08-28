@@ -11,7 +11,7 @@
 </div>
 <div class="modal-footer">
     <button class="btn btn-success"
-            data-url="{{ route('events.diary', ['year' => '%year', 'month' => '%month']) }}"
+            data-url="{{ $redirectUrl }}"
             id="submitDateModal"
             type="button">
         <span class="fa fa-check"></span>

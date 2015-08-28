@@ -16,6 +16,20 @@ use Szykra\Notifications\Flash;
 class ContactController extends Controller
 {
 	/**
+	 * Set up the middleware.
+	 */
+	public function __construct()
+	{
+		$this->middleware('auth', [
+			'only' => [
+				'getAccident',
+				'postAccident',
+			],
+		]);
+		parent::__construct();
+	}
+
+	/**
 	 * Display the enquiries form.
 	 * @return  \Illuminate\Http\Response
 	 */

@@ -13,6 +13,24 @@ use Szykra\Notifications\Flash;
 class QuotesController extends Controller
 {
 	/**
+	 * Set up the middleware.
+	 */
+	public function __construct()
+	{
+		$this->middleware('auth.permission:member', [
+			'except' => [
+				'destroy',
+			],
+		]);
+		$this->middleware('auth.permission:admin', [
+			'only' => [
+				'destroy',
+			],
+		]);
+		parent::__construct();
+	}
+
+	/**
 	 * List quotes, with pagination.
 	 * @return string
 	 */

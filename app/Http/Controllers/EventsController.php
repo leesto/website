@@ -35,11 +35,13 @@ class EventsController extends Controller
 			'only' => [
 				'signup',
 				'toggleVolunteer',
+				'myDiary',
 			],
 		]);
 		$this->middleware('auth.permission:member,admin', [
 			'only' => [
 				'update',
+				'memberDiary',
 			],
 		]);
 
@@ -64,13 +66,61 @@ class EventsController extends Controller
 	public function diary($year = null, $month = null)
 	{
 		// Get the dates
-		$date = $year && $month ? Carbon::create($year, $month, 1) : Carbon::now();
+		$date = $this->getDiaryDate($year, $month);
 
 		// Get the events
-		$events = $this->getEventsInMonth($date, !($this->user->isMember() || $this->user->isAdmin()));
+		$events = $this->getEventsInMonth($date);
 
 		// Build the calendar
 		return $this->renderEventsDiary($date, $events);
+	}
+
+	/**
+	 * Display the diary of a member.
+	 * @param      $username
+	 * @param null $year
+	 * @param null $month
+	 * @return mixed
+	 */
+	public function memberDiary($username, $year = null, $month = null)
+	{
+		// Get the member
+		$member = User::where('username', $username)->member()->firstOrFail();
+
+		// Get the dates
+		$date = $this->getDiaryDate($year, $month);
+
+		// Get the events
+		$events = $this->getEventsInMonth($date, $member);
+
+		// Render
+		return $this->renderEventsDiary($date,
+			$events,
+			$member->getPossessiveName('Diary'),
+			route('events.memberdiary', ['username' => $username, 'year' => '%year', 'month' => '%month'])
+		);
+	}
+
+	/**
+	 * Display the current user's diary.
+	 * @param null $year
+	 * @param null $month
+	 * @return mixed
+	 */
+	public function myDiary($year = null, $month = null)
+	{
+		// Get the dates
+		$date = $this->getDiaryDate($year, $month);
+
+		// Get the events
+		$events = $this->getEventsInMonth($date, $this->user);
+
+		// Render
+		return $this->renderEventsDiary($date,
+			$events,
+			'My Diary',
+			route('events.mydiary', ['year' => '%year', 'month' => '%month'])
+		);
 	}
 
 	/**
@@ -223,8 +273,8 @@ class EventsController extends Controller
 		}
 
 		// Get a list of users not signed up
-		$users_crew = User::notCrewingEvent($event)->member()->nameOrder()->getSelect();
-		$users_em   = User::member()->nameOrder()->getSelect();
+		$users_crew = User::active()->member()->nameOrder()->notCrewingEvent($event)->getSelect();
+		$users_em   = User::active()->member()->nameOrder()->getSelect();
 
 		return View::make('events.view')->with([
 			'event'      => $event,
@@ -536,9 +586,10 @@ class EventsController extends Controller
 	 * Render the diary for a set of given events
 	 * @param \Carbon\Carbon $date
 	 * @param array          $calendar
+	 * @param null           $title
 	 * @return mixed
 	 */
-	private function renderEventsDiary(Carbon $date, array $calendar)
+	private function renderEventsDiary(Carbon $date, array $calendar, $title = null, $redirectUrl = null)
 	{
 		// Set the previous and next months
 		$date->day = 1;
@@ -554,29 +605,32 @@ class EventsController extends Controller
 		$blank_after  = 7 - ($date->dayOfWeek ?: 7);
 
 		return View::make('events.diary')->with([
-			'title'        => 'Events Diary',
 			'date'         => $date,
 			'date_next'    => $date_next,
 			'date_prev'    => $date_prev,
 			'calendar'     => $calendar,
 			'blank_before' => $blank_before,
 			'blank_after'  => $blank_after,
+			'title'        => $title ?: 'Events Diary',
+			'redirectUrl'  => $redirectUrl ?: route('events.diary', ['year' => '%year', 'month' => '%month']),
 		]);
 	}
 
 	/**
+	 * Get a list of all the events in a month, sorted by date.
 	 * @param \Carbon\Carbon $date
-	 * @param bool           $public
+	 * @param \App\User      $member
 	 * @return array
 	 */
-	private function getEventsInMonth(Carbon $date, $public = true)
+	private function getEventsInMonth(Carbon $date, User $member = null)
 	{
 		$events = [];
 		for($i = 1; $i <= $date->daysInMonth; $i++) {
 			$date->day  = $i;
 			$events[$i] = Event::onDate($date)
-			                   ->whereIn('events.type', $public ? [Event::TYPE_EVENT] : array_keys(Event::$Types))
+			                   ->whereIn('events.type', ($this->user->isMember() || $this->user->isAdmin()) ? array_keys(Event::$Types) : [Event::TYPE_EVENT])
 			                   ->orderBy('event_times.start', 'ASC')
+			                   ->forMember($member)
 			                   ->get();
 		}
 
@@ -620,5 +674,15 @@ class EventsController extends Controller
 			'user_id.exists'   => 'Please select a member',
 			'name.required_if' => 'Please enter a role title',
 		]);
+	}
+
+	/**
+	 * @param $year
+	 * @param $month
+	 * @return Carbon
+	 */
+	private function getDiaryDate($year, $month)
+	{
+		return $year && $month ? Carbon::create($year, $month, 1) : Carbon::now();
 	}
 }

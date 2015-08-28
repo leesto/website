@@ -31,19 +31,16 @@ Route::group([
 	// Add
 	Route::post('add', [
 		'as'         => 'committee.add',
-		'middleware' => 'auth.permission:admin',
 		'uses'       => 'CommitteeController@store',
 	]);
 	// Edit
 	Route::post('edit', [
 		'as'         => 'committee.edit',
-		'middleware' => 'auth.permission:admin',
 		'uses'       => 'CommitteeController@update',
 	]);
 	// Delete
 	Route::post('delete', [
 		'as'         => 'committee.delete',
-		'middleware' => 'auth.permission:admin',
 		'uses'       => 'CommitteeController@destroy',
 	]);
 });
@@ -87,12 +84,10 @@ Route::group([
 	// Report accident
 	Route::get('accident', [
 		'as'         => 'contact.accident',
-		'middleware' => 'auth',
 		'uses'       => 'ContactController@getAccident',
 	]);
 	Route::post('accident', [
 		'as'         => 'contact.accident.do',
-		'middleware' => 'auth',
 		'uses'       => 'ContactController@postAccident',
 	]);
 });
@@ -182,6 +177,16 @@ Route::group([
 		'as'   => 'events.signup',
 		'uses' => 'EventsController@signup',
 	])->where('tab', 'em|crew');
+	// Member diary
+	Route::get('diary/{username}/{year?}/{month?}', [
+		'as'   => 'events.memberdiary',
+		'uses' => 'EventsController@memberDiary',
+	])->where('username', '[\w]+')->where('year', '[\d]{4}')->where('month', '[\d]{1,2}');
+	// My diary
+	Route::get('my-diary/{year?}/{month?}', [
+		'as'   => 'events.mydiary',
+		'uses' => 'EventsController@myDiary',
+	])->where('year', '[\d]{4}')->where('month', '[\d]{1,2}');
 });
 
 // Gallery
@@ -291,7 +296,6 @@ Route::group([
 // Polls
 Route::group([
 	'prefix'     => 'polls',
-	'middleware' => 'auth.permission:member',
 ], function () {
 	Route::get('', [
 		'as'   => 'polls.index',
@@ -299,7 +303,6 @@ Route::group([
 	]);
 	Route::group([
 		'prefix'     => 'create',
-		'middleware' => 'auth.permission:admin',
 	], function () {
 		Route::get('', [
 			'as'   => 'polls.create',
@@ -307,7 +310,6 @@ Route::group([
 		]);
 		Route::post('', [
 			'as'         => 'polls.store',
-			'middleware' => 'auth.permission:admin',
 			'uses'       => 'PollsController@store',
 		]);
 		Route::post('addOption', [
@@ -333,7 +335,6 @@ Route::group([
 		]);
 		Route::get('delete', [
 			'as'         => 'polls.delete',
-			'middleware' => 'auth.permission:admin',
 			'uses'       => 'PollsController@delete',
 		]);
 	});
@@ -342,7 +343,6 @@ Route::group([
 // Quotesboard
 Route::group([
 	"prefix"     => "quotesboard",
-	"middleware" => "auth.permission:member",
 ], function () {
 	Route::get('', [
 		'as'   => 'quotes.index',
@@ -354,7 +354,6 @@ Route::group([
 	]);
 	Route::post('delete', [
 		'as'         => 'quotes.delete',
-		'middleware' => 'auth.permission:admin',
 		'uses'       => 'QuotesController@destroy',
 	]);
 });
@@ -362,7 +361,6 @@ Route::group([
 // Users
 Route::group([
 	'prefix'     => 'users',
-	'middleware' => 'auth.permission:admin',
 ], function () {
 	// List
 	Route::get('', [

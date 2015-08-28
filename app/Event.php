@@ -256,8 +256,21 @@ class Event extends Model
 		$query->select('events.*')
 		      ->join('event_times', 'events.id', '=', 'event_times.event_id')
 		      ->where('event_times.start', '>=', $now->setTime(0, 0, 0)->toDateTimeString())
-		      ->where('event_times.end', '<=', $now->setTime(23, 59, 59)->toDateTimeString())
+		      ->orWhere('event_times.end', '<=', $now->setTime(23, 59, 59)->toDateTimeString())
 		      ->distinct();
+	}
+
+	/**
+	 * Add a scope for selecting events which are either currently occurring or in the future.
+	 * @param $query
+	 */
+	public function scopeActiveAndFuture($query)
+	{
+		$now = Carbon::now();
+		$query->select('events.*')
+			->join('event_times', 'events.id', '=', 'event_times.event_id')
+			->where('event_times.start', '>=', $now->setTime(0, 0, 0)->toDateTimeString())
+			->distinct();
 	}
 
 	/**
@@ -279,6 +292,32 @@ class Event extends Model
 	public function scopeOrderAsc($query)
 	{
 		$query->orderBy('event_times.start', 'ASC');
+	}
+
+	/**
+	 * Order the events by when they end, descending
+	 * @param $query
+	 */
+	public function scopeOrderDesc($query)
+	{
+		$query->orderBy('event_times.end', 'DESC');
+	}
+
+	/**
+	 * Add a scope for getting a list of events crewed by a certain member.
+	 * @param                $query
+	 * @param \App\User|null $member
+	 */
+	public function scopeForMember($query, User $member = null)
+	{
+		if($member) {
+			$query->select('events.*')
+			      ->leftJoin('event_crew', 'events.id', '=', 'event_crew.event_id')
+			      ->whereNested(function ($query) use ($member) {
+				      $query->where('events.em_id', $member->id)
+				            ->orWhere('event_crew.user_id', $member->id);
+			      });
+		}
 	}
 
 	/**
@@ -470,5 +509,25 @@ class Event extends Model
 	public function hasEM()
 	{
 		return !!$this->em_id;
+	}
+
+	/**
+	 * Get a user's crew role.
+	 * @param \App\User $user
+	 * @return null|string
+	 */
+	public function getCrewRole(User $user)
+	{
+		if($this->isEM($user)) {
+			return 'Event Manager';
+		} else {
+			foreach($this->crew as $crew) {
+				if($crew->user_id == $user->id) {
+					return $crew->name ?: 'General Crew';
+				}
+			}
+		}
+
+		return null;
 	}
 }

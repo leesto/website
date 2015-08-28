@@ -13,6 +13,21 @@ use Szykra\Notifications\Flash;
 class CommitteeController extends Controller
 {
 	/**
+	 * Set up the middleware.
+	 */
+	public function __construct()
+	{
+		$this->middleware('auth.permission:admin', [
+			'only' => [
+				'store',
+				'update',
+				'destroy',
+			],
+		]);
+		parent::__construct();
+	}
+
+	/**
 	 * View the committee.
 	 * @return Response
 	 */

@@ -4,6 +4,7 @@
 
 @section('stylesheets')
     @include('partials.tags.style', ['path' => 'partials/members'])
+    @include('partials.tags.style', ['path' => 'partials/events'])
 @endsection
 
 @section('scripts')
@@ -88,7 +89,7 @@
                     </div>
                 </div>
                 <div class="tab-pane">
-                    <h4>I'll do this at some point ...</h4>
+                    @include('members._events', ['user' => $user])
                 </div>
                 <div class="tab-pane">
                     <h4>Also this ...</h4>

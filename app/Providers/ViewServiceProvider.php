@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Event;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -21,6 +22,7 @@ class ViewServiceProvider extends ServiceProvider
 		$this->composeMainMenu();
 		$this->composeSubMenus();
 		$this->attachUserList();
+		$this->attachMemberEvents();
 	}
 
 	/**
@@ -109,7 +111,7 @@ class ViewServiceProvider extends ServiceProvider
 
 					// Build the events sub-menu
 					$events = $menu->find('members.events');
-					$events->add('#', 'My diary')
+					$events->add(route('events.mydiary'), 'My diary')->activePattern('\/events\/my-diary')
 					       ->add(route('events.signup'), 'Event sign-up')->activePattern('\/events\/signup')
 					       ->add('#', 'Submit event report');
 					if($isAdmin) {
@@ -244,6 +246,30 @@ class ViewServiceProvider extends ServiceProvider
 
 			// Attach
 			$view->with('users', $users);
+		});
+	}
+
+	/**
+	 * Attach a list of events for the given user
+	 */
+	private function attachMemberEvents()
+	{
+		View::composer('members._events', function ($view) {
+			$user          = $view->getData()['user'];
+			$events_past   = Event::forMember($user)
+			                      ->past()
+			                      ->orderDesc()
+			                      ->distinct()
+			                      ->get();
+			$events_active = Event::forMember($user)
+			                      ->activeAndFuture()
+			                      ->orderDesc()
+			                      ->distinct()
+			                      ->get();
+			$view->with([
+				'events_past'   => $events_past,
+				'events_active' => $events_active,
+			]);
 		});
 	}
 }

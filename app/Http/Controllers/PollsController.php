@@ -15,6 +15,28 @@ use Szykra\Notifications\Flash;
 class PollsController extends Controller
 {
 	/**
+	 * Set up the middleware.
+	 */
+	public function __construct()
+	{
+		$this->middleware('auth.permission:member', [
+			'only' => [
+				'index',
+				'show',
+				'castVote',
+			],
+		]);
+		$this->middleware('auth.permission:admin', [
+			'except' => [
+				'index',
+				'show',
+				'castVote',
+			],
+		]);
+		parent::__construct();
+	}
+
+	/**
 	 * List all the existing polls, with pagination.
 	 * @return mixed
 	 */

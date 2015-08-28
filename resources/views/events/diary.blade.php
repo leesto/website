@@ -25,7 +25,7 @@
     <h1 class="page-header">@yield('title')</h1>
     <div id="diary">
         <div class="date-header">
-            <a class="prev" href="{{ route('events.diary', ['year' => $date_prev->year, 'month' => $date_prev->month]) }}">
+            <a class="prev" href="{{ str_replace(['%year', '%month'], [$date_prev->year, $date_prev->month], $redirectUrl) }}">
                 <span class="fa fa-caret-left"></span>
             </a>
             <span class="month"
@@ -36,7 +36,7 @@
                   data-modal-title="Change Date"
                   title="Select month and year"
                   role="button">{{ $date->format('F Y') }}</span>
-            <a class="next" href="{{ route('events.diary', ['year' => $date_next->year, 'month' => $date_next->month]) }}">
+            <a class="next" href="{{ str_replace(['%year', '%month'], [$date_next->year, $date_next->month], $redirectUrl) }}">
                 <span class="fa fa-caret-right"></span>
             </a>
         </div>
@@ -93,10 +93,6 @@
             </a>
         @endif
     @endif
-@endsection
-
-@section('_test')
-    <p>Hello!</p>
 @endsection
 
 @section('modal')

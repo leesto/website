@@ -345,6 +345,11 @@ div#eventSignup {
 				font-size: 12px;
 				margin: 0;
 			}
+			&.role {
+				@media (min-width: 768px) {
+					width: 15em;
+				}
+			}
 		}
 		.dates, .event-tag {
 			text-align: center;

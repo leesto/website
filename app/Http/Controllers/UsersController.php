@@ -25,6 +25,15 @@ class UsersController extends Controller
 	];
 
 	/**
+	 * Set up the middleware.
+	 */
+	public function __construct()
+	{
+		$this->middleware('auth.permission:admin');
+		parent::__construct();
+	}
+
+	/**
 	 * Display the listing of users.
 	 * @return Response
 	 */
