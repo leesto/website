@@ -157,7 +157,7 @@
                     </div>
                     @endif
                     {{-- Public Description --}}
-                    @if($event->description_public && (!$isMember || $canEdit))
+                    @if(($event->public_description && !$isMember) || $canEdit)
                         <div class="form-group">
                             {!! Form::label('description', ($isMember || $canEdit) ? "Description:(Public)" : 'Description:', ['class' => 'col-md-4 control-label']) !!}
                             <div class="col-md-8">
@@ -167,7 +167,7 @@
                                        data-edit-type="textarea"
                                        data-edit-url="{{ route('events.update', ['id' => $event->id, 'action' => 'update-details']) }}"
                                        data-control-name="description_public"
-                                       role="button">{!! nl2br($event->description_public) !!}</p>
+                                       role="button">{!! nl2br($event->description_public) ?: '<em>&ndash; no public description &ndash;</em>' !!}</p>
                                 @else
                                     <p class="form-control-static">{!! nl2br($event->description_public) !!}</p>
                                 @endif
