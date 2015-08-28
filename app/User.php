@@ -168,6 +168,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	}
 
 	/**
+	 * Define the relationship to the user's awarded skills.
+	 * @return $this
+	 */
+	public function skills()
+	{
+		return $this->hasMany('App\TrainingAwardedSkill');
+	}
+
+	/**
 	 * Add a scope for only getting active accounts.
 	 * @param $query
 	 */
@@ -554,5 +563,25 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		} else {
 			return '';
 		}
+	}
+
+	/**
+	 * Test if the user has a certain skill assigned.
+	 * @param \App\TrainingSkill $skill
+	 * @return bool
+	 */
+	public function hasSkill(TrainingSkill $skill)
+	{
+		return $this->skills->where('skill_id', $skill->id)->count() == 1;
+	}
+
+	/**
+	 * Get the details of an awarded skill.
+	 * @param \App\TrainingSkill $skill
+	 * @return mixed
+	 */
+	public function getSkill(TrainingSkill $skill)
+	{
+		return $this->skills->where('skill_id', $skill->id)->first();
 	}
 }
