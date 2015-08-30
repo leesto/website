@@ -86,17 +86,50 @@
                 @endforeach
             </ul>
         </div>
-        @if(Auth::user()->isAdmin())
-            <a class="btn btn-success" href="{{ route('events.add') }}">
-                <span class="fa fa-plus"></span>
-                <span>Add an event to the diary</span>
+        <p style="margin-bottom:3em;">
+            @if(Auth::user()->isAdmin())
+                <a class="btn btn-success pull-left" href="{{ route('events.add') }}">
+                    <span class="fa fa-plus"></span>
+                    <span>Add an event to the diary</span>
+                </a>
+            @endif
+            <a class="btn btn-primary pull-right" data-toggle="modal" data-target="#modal" data-modal-class="modal-md" data-modal-template="google_calendar" href="#">
+                <span class="fa fa-google"></span>
+                <span>Add to Google Calendar</span>
             </a>
-        @endif
+        </p>
     @endif
 @endsection
 
 @section('modal')
     <div data-type="modal-template" data-id="diary_date">
         @include('events.modal.diary_date')
+    </div>
+    <div data-type="modal-template" data-id="google_calendar">
+        <div class="modal-header"><h1>Add to Google Calendar</h1></div>
+        <div class="modal-body">
+            <p>To add the events diary to your Google Calendar:</p>
+            <ol>
+                <li>Go to <a href="http://calendar.google.com/" target="_blank">Google Calendar</a></li>
+                <li>Go to the <strong>Other Calendars</strong> menu on the left-hand side, click the down arrow and choose <strong>Add by URL</strong>.</li>
+                <li>Enter this URL:</li>
+                <kbd style="font-size:12px;">
+                    {{ route('events.export') }}
+                </kbd>
+                <li>Customise the calendar with a name, notifications, etc., as you would any other calendar.</li>
+            </ol>
+            <h4>Please note</h4>
+            <ul>
+                <li>We currently cannot guarantee how quickly the events diary in Google Calendar will update. This depends on how often Google requests for
+                    updates, which can't be configured.</li>
+                <li>This currently only contains events - training, socials and meetings may be added in the future.</li>
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" data-toggle="modal" data-target="#modal" type="button">
+                <span class="fa fa-thumbs-up"></span>
+                <span>Ok, got it</span>
+            </button>
+        </div>
     </div>
 @endsection

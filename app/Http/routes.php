@@ -191,6 +191,11 @@ Route::group([
 		'as'   => 'events.mydiary',
 		'uses' => 'EventsController@myDiary',
 	])->where('year', '[\d]{4}')->where('month', '[\d]{1,2}');
+	// Export
+	Route::get('export', [
+		'as'   => 'events.export',
+		'uses' => 'EventsController@export',
+	]);
 });
 
 // Gallery

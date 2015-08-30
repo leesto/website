@@ -10,6 +10,8 @@ use App\Http\Requests\EventTimeRequest;
 use App\Http\Requests\GenericRequest;
 use App\User;
 use Carbon\Carbon;
+use Eluceo\iCal\Component\Calendar;
+use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
@@ -313,6 +315,35 @@ class EventsController extends Controller
 		Flash::success('Event deleted');
 
 		return Response::json(true);
+	}
+
+	/**
+	 * Export the events diary to iCal.
+	 * @return Response
+	 */
+	public function export()
+	{
+		// Create the calendar
+		$calendar = new Calendar('www.bts-crew.com');
+		$calendar->setName('Backstage Diary');
+
+		// Get all the events and add each time
+		$events = Event::where('type', Event::TYPE_EVENT)->get();
+		foreach($events as $event) {
+			foreach($event->times as $time) {
+				$cal_event = new \Eluceo\iCal\Component\Event();
+				$cal_event->setDtStart($time->start)
+					->setDtEnd($time->end)
+					->setSummary($time->event->name . ' - ' . $time->name)
+					->setLocation($time->event->venue);
+				$calendar->addComponent($cal_event);
+			}
+		}
+
+		// Respond
+		return (new HttpResponse($calendar->render(), 200))
+			->header('Content-Type', 'text/calendar; charset=utf-8')
+			->header('Content-Disposition', 'attachment; filename="bts_diary.ics"');
 	}
 
 	/**
