@@ -9,7 +9,7 @@
                 </h1>
 
                 <div class="panel-collapse collapse" id="{{ $category->id ? "category_{$category->id}" : 'uncategorised' }}">
-                    <table class="table table-striped">
+                    <table class="table">
                         <tbody>
                             @if(count($category->skills) > 0)
                                 @foreach($category->skills as $skill)

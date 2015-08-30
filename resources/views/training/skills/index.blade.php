@@ -29,6 +29,7 @@
             <div>
                 @if($activeUser->isMember())
                     <a class="btn btn-success"
+                       data-form-action="{{ route('training.skills.propose') }}"
                        data-toggle="modal"
                        data-target="#modal"
                        data-modal-class="modal-sm"
@@ -39,6 +40,7 @@
                     </a>
                 @endif
                 <a class="btn btn-success"
+                   data-form-action="{{ route('training.skills.award') }}"
                    data-toggle="modal"
                    data-target="#modal"
                    data-modal-class="modal-sm"
