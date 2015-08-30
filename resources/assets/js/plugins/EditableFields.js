@@ -77,7 +77,7 @@
 		// Set the config values
 		var settings = {};
 		for(var key in config) {
-			settings[key] = config[key][value] ? config[key][value] : '';
+			settings[key] = config[key][value] ? config[key][value] : (key == 'text' ? text : value);
 		}
 
 		// Get the html/text to set
@@ -96,32 +96,40 @@
 	 */
 	$('body').on('click', '[data-submit-ajax]', function () {
 		var btn = $(this);
-		var action = btn.data('submitAjax');
-		var data = btn.data();
-		delete data['submitAjax'];
-		btn.attr('disabled', 'disabled');
 
-		$.ajax({
-			data   : $.param(data),
-			url    : action,
-			type   : "post",
-			success: function () {
-				location.reload();
-			},
-			error  : function (data) {
-				btn.attr('disabled', false);
-				processAjaxErrors(data);
-			}
-		});
+		if(!btn.data('submitConfirm') || confirm(btn.data('submitConfirm'))) {
+			var action = btn.data('submitAjax');
+			var data = btn.data();
+			var redirect = btn.data('successUrl') ? btn.data('successUrl') : window.location;
+			delete data['submitAjax'];
+			delete data['submitConfirm'];
+			delete data['successUrl'];
+			btn.attr('disabled', 'disabled');
+
+			$.ajax({
+				data   : $.param(data),
+				url    : action,
+				type   : "post",
+				success: function () {
+					window.location = redirect;
+				},
+				error  : function (data) {
+					btn.attr('disabled', false);
+					processAjaxErrors(data);
+				}
+			});
+		}
 	});
 
 	/**
 	 * Allow any element to be edited by producing an in-line form element
 	 * and then submitting the request by AJAX.
 	 */
-	$('body').on('click', '[data-editable="true"][data-edit-type]', function () {
+	$('body').on('click', '[data-editable="true"][data-edit-type]', function (event) {
 		var original = $(this);
 		var editType = original.data('editType');
+		event.preventDefault();
+		event.stopPropagation();
 
 		// If the form type is a text field or textarea
 		// simply produce the field and set the value
@@ -133,13 +141,15 @@
 
 			// On blur / pressing enter set the new value and submit the ajax request.
 			formControl.on('blur keypress', function (event) {
-				if(event.type == 'blur' || (event.type == 'keypress' && event.which == 13 && !event.shiftKey)) {
+				if(event.type == 'blur' || (event.type == 'keypress' && event.which == 13 && event.shiftKey)) {
 					formControl.off('blur keypress');
 					original.html(editType == 'textarea' ? formControl.val().replace(new RegExp("\n", 'g'), '<br>') : formControl.val());
 					sendEditableRequest(original.data('editUrl'), $.param({
 						'field': original.data('controlName'),
 						'value': formControl.val()
-					}), original, formControl);
+					}), original, formControl, function(original) {
+						original.html(original.data('editType') == 'textarea' ? original.data('originalValue').replace(new RegExp("\n", 'g'), '<br>') : original.data('originalValue'));
+					});
 				}
 			});
 		}
