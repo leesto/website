@@ -118,6 +118,12 @@
                     <span>Revoke skill</span>
                 </a>
             @endif
+        </p>
+        <p>
+            <a class="btn btn-danger" href="{{ route('training.skills.index') }}">
+                <span class="fa fa-long-arrow-left"></span>
+                <span>Back</span>
+            </a>
             @if($activeUser->isAdmin())
                 <button class="btn btn-danger"
                         data-submit-ajax="{{ route('training.skills.delete', $skill->id) }}"
@@ -128,10 +134,6 @@
                     <span>Delete this skill</span>
                 </button>
             @endif
-            <a class="btn btn-danger" href="{{ route('training.skills.index') }}">
-                <span class="fa fa-long-arrow-left"></span>
-                <span>Back</span>
-            </a>
         </p>
     </div>
 @endsection
