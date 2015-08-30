@@ -9,12 +9,14 @@
 @section('scripts')
     $('.nav-stacked').tabify();
     $modal.on('show.bs.modal', function(event) {
-        var btn = $modal.find('#submitCategory');
-        var formAction = $(event.relatedTarget).data('formAction');
-        btn.data('formAction', formAction);
+        if($(event.relatedTarget).data('modalTemplate') == 'new_category') {
+            var btn = $modal.find('#submitCategory');
+            var formAction = $(event.relatedTarget).data('formAction');
+            btn.data('formAction', formAction);
 
-        if(formAction.indexOf('update') > -1) {
-            btn.find('span').eq(1).text('Update');
+            if(formAction.indexOf('update') > -1) {
+                btn.find('span').eq(1).text('Update');
+            }
         }
     });
 @endsection
@@ -29,7 +31,6 @@
             <div>
                 @if($activeUser->isMember())
                     <a class="btn btn-success"
-                       data-form-action="{{ route('training.skills.propose') }}"
                        data-toggle="modal"
                        data-target="#modal"
                        data-modal-class="modal-sm"
@@ -40,7 +41,6 @@
                     </a>
                 @endif
                 <a class="btn btn-success"
-                   data-form-action="{{ route('training.skills.award') }}"
                    data-toggle="modal"
                    data-target="#modal"
                    data-modal-class="modal-sm"
