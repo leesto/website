@@ -16,7 +16,7 @@ class UserTableSeeder extends Seeder
 		$user_su2bc = User::create([
 			"username" => "su2bc",
 			"email"    => "su2bc@bath.ac.uk",
-			"password" => '$2y$10$bHOXZBkEdvb/swW2d2dfAe2x5RlkkjtU1OCom/d1.mCxIYEnnWZBy',
+			"password" => bcrypt(env("SU2BC_PWD")),
 			"forename" => "Super",
 			"surname"  => "Admin",
 			"status"   => true,
