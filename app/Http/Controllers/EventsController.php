@@ -466,14 +466,14 @@ class EventsController extends Controller
 	 */
 	private function update_EditCrew(GenericRequest $request, Event $event)
 	{
-		// Validate
-		$this->validateCrew($request);
-
 		// Get the event crew
 		$crew = $event->crew()->find($request->get('id'));
 		if(!$crew) {
 			return $this->ajaxError("Couldn't find the crew entry", 404);
 		}
+
+		// Validate
+		$this->validateCrew($request);
 
 		// Update
 		$crew->update([
@@ -527,7 +527,7 @@ class EventsController extends Controller
 		}
 
 		// Validate
-		$validator = Validator::make([$field => $value], [$field => Event::getValidationRule($field)], Event::getValidationMessages($field));
+		$validator = Validator::make([$field => $value], Event::getValidationRules($field), Event::getValidationMessages($field));
 		if($validator->fails()) {
 			if(!$request->get('field')) {
 				$this->throwValidationException($request, $validator);
