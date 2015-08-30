@@ -73,7 +73,9 @@
                 </div>
             </div>
         </div>
-        @yield('modal')
+        <div class="hidden" aria-hidden="true">
+            @yield('modal')
+        </div>
         <script src="/js/app.js"></script>
         @yield('javascripts')
         @include('tinymce::tpl')

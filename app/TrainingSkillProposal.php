@@ -32,7 +32,7 @@ class TrainingSkillProposal extends Model
 	 */
 	protected $dates = [
 		'date',
-		'awarded_date'
+		'awarded_date',
 	];
 
 	/**
@@ -41,7 +41,7 @@ class TrainingSkillProposal extends Model
 	 */
 	public function skill()
 	{
-		return $this->belongsTo('App\Skill', 'skill_id');
+		return $this->belongsTo('App\TrainingSkill', 'skill_id');
 	}
 
 	/**
@@ -60,5 +60,32 @@ class TrainingSkillProposal extends Model
 	public function awarder()
 	{
 		return $this->belongsTo('App\User', 'awarded_by');
+	}
+
+	/**
+	 * Add a scope for getting proposals which haven't been awarded.
+	 * @param $query
+	 */
+	public function scopeNotAwarded($query)
+	{
+		$query->whereNull('awarded_date');
+	}
+
+	/**
+	 * Add a scope for getting proposals that have been awarded.
+	 * @param $query
+	 */
+	public function scopeAwarded($query)
+	{
+		$query->whereNotNull('awarded_date');
+	}
+
+	/**
+	 * Check if a proposal has been awarded.
+	 * @return bool
+	 */
+	public function isAwarded()
+	{
+		return $this->awarded_date !== null;
 	}
 }

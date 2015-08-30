@@ -231,61 +231,59 @@
 
 @section('modal')
     @if($canEdit)
-        <div class="hidden" aria-hidden="true">
-            <div data-type="modal-template" data-id="event_time">
-                @include('events.modal.view_time')
-            </div>
-            <div data-type="modal-template" data-id="event_crew">
-                @include('events.modal.view_crew')
-            </div>
-            <div data-type="modal-template" data-id="event_name">
-                {!! Form::open() !!}
-                <div class="modal-body">
-                    <div class="form-group">
-                        {!! Form::text('name', null , ['class' => 'form-control']) !!}
-                    </div>
-                    <div class="form-group text-right">
-                        <button class="btn btn-success" data-type="submit-modal" data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'update-details']) }}" type="button">
-                            <span class="fa fa-check"></span>
-                            <span>Save</span>
-                        </button>
-                    </div>
+        <div data-type="modal-template" data-id="event_time">
+            @include('events.modal.view_time')
+        </div>
+        <div data-type="modal-template" data-id="event_crew">
+            @include('events.modal.view_crew')
+        </div>
+        <div data-type="modal-template" data-id="event_name">
+            {!! Form::open() !!}
+            <div class="modal-body">
+                <div class="form-group">
+                    {!! Form::text('name', null , ['class' => 'form-control']) !!}
                 </div>
-                {!! Form::close() !!}
-            </div>
-            <div data-type="modal-template" data-id="crew_list_status">
-                {!! Form::open() !!}
-                <div class="modal-body">
-                    <div class="form-group">
-                        {!! Form::select('crew_list_status', [-1 => 'Hidden', 0 => 'Closed', 1 => 'Open'], null, ['class' => 'form-control']) !!}
-                    </div>
-                    <div class="form-group text-right">
-                        <button class="btn btn-success" data-type="submit-modal" data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'update-details']) }}" type="button">
-                            <span class="fa fa-check"></span>
-                            <span>Save</span>
-                        </button>
-                    </div>
+                <div class="form-group text-right">
+                    <button class="btn btn-success" data-type="submit-modal" data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'update-details']) }}" type="button">
+                        <span class="fa fa-check"></span>
+                        <span>Save</span>
+                    </button>
                 </div>
-                {!! Form::close() !!}
             </div>
-            <div data-type="data-toggle-template" data-toggle-id="paperwork" data-value="false">
-                @include('events.partials.view_paperwork_incomplete')
+            {!! Form::close() !!}
+        </div>
+        <div data-type="modal-template" data-id="crew_list_status">
+            {!! Form::open() !!}
+            <div class="modal-body">
+                <div class="form-group">
+                    {!! Form::select('crew_list_status', [-1 => 'Hidden', 0 => 'Closed', 1 => 'Open'], null, ['class' => 'form-control']) !!}
+                </div>
+                <div class="form-group text-right">
+                    <button class="btn btn-success" data-type="submit-modal" data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'update-details']) }}" type="button">
+                        <span class="fa fa-check"></span>
+                        <span>Save</span>
+                    </button>
+                </div>
             </div>
-            <div data-type="data-toggle-template" data-toggle-id="paperwork" data-value="true">
-                @include('events.partials.view_paperwork_complete')
-            </div>
-            <div data-type="data-select-source" data-select-name="em" data-config="{{ json_encode(['text' => ['' => '- not yet assigned -'] + array_map(function($value) { return substr($value, 0, stripos($value, '(') - 1);}, $users_em)]) }}">
-                {!! Form::select('em_id', ['' => '- not yet assigned -'] + $users_em, null, ['class' => 'form-control']) !!}
-            </div>
-            <div data-type="data-select-source" data-select-name="type">
-                {!! Form::select('type', App\Event::$Types, null, ['class' => 'form-control']) !!}
-            </div>
-            <div data-type="data-select-source" data-select-name="client_type">
-                {!! Form::select('client_type', App\Event::$Clients, null, ['class' => 'form-control']) !!}
-            </div>
-            <div data-type="data-text-format" data-name="type" data-config="{{ json_encode(['class' => \App\Event::$TypeClasses]) }}">
-                <span class="event-entry tag upper #class">#text</span>
-            </div>
+            {!! Form::close() !!}
+        </div>
+        <div data-type="data-toggle-template" data-toggle-id="paperwork" data-value="false">
+            @include('events.partials.view_paperwork_incomplete')
+        </div>
+        <div data-type="data-toggle-template" data-toggle-id="paperwork" data-value="true">
+            @include('events.partials.view_paperwork_complete')
+        </div>
+        <div data-type="data-select-source" data-select-name="em" data-config="{{ json_encode(['text' => ['' => '- not yet assigned -'] + array_map(function($value) { return substr($value, 0, stripos($value, '(') - 1);}, $users_em)]) }}">
+            {!! Form::select('em_id', ['' => '- not yet assigned -'] + $users_em, null, ['class' => 'form-control']) !!}
+        </div>
+        <div data-type="data-select-source" data-select-name="type">
+            {!! Form::select('type', App\Event::$Types, null, ['class' => 'form-control']) !!}
+        </div>
+        <div data-type="data-select-source" data-select-name="client_type">
+            {!! Form::select('client_type', App\Event::$Clients, null, ['class' => 'form-control']) !!}
+        </div>
+        <div data-type="data-text-format" data-name="type" data-config="{{ json_encode(['class' => \App\Event::$TypeClasses]) }}">
+            <span class="event-entry tag upper #class">#text</span>
         </div>
     @endif
 @endsection

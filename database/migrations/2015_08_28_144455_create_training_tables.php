@@ -36,7 +36,7 @@ class CreateTrainingTables extends Migration
 			$table->unsignedInteger('user_id');
 			$table->unsignedInteger('level');
 			$table->unsignedInteger('awarded_by')->nullable();
-			$table->dateTime('awarded_date');
+			$table->timestamps();
 
 			$table->foreign('skill_id')->references('id')->on('training_skills')->onDelete('cascade');
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -30,18 +30,18 @@ Route::group([
 	]);
 	// Add
 	Route::post('add', [
-		'as'         => 'committee.add',
-		'uses'       => 'CommitteeController@store',
+		'as'   => 'committee.add',
+		'uses' => 'CommitteeController@store',
 	]);
 	// Edit
 	Route::post('edit', [
-		'as'         => 'committee.edit',
-		'uses'       => 'CommitteeController@update',
+		'as'   => 'committee.edit',
+		'uses' => 'CommitteeController@update',
 	]);
 	// Delete
 	Route::post('delete', [
-		'as'         => 'committee.delete',
-		'uses'       => 'CommitteeController@destroy',
+		'as'   => 'committee.delete',
+		'uses' => 'CommitteeController@destroy',
 	]);
 });
 
@@ -83,12 +83,12 @@ Route::group([
 	]);
 	// Report accident
 	Route::get('accident', [
-		'as'         => 'contact.accident',
-		'uses'       => 'ContactController@getAccident',
+		'as'   => 'contact.accident',
+		'uses' => 'ContactController@getAccident',
 	]);
 	Route::post('accident', [
-		'as'         => 'contact.accident.do',
-		'uses'       => 'ContactController@postAccident',
+		'as'   => 'contact.accident.do',
+		'uses' => 'ContactController@postAccident',
 	]);
 });
 
@@ -295,22 +295,22 @@ Route::group([
 
 // Polls
 Route::group([
-	'prefix'     => 'polls',
+	'prefix' => 'polls',
 ], function () {
 	Route::get('', [
 		'as'   => 'polls.index',
 		'uses' => 'PollsController@index',
 	]);
 	Route::group([
-		'prefix'     => 'create',
+		'prefix' => 'create',
 	], function () {
 		Route::get('', [
 			'as'   => 'polls.create',
 			'uses' => 'PollsController@create',
 		]);
 		Route::post('', [
-			'as'         => 'polls.store',
-			'uses'       => 'PollsController@store',
+			'as'   => 'polls.store',
+			'uses' => 'PollsController@store',
 		]);
 		Route::post('addOption', [
 			'as'   => 'polls.store.addOption',
@@ -334,15 +334,115 @@ Route::group([
 			'uses' => 'PollsController@castVote',
 		]);
 		Route::get('delete', [
-			'as'         => 'polls.delete',
-			'uses'       => 'PollsController@delete',
+			'as'   => 'polls.delete',
+			'uses' => 'PollsController@delete',
+		]);
+	});
+});
+
+// Training
+Route::group([
+	'prefix' => 'training',
+], function () {
+	// Dash
+	Route::get('', [
+		'as'   => 'training.dash',
+		'uses' => function () {
+			return redirect(route('training.skills.index'));
+		},
+	]);
+	// Categories
+	Route::group([
+		'prefix' => 'categories',
+	], function () {
+		// Create
+		Route::post('add', [
+			'as'   => 'training.category.add',
+			'uses' => 'TrainingController@storeCategory',
+		]);
+		// Update
+		Route::post('{id}/update', [
+			'as'   => 'training.category.update',
+			'uses' => 'TrainingController@updateCategory',
+		])->where('id', '[\d]+');
+		// Delete
+		Route::post('{id}/delete', [
+			'as'   => 'training.category.delete',
+			'uses' => 'TrainingController@destroyCategory',
+		])->where('id', '[\d]+');
+	});
+	// Skills
+	Route::group([
+		'prefix' => 'skills',
+	], function () {
+		// Index
+		Route::get('', [
+			'as'   => 'training.skills.index',
+			'uses' => 'TrainingController@indexSkills',
+		]);
+		// Create
+		Route::get('add', [
+			'as'   => 'training.skills.add',
+			'uses' => 'TrainingController@createSkill',
+		]);
+		Route::post('add', [
+			'as'   => 'training.skills.add.do',
+			'uses' => 'TrainingController@storeSkill',
+		]);
+		// View
+		Route::get('{id}', [
+			'as'   => 'training.skills.view',
+			'uses' => 'TrainingController@viewSkill',
+		])->where('id', '[\d]+');
+		// Update
+		Route::post('{id}/update', [
+			'as'   => 'training.skills.update',
+			'uses' => 'TrainingController@updateSkill',
+		])->where('id', '[\d]+');
+		// Delete
+		Route::post('{id}/delete', [
+			'as'   => 'training.skills.delete',
+			'uses' => 'TrainingController@destroySkill',
+		])->where('id', '[\d]+');
+		// Propose
+		Route::post('propose', [
+			'as'   => 'training.skills.propose',
+			'uses' => 'TrainingController@proposeSkill',
+		]);
+		// Review proposal
+		Route::get('proposal', [
+			'as'   => 'training.skills.proposal.index',
+			'uses' => 'TrainingController@indexProposal',
+		]);
+		Route::get('proposal/{id}', [
+			'as'   => 'training.skills.proposal.view',
+			'uses' => 'TrainingController@viewProposal',
+		])->where('id', '[\d]+');
+		Route::post('proposal/{id}', [
+			'as'   => 'training.skills.proposal.do',
+			'uses' => 'TrainingController@processProposal',
+		])->where('id', '[\d]+');
+		// Award skill
+		Route::post('award', [
+			'as'   => 'training.skills.award',
+			'uses' => 'TrainingController@awardSkill',
+		]);
+		// Revoke
+		Route::post('revoke', [
+			'as'   => 'training.skills.revoke',
+			'uses' => 'TrainingController@revokeSkill',
+		]);
+		// View log
+		Route::get('log', [
+			'as'   => 'training.skills.log',
+			'uses' => 'TrainingController@viewSkillsLog',
 		]);
 	});
 });
 
 // Quotesboard
 Route::group([
-	"prefix"     => "quotesboard",
+	"prefix" => "quotesboard",
 ], function () {
 	Route::get('', [
 		'as'   => 'quotes.index',
@@ -353,14 +453,14 @@ Route::group([
 		'uses' => 'QuotesController@store',
 	]);
 	Route::post('delete', [
-		'as'         => 'quotes.delete',
-		'uses'       => 'QuotesController@destroy',
+		'as'   => 'quotes.delete',
+		'uses' => 'QuotesController@destroy',
 	]);
 });
 
 // Users
 Route::group([
-	'prefix'     => 'users',
+	'prefix' => 'users',
 ], function () {
 	// List
 	Route::get('', [

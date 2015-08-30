@@ -1,0 +1,169 @@
+@import "../vars";
+@import "../mixins";
+
+table.level-requirements {
+	tr td {
+		border-color: #333;
+		padding: 1em 0.5em;
+		vertical-align: text-top;
+
+		&:first-child {
+			text-align: center;
+			width: 6em;
+		}
+	}
+}
+table {
+	tr {
+		th, td {
+			&.skill-name {
+				& > .category {
+					color: #666;
+					font-size: 13px;
+				}
+			}
+			&.skill-user {
+				& > .username {
+					color: #666;
+					font-size: 13px;
+				}
+			}
+			&.skill-level {
+				text-align: center;
+				width: 7em;
+			}
+		}
+	}
+}
+#listSkills {
+	margin: 0 auto;
+	width: 600px;
+
+	div.category {
+		.panel-heading {
+			.btn-group {
+				@include transition();
+				opacity: 0;
+			}
+			&:hover .btn-group {
+				opacity: 1;
+			}
+		}
+		table {
+			tbody {
+				tr {
+					td {
+						vertical-align: text-top;
+
+						&.skill-buttons {
+							padding: 0 !important;
+							text-align: center;
+							width: 3.5em;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+#viewSkill {
+	margin: 0 auto;
+	@media (min-width: 768px) {
+		width: 750px;
+	}
+
+	h2 {
+		color: $btsorange;
+		font-size: 28px;
+		margin-bottom: 0;
+		text-align: left;
+	}
+	h3 {
+		color: $btsyellow;
+		font-size: 22px;
+		text-align: left;
+	}
+	h4.category {
+		font-size: 20px;
+		font-style: italic;
+		margin-top: 0.5em;
+	}
+	.description {
+		color: #AAA;
+		font-size: 18px;
+		margin-top: 1em;
+	}
+	div.table.member-list {
+		$border_colour: #333;
+
+		div.row {
+			& > div {
+				padding: 0.75em 1em;
+				width: 33.333%;
+
+				&:not(:last-child) {
+					border-right: 2px solid $border_colour;
+				}
+				a {
+					color: inherit;
+
+					&:hover {
+						color: $btsyellow;
+					}
+					&:focus {
+						outline-color: #999;
+					}
+				}
+			}
+		}
+		& > .thead {
+			& > div.row {
+				& > div {
+					border-bottom: 2px solid $border_colour;
+					color: inherit;
+					text-align: center;
+				}
+			}
+		}
+	}
+}
+#listProposals {
+	table {
+		tr {
+			th, td {
+				&.proposal-status {
+					font-size: 20px;
+					text-align: center;
+					width: 2em;
+				}
+				&.proposal-user, &.awarded-user {
+					width: 10em;
+				}
+			}
+		}
+	}
+}
+#viewProposal {
+	form {
+		width: 600px;
+
+		.skill-proficiency {
+			font-size: 18px;
+			margin-top: -2px;
+		}
+	}
+}
+#viewSkillsLog {
+	table {
+		tr {
+			td, th {
+				&.skill-date {
+					width: 7em;
+				}
+				&.skill-buttons {
+					width: 3.5em;
+				}
+			}
+		}
+	}
+}

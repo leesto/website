@@ -5,6 +5,7 @@
 @section('stylesheets')
     @include('partials.tags.style', ['path' => 'partials/members'])
     @include('partials.tags.style', ['path' => 'partials/events'])
+    @include('partials.tags.style', ['path' => 'partials/training'])
 @endsection
 
 @section('scripts')
@@ -92,7 +93,7 @@
                     @include('members._events', ['user' => $user])
                 </div>
                 <div class="tab-pane">
-                    <h4>Also this ...</h4>
+                    @include('members._skills', ['user' => $user])
                 </div>
             </div>
         </div>

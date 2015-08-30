@@ -21,6 +21,7 @@ elixir(function (mix) {
 		.sass('app/partials/members.scss', 'public/css/partials/members.css')
 		.sass('app/partials/quotes.scss', 'public/css/partials/quotes.css')
 		.sass('app/partials/polls.scss', 'public/css/partials/polls.css')
+		.sass('app/partials/training.scss', 'public/css/partials/training.css')
 		.sass('app/partials/users.scss', 'public/css/partials/users.css')
 		.sass('tinymce/tinymce.scss', 'public/css/tinymce.css')
 		.sass('font-awesome/font-awesome.scss', 'resources/assets/css/font-awesome.css')

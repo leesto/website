@@ -18,6 +18,11 @@ class TrainingCategory extends Model
 		'name'
 	];
 
+	public static function selectList()
+	{
+		return [null => '-- Uncategorised --'] + self::orderBy('name', 'ASC')->lists('name', 'id')->toArray();
+	}
+
 	/**
 	 * Define the relationship with the skills.
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Event;
+use App\TrainingCategory;
+use App\TrainingSkill;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -22,7 +24,10 @@ class ViewServiceProvider extends ServiceProvider
 		$this->composeMainMenu();
 		$this->composeSubMenus();
 		$this->attachUserList();
+		$this->attachMemberList();
 		$this->attachMemberEvents();
+		$this->attachMemberSkills();
+		$this->attachActiveUser();
 	}
 
 	/**
@@ -92,7 +97,7 @@ class ViewServiceProvider extends ServiceProvider
 					        ->add(route('membership'), 'The Membership')
 					        ->add(route('quotes.index'), 'Quotes Board')
 					        ->add(route('equipment.dash'), 'Equipment', Menu::items('members.equipment'), [], ['class' => 'equipment'])
-					        ->add('#', 'Training', Menu::items('members.training'), [], ['class' => 'training'])
+					        ->add(route('training.dash'), 'Training', Menu::items('members.training'), [], ['class' => 'training'])
 					        ->add(route('polls.index'), 'Polls')->activePattern('\/polls')
 					        ->raw('', null, ['class' => 'divider'])
 					        ->add('#', 'Elections Home')
@@ -125,10 +130,10 @@ class ViewServiceProvider extends ServiceProvider
 
 					// Build the training sub-menu
 					$training = $menu->find('members.training');
-					$training->add('#', 'View skills')
-					         ->add('#', 'Award skill');
+					$training->add(route('training.skills.index'), 'View skills');
 					if($isAdmin) {
-						$training->add('#', 'Skills log');
+						$training->add(route('training.skills.proposal.index'), 'Review proposals')->activePattern('\/training\/skills\/proposal');
+						$training->add(route('training.skills.log'), 'Skills log');
 					}
 				}
 			}
@@ -241,11 +246,18 @@ class ViewServiceProvider extends ServiceProvider
 			'pages.form',
 			'events.create',
 		], function ($view) {
-			// Get the users
 			$users = User::active()->nameOrder()->getSelect();
-
-			// Attach
 			$view->with('users', $users);
+		});
+	}
+
+	private function attachMemberList()
+	{
+		View::composer([
+			'training.skills.modal.*',
+		], function ($view) {
+			$members = User::member()->active()->nameOrder()->getSelect();
+			$view->with('members', $members);
 		});
 	}
 
@@ -270,6 +282,55 @@ class ViewServiceProvider extends ServiceProvider
 				'events_past'   => $events_past,
 				'events_active' => $events_active,
 			]);
+		});
+	}
+
+	/**
+	 * Attach a list of skills for the given user.
+	 */
+	private function attachMemberSkills()
+	{
+		View::composer([
+			'members._skills',
+			'training.skills.index',
+		], function ($view) {
+			// Get the categories and uncategorised skills
+			$categories    = TrainingCategory::orderBy('name', 'ASC')
+			                                 ->get();
+			$uncategorised = TrainingSkill::whereNull('category_id')
+			                              ->orderBy('name', 'ASC')
+			                              ->get();
+
+			// Add the uncategorised
+			$categories->add((object) [
+				'id'     => null,
+				'name'   => 'Uncategorised',
+				'skills' => $uncategorised,
+			]);
+
+			// Create the list of skills
+			$skills = [];
+			foreach($categories as $category) {
+				$skills[$category->name] = [];
+				foreach($category->skills as $skill) {
+					$skills[$category->name][$skill->id] = $skill->name;
+				}
+			}
+
+			$view->with([
+				'skillCategories' => $categories,
+				'skillList'       => $skills,
+			]);
+		});
+	}
+
+	/**
+	 * Attach the current user object to all views.
+	 */
+	private function attachActiveUser()
+	{
+		View::composer('*', function ($view) {
+			$view->with('activeUser', Auth::user() ?: new User());
 		});
 	}
 }

@@ -13,15 +13,6 @@ class TrainingAwardedSkill extends Model
 		'user_id',
 		'level',
 		'awarded_by',
-		'awarded_date'
-	];
-
-	/**
-	 * The attributes that should be Carbon instances.
-	 * @var array
-	 */
-	protected $dates = [
-		'awarded_date'
 	];
 
 	/**

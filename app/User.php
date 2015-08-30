@@ -584,4 +584,26 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	{
 		return $this->skills->where('skill_id', $skill->id)->first();
 	}
+
+	/**
+	 * Set the level of a skill
+	 * @param $skillId
+	 * @param $level
+	 */
+	public function setSkillLevel($skillId, $level)
+	{
+		// Create array of attributes to set
+		$data = [
+			'skill_id'   => $skillId,
+			'level'      => $level,
+			'awarded_by' => Auth::user()->id,
+		];
+
+		// Update or create
+		if($this->skills->where('skill_id', $skillId)->count() == 1) {
+			$this->skills->where('skill_id', $skillId)->first()->update($data);
+		} else {
+			$this->skills()->create($data);
+		}
+	}
 }
