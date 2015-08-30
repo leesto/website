@@ -158,6 +158,10 @@ Route::group([
 			'as'   => 'events.volunteer',
 			'uses' => 'EventsController@toggleVolunteer',
 		]);
+		Route::post('delete', [
+			'as'   => 'events.delete',
+			'uses' => 'EventsController@destroy',
+		]);
 		Route::post('{action}', [
 			'as'   => 'events.update',
 			'uses' => 'EventsController@update',

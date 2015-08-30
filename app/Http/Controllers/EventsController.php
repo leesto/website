@@ -29,6 +29,7 @@ class EventsController extends Controller
 				'create',
 				'store',
 				'index',
+				'destroy',
 			],
 		]);
 		$this->middleware('auth.permission:member', [
@@ -288,6 +289,30 @@ class EventsController extends Controller
 			'isEM'       => $event->isEM($this->user),
 			'canEdit'    => $this->user->isAdmin() || $event->isEM($this->user, false),
 		]);
+	}
+
+	/**
+	 * Delete an event from the diary.
+	 * @param                                   $id
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @return mixed
+	 */
+	public function destroy($id, GenericRequest $request)
+	{
+		// Require ajax
+		$this->requireAjax($request);
+
+		// Get the event
+		$event = Event::find($id);
+		if(!$event) {
+			return $this->ajaxError("Couldn't find that event", 404);
+		}
+
+		// Delete
+		$event->delete();
+		Flash::success('Event deleted');
+
+		return Response::json(true);
 	}
 
 	/**

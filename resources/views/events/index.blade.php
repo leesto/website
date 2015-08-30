@@ -16,6 +16,7 @@
                 <th class="crew">Crew</th>
                 <th class="date">Date</th>
                 <th class="paperwork">Paperwork</th>
+                <th class="buttons"></th>
             </thead>
             <tbody>
                 @if(count($events) > 0)
@@ -49,6 +50,16 @@
                                         <li><span class="fa {{ $event->paperwork[$key] ? 'fa-check success' : 'fa-remove danger' }}"></span> {{ $name }}</li>
                                     @endforeach
                                 </ul>
+                            </td>
+                            <td class="buttons text-center">
+                                <button class="btn btn-danger btn-sm"
+                                        data-submit-ajax="{{ route('events.delete', $event->id) }}"
+                                        data-submit-confirm="Are you sure you want to delete this event?"
+                                        data-success-url="{{ route('events.index') }}"
+                                        type="button"
+                                        title="Delete this event">
+                                    <span class="fa fa-remove"></span>
+                                </button>
                             </td>
                         </tr>
                     @endforeach
