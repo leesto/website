@@ -75,6 +75,46 @@ class Event extends Model
 	];
 
 	/**
+	 * The validation rules for an event's attributes.
+	 * @var array
+	 */
+	protected static $ValidationRules = [
+		'name'               => 'required',
+		'em_id'              => 'exists:users,id',
+		'description'        => 'required',
+		'description_public' => 'required',
+		'description_public' => 'required',
+		'venue'              => 'required',
+		'crew_list_status'   => 'in:-1,0,1',
+		'date_start'         => 'required|date_format:d/m/Y',
+		'date_end'           => 'required|date_format:d/m/Y|after:date_start',
+	];
+
+	/**
+	 * The messages for the above validation rules.
+	 * @var array
+	 */
+	protected static $ValidationMessages = [
+		'name.required'               => 'Please enter the event\'s name',
+		'em_id.exists'                => 'Please select a valid user',
+		'type.required'               => 'Please select an event type',
+		'type.in'                     => 'Please select a valid event type',
+		'description.required'        => 'Please enter the event description',
+		'description_public.required' => 'Please enter the event description',
+		'venue.required'              => 'Please enter the venue',
+		'venue_type.required'         => 'Please select the venue type',
+		'venue_type.in'               => 'Please select a valid venue type',
+		'client_type.required'        => 'Please select a client type',
+		'client_type.in'              => 'Please select a valid client type',
+		'crew_list_status.in'         => 'Please select a status for the crew list',
+		'date_start.required'         => 'Please enter when this event starts',
+		'date_start.date_format'      => 'Please enter a valid date',
+		'date_end.required'           => 'Please enter when this event ends',
+		'date_end.date_format'        => 'Please enter a valid date',
+		'date_end.after'              => 'This must be after the start date',
+	];
+
+	/**
 	 * The attributes fillable by mass assignment.
 	 * @var array
 	 */
@@ -100,83 +140,16 @@ class Event extends Model
 	];
 
 	/**
-	 * Define the validation rules for the event attributes.
-	 * @param $name
-	 * @return string
-	 */
-	public static function getValidationRule($name)
-	{
-		switch($name) {
-			case 'name':
-				return 'required';
-			case 'em_id':
-				return 'exists:users,id';
-			case 'type':
-				return 'required|in:' . implode(',', array_keys(Event::$Types));
-			case 'description':
-			case 'description_public':
-				return 'required';
-			case 'venue':
-				return 'required';
-			case 'venue_type':
-				return 'required|in:' . implode(',', array_keys(Event::$VenueTypes));
-			case 'client_type':
-				return 'required|in:' . implode(',', array_keys(Event::$Clients));
-			case 'crew_list_status':
-				return 'in:-1,0,1';
-			default:
-				return '';
-		}
-	}
-
-	/**
-	 * Define the validation messages for the event attributes.
-	 * @param $name
+	 * Override the default method to set some dynamic rules.
 	 * @return array
 	 */
-	public static function getValidationMessages($name)
+	public static function getValidationRules()
 	{
-		switch($name) {
-			case 'name':
-				return [
-					'name.required' => 'Please enter the event\'s name',
-				];
-			case 'em_id':
-				return [
-					'em_id.exists' => 'Please select a valid user',
-				];
-			case 'type':
-				return [
-					'type.required' => 'Please select an event type',
-					'type.in'       => 'Please select a valid event type',
-				];
-			case 'description':
-			case 'description_public':
-				return [
-					'description.required'        => 'Please enter the event description',
-					'description_public.required' => 'Please enter the event description',
-				];
-			case 'venue':
-				return [
-					'venue.required' => 'Please enter the venue',
-				];
-			case 'venue_type':
-				return [
-					'venue_type.required' => 'Please select the venue type',
-					'venue_type.in'       => 'Please select a valid venue type',
-				];
-			case 'client_type':
-				return [
-					'client_type.required' => 'Please select a client type',
-					'client_type.in'       => 'Please select a valid client type',
-				];
-			case 'crew_list_status':
-				return [
-					'crew_list_status.in' => 'Please select a status for the crew list',
-				];
-			default:
-				return [];
-		}
+		static::$ValidationRules['type']        = 'required|in:' . implode(',', array_keys(Event::$Types));
+		static::$ValidationRules['venue_type']  = 'required|in:' . implode(',', array_keys(Event::$VenueTypes));
+		static::$ValidationRules['client_type'] = 'required|in:' . implode(',', array_keys(Event::$Clients));
+
+		return call_user_func_array('parent::getValidationRules', func_get_args());
 	}
 
 	/**
@@ -268,9 +241,9 @@ class Event extends Model
 	{
 		$now = Carbon::now();
 		$query->select('events.*')
-			->join('event_times', 'events.id', '=', 'event_times.event_id')
-			->where('event_times.start', '>=', $now->setTime(0, 0, 0)->toDateTimeString())
-			->distinct();
+		      ->join('event_times', 'events.id', '=', 'event_times.event_id')
+		      ->where('event_times.start', '>=', $now->setTime(0, 0, 0)->toDateTimeString())
+		      ->distinct();
 	}
 
 	/**

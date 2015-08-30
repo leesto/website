@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Input;
 
 abstract class Model extends EloquentModel
 {
+	protected static $ValidationRules = [
+		
+	];
+
+	protected static $ValidationMessages = [
+
+	];
+
+
 	/**
 	 * A custom paginate method for when using the distinct() method. This fixes the incorrect 'total' reported by the default paginate.
 	 * @param        $query
@@ -30,5 +39,41 @@ abstract class Model extends EloquentModel
 
 		// Create the paginator
 		return new LengthAwarePaginator($results, $count, $perPage, Paginator::resolveCurrentPage(), ['path' => Paginator::resolveCurrentPath()]);
+	}
+
+	/**
+	 * Get the rules to validate a model.
+	 * @return array
+	 */
+	public static function getValidationRules()
+	{
+		$fields = func_get_args();
+		$rules = [];
+
+		foreach($fields as $field) {
+			if(isset(static::$ValidationRules[$field])) {
+				$rules[$field] = static::$ValidationRules[$field];
+			}
+		}
+
+		return $rules;
+	}
+
+	/**
+	 * Get the validation messages.
+	 * @return array
+	 */
+	public static function getValidationMessages()
+	{
+		$fields = func_get_args();
+		$messages = [];
+
+		foreach(static::$ValidationMessages as $rule => $msg) {
+			if(in_array(substr($rule, 0, stripos($rule, '.')), $fields)) {
+				$messages[$rule] = $msg;
+			}
+		}
+
+		return $messages;
 	}
 }
