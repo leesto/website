@@ -2,10 +2,10 @@
 	border-color: $btsyellow;
 	margin: 1em auto;
 
-	& > thead > tr {
+	& > thead > tr, & > div.thead > div.row {
 		border-color: $btsyellow;
 
-		& > th {
+		& > th, & > div {
 			border-color: $btsyellow;
 			color: $btsyellow;
 			font-size: 16px;
@@ -14,9 +14,10 @@
 		}
 	}
 
-	& > tbody > tr {
-		& > td {
+	& > tbody > tr, & > div.tbody > div.row {
+		& > td, & > div {
 			border-color: $btsyellow;
+			border-top-style: none;
 			vertical-align: middle;
 			&[colspan] {
 				text-align: center;
@@ -30,6 +31,12 @@
 			cursor: pointer;
 		}
 	}
+	& > tbody > tr:not(:first-of-type) > td, & > div.tbody > div.row:not(:first-of-type) > div.row {
+		border-top-style: solid;
+	}
+	& > thead > tr > th, & > div.tbody > div.row > div {
+		border-bottom: 1px solid;
+	}
 	.check {
 		text-align: center;
 		width: 2em;
@@ -42,19 +49,41 @@
 		text-align: center;
 		width: 5em;
 	}
-	tbody .id {
+	tbody .id, div.tbody .id {
 		color: #666;
 	}
 
 	&.table-striped {
-		& > tbody > tr {
-
-			&:nth-of-type(odd) {
+		& > tbody tr, & > div.tbody div.row {
+			&:nth-child(even) {
 				background-color: rgba(255, 255, 255, 0.1);
 			}
-			& > td {
+			&:nth-child(odd) {
+				background-color: #000;
+			}
+			& > td, & > div {
 				border: none;
 			}
+		}
+	}
+}
+div.table {
+	display: table;
+
+	& > div.thead {
+		display: table-header-group;
+	}
+	& > div.tfoot {
+		display: table-footer-group;
+	}
+	& > div.tbody {
+		display: table-row-group;
+	}
+	div.row {
+		display: table-row;
+
+		& > div {
+			display: table-cell;
 		}
 	}
 }

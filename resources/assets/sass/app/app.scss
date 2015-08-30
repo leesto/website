@@ -41,6 +41,16 @@ a, a:visited {
 			outline: 1px dotted $btsyellow;
 		}
 	}
+	&.grey {
+		color: $colour_text;
+
+		&:hover {
+			color: $btsyellow;
+		}
+		&:focus, &:active {
+			outline-color: $colour_text;
+		}
+	}
 }
 
 // Abbreviations
@@ -78,6 +88,9 @@ hr {
 
 // Modal popup
 @import "modal";
+
+// Panels
+@import "panels";
 
 // Paragraphs
 p {
@@ -314,6 +327,14 @@ div.event-key {
 	}
 }
 
+span.skill-proficiency {
+	display: inline-block;
+
+	span.fa-star-o {
+		color: #555;
+	}
+}
+
 // reCAPTCHA fix
 div.g-recaptcha-center {
 	& > div.g-recaptcha {
@@ -342,12 +363,14 @@ div[data-type="modal-template"], [data-type="data-editable-source"], [data-type=
 [data-editable] {
 	border-radius: 2px;
 	padding: 7px 0.75em;
+	margin-right: -0.75em;
+	margin-left: -0.75em;
 
 	&:hover {
 		background: rgba(255, 255, 255, 0.1);
 		cursor: pointer;
 	}
-	&.form-control-static {
-		margin-left: -0.75em;
-	}
+}
+table [data-editable] {
+	margin: -0.5em 0;
 }

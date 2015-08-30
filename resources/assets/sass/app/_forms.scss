@@ -63,6 +63,10 @@ form {
 		background: #888;
 		border-color: #333;
 	}
+	&.btn-sm {
+		padding: 0.25em 0.6em;
+
+	}
 }
 
 .btn:not(.btn-sm):not(.btn-lg) {
@@ -181,13 +185,14 @@ textarea.form-control {
 	}
 }
 
-fieldset {
+fieldset, div.fieldset {
 	border: 1px solid $btsyellow;
 	border-radius: $dim_bdr_radius;
 	margin: 1em 0;
 	padding: 0.5em 1.5em;
+	position: relative;
 
-	legend {
+	legend, & > h1 {
 		background: transparent;
 		border: none;
 		color: $btsyellow;
@@ -196,10 +201,17 @@ fieldset {
 		line-height: 1em;
 		margin-left: -0.5em;
 		padding: 0 0.5em;
+		text-align: left;
 		width: auto;
 
 		& + p {
 			margin-top: 0;
 		}
+	}
+	& > h1 {
+		background: #000;
+		margin-top: -0.65em;
+		position: absolute;
+		top: 0;
 	}
 }
