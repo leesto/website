@@ -82,7 +82,7 @@
 
             {{-- Dates --}}
             <div class="form-group @include('partials.form.error-class', ['name' => 'date_start']) @include('partials.form.error-class', ['name' => 'date_end'])">
-                {!! Form::label('date_start', 'Dates:', ['class' => 'col-md-3 control-label']) !!}
+                {!! Form::label('date_start', 'Date:', ['class' => 'col-md-3 control-label']) !!}
                 <div class="col-md-9">
                     <div class="form-group">
                         <div class="col-xs-5">
@@ -102,6 +102,33 @@
                         <div class="col-xs-2"></div>
                         <div class="col-xs-5">
                             @include('partials.form.input-error', ['name' => 'date_end'])
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Times --}}
+            <div class="form-group @include('partials.form.error-class', ['name' => 'time_start']) @include('partials.form.error-class', ['name' => 'time_end'])">
+                {!! Form::label('time_start', 'Time:', ['class' => 'col-md-3 control-label']) !!}
+                <div class="col-md-9">
+                    <div class="form-group">
+                        <div class="col-xs-5">
+                            {!! Form::text('time_start', '19:00', ['class' => 'form-control', 'placeholder' => 'hh:mm']) !!}
+                        </div>
+                        <div class="col-xs-2">
+                            <p class="form-control-static text-center">to</p>
+                        </div>
+                        <div class="col-xs-5">
+                            {!! Form::text('time_end', '22:30', ['class' => 'form-control', 'placeholder' => 'hh:mm']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:-15px;">
+                        <div class="col-xs-5">
+                            @include('partials.form.input-error', ['name' => 'time_start'])
+                        </div>
+                        <div class="col-xs-2"></div>
+                        <div class="col-xs-5">
+                            @include('partials.form.input-error', ['name' => 'time_end'])
                         </div>
                     </div>
                 </div>

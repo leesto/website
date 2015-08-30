@@ -88,6 +88,8 @@ class Event extends Model
 		'crew_list_status'   => 'in:-1,0,1',
 		'date_start'         => 'required|date_format:d/m/Y',
 		'date_end'           => 'required|date_format:d/m/Y|after:date_start',
+		'time_start'         => 'required|date_format:H:i',
+		'time_end'           => 'required|date_format:H:i|after:time_start',
 	];
 
 	/**
@@ -112,6 +114,11 @@ class Event extends Model
 		'date_end.required'           => 'Please enter when this event ends',
 		'date_end.date_format'        => 'Please enter a valid date',
 		'date_end.after'              => 'This must be after the start date',
+		'time_start.required'         => 'Please enter the start time',
+		'time_start.date_format'      => 'Please enter a valid time',
+		'time_end.required'           => 'Please enter the end time',
+		'time_end.date_format'        => 'Please enter a valid time',
+		'time_end.after'              => 'This must be after the start time',
 	];
 
 	/**

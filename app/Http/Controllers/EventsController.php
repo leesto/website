@@ -190,14 +190,16 @@ class EventsController extends Controller
 			]);
 
 		// Create the event times
+		$start_time = Carbon::createFromFormat('H:i', $request->get('time_start'));
+		$end_time   = Carbon::createFromFormat('H:i', $request->get('time_end'));
 		$date_start = Carbon::createFromFormat('d/m/Y', $request->get('date_start'))->setTime(0, 0, 0);
 		$date_end   = Carbon::createFromFormat('d/m/Y', $request->get('date_end'))->setTime(23, 59, 59);
 		$date       = clone $date_start;
 		while($date->lte($date_end)) {
 			$event->times()->save(new EventTime([
 				'name'  => $event->name,
-				'start' => $date->setTime(19, 0, 0)->toDateTimeString(),
-				'end'   => $date->setTime(22, 30, 0)->toDateTimeString(),
+				'start' => $date->setTime($start_time->hour, $start_time->minute, 0)->toDateTimeString(),
+				'end'   => $date->setTime($end_time->hour, $end_time->minute, 0)->toDateTimeString(),
 			]));
 			$date->setTime(0, 0, 0);
 			$date->day++;
