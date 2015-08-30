@@ -19,6 +19,7 @@ class CreateRepairsDbTable extends Migration
 			$table->text('description');
 			$table->text('comment');
 			$table->unsignedInteger('status');
+			$table->boolean('closed');
 			$table->unsignedInteger('user_id')->nullable();
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
 			$table->timestamps();

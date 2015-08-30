@@ -28,6 +28,7 @@ class EquipmentBreakage extends Model
 		'comment',
 		'status',
 		'user_id',
+		'closed'
 	];
 
 	/**

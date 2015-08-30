@@ -50,7 +50,10 @@ class EquipmentController extends Controller
 	public function repairsDb()
 	{
 		// Get the breakages
-		$breakages = EquipmentBreakage::where('status', '<>', EquipmentBreakage::STATUS_RESOLVED)->orderBy('created_at', 'DESC')->paginate(15);
+		$breakages = EquipmentBreakage::where('status', '<>', EquipmentBreakage::STATUS_RESOLVED)
+		                              ->where('closed', false)
+		                              ->orderBy('created_at', 'DESC')
+		                              ->paginate(15);
 		$this->checkPagination($breakages);
 
 		return View::make('equipment.repairs_db')->withBreakages($breakages);
@@ -89,6 +92,7 @@ class EquipmentController extends Controller
 		$breakage = EquipmentBreakage::create($request->stripped('name', 'label', 'location', 'description') + [
 				'status'  => EquipmentBreakage::STATUS_REPORTED,
 				'user_id' => $this->user->id,
+				'closed'  => false,
 			]);
 
 		// Email the E&S officer
@@ -130,17 +134,27 @@ class EquipmentController extends Controller
 		// Get the breakage entry
 		$breakage = EquipmentBreakage::findOrFail($id);
 
-		// Validate
-		$this->validate($request, [
-			'status' => 'required|in:' . implode(',', array_keys(EquipmentBreakage::$status)),
-		], [
-			'status.required' => 'Please choose a status for the breakage',
-			'status.in'       => 'Please choose a valid status',
-		]);
+		// Updating the event's details
+		if($request->get('action') == 'update') {
+			// Validate
+			$this->validate($request, [
+				'status' => 'required|in:' . implode(',', array_keys(EquipmentBreakage::$status)),
+			], [
+				'status.required' => 'Please choose a status for the breakage',
+				'status.in'       => 'Please choose a valid status',
+			]);
 
-		// Update, message and redirect
-		$breakage->update($request->stripped('comment', 'status'));
-		Flash::success('Breakage updated');
+			// Update, message and redirect
+			$breakage->update($request->stripped('comment', 'status') + [
+					'closed' => $request->get('status') == EquipmentBreakage::STATUS_RESOLVED
+				]);
+			Flash::success('Breakage updated');
+		} // Mark as closed
+		else if($request->get('action') == 'close') {
+			$breakage->update(['closed' => true]);
+			Flash::success('Breakage closed');
+		}
+
 
 		return redirect(route('equipment.repairs'));
 	}
