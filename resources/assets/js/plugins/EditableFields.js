@@ -60,7 +60,7 @@
 		// Set up the configuration
 		var config = {
 			'text' : {},
-			'value' : {}
+			'value': {}
 		};
 		config['text'][value] = text;
 		config['value'][value] = value;
@@ -147,8 +147,9 @@
 					sendEditableRequest(original.data('editUrl'), $.param({
 						'field': original.data('controlName'),
 						'value': formControl.val()
-					}), original, formControl, function(original) {
-						original.html(original.data('editType') == 'textarea' ? original.data('originalValue').replace(new RegExp("\n", 'g'), '<br>') : original.data('originalValue'));
+					}), original, formControl, function (original) {
+						original.html(original.data('editType') == 'textarea' ? original.data('originalValue').replace(new RegExp("\n", 'g'), '<br>')
+							: original.data('originalValue'));
 					});
 				}
 			});
@@ -162,8 +163,8 @@
 			setToggleText(original);
 			// Send the request
 			sendEditableRequest(original.data('editUrl'), $.param({
-				'paperwork': original.data('key'),
-				'value'    : original.data('value')
+				'field': original.data('key'),
+				'value': original.data('value')
 			}), original);
 		}
 		// If the form type is select then create the <select> element
