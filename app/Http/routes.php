@@ -101,6 +101,11 @@ Route::group([
 		'as'   => 'equipment.dash',
 		'uses' => 'EquipmentController@dash',
 	]);
+	// Asset register
+	Route::get('asset', [
+		'as'   => 'equipment.assets',
+		'uses' => 'EquipmentController@assetRegister',
+	]);
 	// Repairs DB
 	Route::group([
 		'prefix' => 'repairs',

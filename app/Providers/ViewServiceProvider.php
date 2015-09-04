@@ -125,8 +125,10 @@ class ViewServiceProvider extends ServiceProvider
 
 					// Build the equipment sub-menu
 					$menu->find('members.equipment')
+					     ->add(route('equipment.assets'), 'Asset register')
 					     ->add(route('equipment.repairs'), 'View repairs db')
 					     ->add(route('equipment.repairs.add'), 'Report broken kit');
+
 
 					// Build the training sub-menu
 					$training = $menu->find('members.training');
@@ -221,6 +223,16 @@ class ViewServiceProvider extends ServiceProvider
 			$menu->add(route('members.profile', $username), 'Details', null, [], ['id' => 'profileTab'])
 			     ->add(route('members.profile', $username) . '#events', 'Events', null, [], ['id' => 'eventsTab'])
 			     ->add(route('members.profile', $username) . '#training', 'Training', null, [], ['id' => 'trainingTab']);
+			$menu->addClass('nav nav-tabs');
+			$view->with('menu', $menu->render());
+		});
+
+		// Compose the 'my profile' sub-menu
+		View::composer('members.my_profile', function ($view) {
+			$menu     = Menu::handler('profileMenu');
+			$menu->add(route('members.myprofile'), 'Details', null, [], ['id' => 'profileTab'])
+			     ->add(route('members.myprofile') . '#events', 'Events', null, [], ['id' => 'eventsTab'])
+			     ->add(route('members.myprofile') . '#training', 'Training', null, [], ['id' => 'trainingTab']);
 			$menu->addClass('nav nav-tabs');
 			$view->with('menu', $menu->render());
 		});

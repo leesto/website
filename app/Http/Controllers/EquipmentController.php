@@ -158,4 +158,13 @@ class EquipmentController extends Controller
 
 		return redirect(route('equipment.repairs'));
 	}
+
+	/**
+	 * View the BTS assets register.
+	 * @return Response
+	 */
+	public function assetRegister()
+	{
+		return View::make('equipment.assets');
+	}
 }
