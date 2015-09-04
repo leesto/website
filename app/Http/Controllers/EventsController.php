@@ -486,7 +486,7 @@ class EventsController extends Controller
 	private function update_AddCrew(GenericRequest $request, Event $event)
 	{
 		// Validate
-		$this->validateCrew($request);
+		$this->validateCrew($request, true);
 
 		// Check if the user is already crewing
 		$user = User::find($request->get('user_id'));
@@ -531,7 +531,7 @@ class EventsController extends Controller
 		}
 
 		// Validate
-		$this->validateCrew($request);
+		$this->validateCrew($request, false);
 
 		// Update
 		$crew->update([
@@ -721,11 +721,12 @@ class EventsController extends Controller
 	/**
 	 * Validate a event crew form submission.
 	 * @param \App\Http\Requests\GenericRequest $request
+	 * @param bool                              $validateUser
 	 */
-	private function validateCrew(GenericRequest $request)
+	private function validateCrew(GenericRequest $request, $validateUser = true)
 	{
 		$this->validate($request, [
-			'user_id' => 'required|exists:users,id',
+			'user_id' => 'required' . ($validateUser ? '|exists:users,id' : ''),
 			'name'    => 'required_if:core,1',
 		], [
 			'user_id.required' => 'Please select a member',
