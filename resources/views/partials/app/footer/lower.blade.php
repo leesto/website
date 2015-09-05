@@ -14,5 +14,8 @@
         <a href="https://plus.google.com/104029009513703982895" target="_blank">
             <span class="fa fa-google-plus" title="Follow us on G+"></span>
         </a>
+        <a href="https://www.github.com/backstagetechnicalservices/website/issues" target="_blank">
+            <span class="fa fa-github" title="Report an issue"></span>
+        </a>
     </div>
 </div>
