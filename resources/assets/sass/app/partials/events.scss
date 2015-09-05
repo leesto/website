@@ -2,7 +2,7 @@
 @import "../mixins";
 
 #diary {
-	div.date-header {
+	& > div.date-header {
 		display: table;
 		$height: 35px;
 		height: $height;
@@ -14,7 +14,7 @@
 			text-align: center;
 			vertical-align: middle;
 		}
-		a {
+		& > a:not(.btn) {
 			border-radius: 5px;
 			color: inherit;
 			font-size: 25px;
