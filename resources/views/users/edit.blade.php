@@ -6,13 +6,6 @@
     @include('partials.tags.style', ['path' => 'partials/users'])
 @endsection
 
-@section('scripts')
-    $('#cancelModal').on('click', function() {
-        $('#picModal').modal('hide');
-        return false;
-    });
-@endsection
-
 @if($ownAccount)
 @section('messages')
     @include('partials.flash.message', ['title' => 'Editing restricted', 'message' => 'You are editing your own account so some things are restricted', 'level' => 'warning'])
@@ -188,29 +181,7 @@
                         </div>
                     </div>
                 </fieldset>
-                <fieldset>
-                    <legend>Profile Picture</legend>
-                    <p class="text-center">
-                        <img class="profile img-rounded" src="{{ $user->getAvatarUrl() }}">
-                    </p>
-                    <div class="form-group text-center">
-                        @if($user->hasAvatar())
-                            <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#picModal">
-                                <span class="fa fa-upload"></span>
-                                <span>Change</span>
-                            </a>
-                            <button class="btn btn-danger btn-sm" name="action" value="remove-pic">
-                                <span class="fa fa-remove"></span>
-                                <span>Remove</span>
-                            </button>
-                        @else
-                            <a class="btn btn-success btn-sm" data-toggle="modal" data-target="#picModal">
-                                <span class="fa fa-upload"></span>
-                                <span>Upload photo</span>
-                            </a>
-                        @endif
-                    </div>
-                </fieldset>
+                @include('users._profile_pic')
             </div>
         </div>
         {!! Form::close() !!}
@@ -218,26 +189,5 @@
 @endsection
 
 @section('modal')
-    @section('modal.header', '<h1>Change profile picture</h1>')
-    @section('modal.content')
-        <div class="form-group">
-            {!! Form::label('avatar', 'Select their new picture:') !!}
-            {!! Form::file('avatar') !!}
-            <p class="em">This automatically resizes the image to 500x500px, while maintaining its aspect ratio.</p>
-            <p class="em">At the moment you don't have any control over this - I will look into improving this in the future.</p>
-        </div>
-    @endsection
-    @section('modal.footer')
-        <button class="btn btn-success" disable-submit="Setting picture ..." name="action" value="change-pic">
-            <span class="fa fa-check"></span>
-            <span>Set profile picture</span>
-        </button>
-        <a class="btn btn-danger" href="#" id="cancelModal">
-            <span class="fa fa-undo"></span>
-            <span>Cancel</span>
-        </a>
-    @endsection
-    {!! Form::open(['files' => true, 'route' => ['user.edit.do', $user->username]]) !!}
-    @include('partials.modal.small', ['id' => 'picModal'])
-    {!! Form::close() !!}
+    @include('users.modal.profile_pic')
 @endsection

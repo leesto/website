@@ -230,7 +230,7 @@ class ViewServiceProvider extends ServiceProvider
 		// Compose the 'my profile' sub-menu
 		View::composer('members.my_profile', function ($view) {
 			$menu     = Menu::handler('profileMenu');
-			$menu->add(route('members.myprofile'), 'Details', null, [], ['id' => 'profileTab'])
+			$menu->add(route('members.myprofile'), 'My Details', null, [], ['id' => 'profileTab'])
 			     ->add(route('members.myprofile') . '#events', 'Events', null, [], ['id' => 'eventsTab'])
 			     ->add(route('members.myprofile') . '#training', 'Training', null, [], ['id' => 'trainingTab']);
 			$menu->addClass('nav nav-tabs');
@@ -278,7 +278,7 @@ class ViewServiceProvider extends ServiceProvider
 	 */
 	private function attachMemberEvents()
 	{
-		View::composer('members._events', function ($view) {
+		View::composer('members.partials.events', function ($view) {
 			$user          = $view->getData()['user'];
 			$events_past   = Event::forMember($user)
 			                      ->past()
@@ -303,7 +303,7 @@ class ViewServiceProvider extends ServiceProvider
 	private function attachMemberSkills()
 	{
 		View::composer([
-			'members._skills',
+			'members.partials.skills',
 			'training.skills.index',
 		], function ($view) {
 			// Get the categories and uncategorised skills

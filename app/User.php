@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
 use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Szykra\Notifications\Flash;
@@ -47,6 +48,39 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		self::ASSOCIATE => 'Associate',
 		self::SU        => 'SU Officer',
 		self::ADMIN     => 'Web Admin (not committee)',
+	];
+
+	/**
+	 * Define the validation rules.
+	 * @var array
+	 */
+	protected static $ValidationRules = [
+		'name'         => 'required|name',
+		'username'     => 'required|alpha_num|unique:users,username',
+		'email'        => 'required|email|unique:users,email',
+		'phone'        => 'phone',
+		'dob'          => 'date_format:d/m/Y',
+		'show_email'   => 'boolean',
+		'show_phone'   => 'boolean',
+		'show_address' => 'boolean',
+		'show_age'     => 'boolean',
+	];
+
+	/**
+	 * Define the validation messages.
+	 * @var array
+	 */
+	protected static $ValidationMessages = [
+		'name.required'      => 'Please enter your name',
+		'name.name'          => 'Please enter your forename and surname',
+		'username.required'  => 'Please enter their BUCS username',
+		'username.alpha_num' => 'Please use only letters and numbers',
+		'username.unique'    => 'A user with that username already exists',
+		'email.required'     => 'Please enter your email address',
+		'email.email'        => 'Please enter a valid email address',
+		'email.unique'       => 'That email address is already in use by another user',
+		'phone.phone'        => 'Please enter a valid phone number',
+		'dob.date_format'    => 'Please enter your DOB in the format dd/mm/YYYY',
 	];
 
 	/**
@@ -147,6 +181,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		}
 
 		return $user;
+	}
+
+	/**
+	 * Override the validation rules to exclude
+	 * the current user from the unique checks
+	 * @return array
+	 */
+	public static function getValidationRules()
+	{
+		static::$ValidationRules['email'] = 'required|email|unique:users,email,' . (Route::currentRouteName() == 'members.myprofile.do' ? Auth::user()->id : '');
+
+		return call_user_func_array('parent::getValidationRules', func_get_args());
 	}
 
 	/**

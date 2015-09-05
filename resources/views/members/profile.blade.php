@@ -90,10 +90,10 @@
                     </div>
                 </div>
                 <div class="tab-pane">
-                    @include('members._events', ['user' => $user])
+                    @include('members.partials.events', ['user' => $user])
                 </div>
                 <div class="tab-pane">
-                    @include('members._skills', ['user' => $user])
+                    @include('members.partials.skills', ['user' => $user])
                 </div>
             </div>
         </div>
