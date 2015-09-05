@@ -141,7 +141,7 @@
 
 			// On blur / pressing enter set the new value and submit the ajax request.
 			formControl.on('blur keypress', function (event) {
-				if(event.type == 'blur' || (event.type == 'keypress' && event.which == 13 && event.shiftKey)) {
+				if(event.type == 'blur' || (event.type == 'keypress' && event.which == 13 && (event.shiftKey || editType == 'text'))) {
 					formControl.off('blur keypress');
 					original.html(editType == 'textarea' ? formControl.val().replace(new RegExp("\n", 'g'), '<br>') : formControl.val());
 					sendEditableRequest(original.data('editUrl'), $.param({

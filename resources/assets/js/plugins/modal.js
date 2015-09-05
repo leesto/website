@@ -14,20 +14,22 @@ var $btns;
 	}
 
 	$modal.on('show.bs.modal', function (e) {
+		// Get the modal template
 		var target = $(e.relatedTarget);
 		var template = $('div[data-type="modal-template"][data-id="' + target.data('modalTemplate') + '"]');
 		if(template.length > 0) {
-			var formData = target.data('formData');
+			// Set the modal content
 			$modalContent.html(template.html());
-			if(target.data('modalClass')) {
-				$modalDialog.addClass(target.data('modalClass'));
-			}
+			if(target.data('modalClass')) $modalDialog.addClass(target.data('modalClass'));
 			if(target.data('modalTitle')) {
 				if($modalContent.children('div.modal-header').length == 0) {
 					$modalContent.prepend('<div class="modal-header"></div>');
 				}
 				$modalContent.children('div.modal-header').html('<h1>' + target.data('modalTitle') + '</h1>');
 			}
+
+			// Set any default form values
+			var formData = target.data('formData');
 			if(typeof(formData) == 'object') {
 				$form = form();
 				var formControl;
