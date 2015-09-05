@@ -89,5 +89,10 @@ var $btns;
 			}
 		});
 	});
+	$modal.on('submit', 'form', function(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		$(this).find('button,input[type="button"],input[type="submit"]').first().trigger('click');
+	});
 
 })(jQuery);
