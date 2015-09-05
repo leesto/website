@@ -48,6 +48,17 @@
 	}
 
 	/**
+	 * Set the value from a text or textarea field, allowing for configuration
+	 * @param original
+	 * @param editType
+	 * @param text
+	 */
+	function setTextText(original, editType, text) {
+		var settings = getTextConfig(original.data('config'), text, text);
+		original.html(editType == 'textarea' ? settings.text.replace(new RegExp("\n", 'g'), '<br>') : settings.text);
+	}
+
+	/**
 	 * Set the text from a select, using formats and configuration.
 	 * @param original
 	 * @param value
@@ -56,6 +67,29 @@
 	function setSelectText(original, value, text) {
 		var source = $('[data-type="data-select-source"][data-select-name="' + original.data('editSource') + '"]').eq(0);
 		var textFormat = $('[data-type="data-text-format"][data-name="' + original.data('textFormat') + '"]').eq(0);
+		var settings = getTextConfig(typeof(textFormat.data('config')) == 'object' ? textFormat.data('config') : source.data('config'), value, text)
+
+		// Get the html/text to set
+		var html = textFormat.length > 0 ? textFormat.html() : '#text';
+
+		// Set each value
+		for(var key in settings) {
+			html = html.replace(new RegExp('#' + key, 'g'), settings[key]);
+		}
+		original.html(html);
+	}
+
+	/**
+	 * Get the values to use when setting the text, from a given configuration
+	 * @param cfgHtmlObj
+	 * @param value
+	 * @param text
+	 * @returns {{}}
+	 */
+	function getTextConfig(cfgHtmlObj, value, text) {
+		if(typeof(cfgHtmlObj) != 'object') {
+			cfgHtmlObj = {};
+		}
 
 		// Set up the configuration
 		var config = {
@@ -64,30 +98,17 @@
 		};
 		config['text'][value] = text;
 		config['value'][value] = value;
-		if(textFormat.length > 0 && typeof(textFormat.data('config')) == 'object') {
-			for(var key in textFormat.data('config')) {
-				config[key] = textFormat.data('config')[key];
-			}
-		} else if(source.length > 0 && typeof(source.data('config')) == 'object') {
-			for(var key in source.data('config')) {
-				config[key] = source.data('config')[key];
-			}
+		for(var key in cfgHtmlObj) {
+			config[key] = cfgHtmlObj[key];
 		}
 
 		// Set the config values
 		var settings = {};
 		for(var key in config) {
-			settings[key] = config[key][value] ? config[key][value] : (key == 'text' ? text : value);
+			settings[key] = typeof(config[key][value]) != 'undefined' ? config[key][value] : (key == 'text' ? text : value);
 		}
 
-		// Get the html/text to set
-		html = textFormat.length > 0 ? textFormat.html() : '#text';
-
-		// Set each value
-		for(var key in settings) {
-			html = html.replace(new RegExp('#' + key, 'g'), settings[key]);
-		}
-		original.html(html);
+		return settings;
 	}
 
 	/**
@@ -143,13 +164,12 @@
 			formControl.on('blur keypress', function (event) {
 				if(event.type == 'blur' || (event.type == 'keypress' && event.which == 13 && (event.shiftKey || editType == 'text'))) {
 					formControl.off('blur keypress');
-					original.html(editType == 'textarea' ? formControl.val().replace(new RegExp("\n", 'g'), '<br>') : formControl.val());
+					setTextText(original, editType, formControl.val());
 					sendEditableRequest(original.data('editUrl'), $.param({
 						'field': original.data('controlName'),
 						'value': formControl.val()
 					}), original, formControl, function (original) {
-						original.html(original.data('editType') == 'textarea' ? original.data('originalValue').replace(new RegExp("\n", 'g'), '<br>')
-							: original.data('originalValue'));
+						setTextText(original, original.data('editType'), original.data('originalValue'));
 					});
 				}
 			});
