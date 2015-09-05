@@ -7,8 +7,8 @@
 @endsection
 
 @section('scripts')
-    $('#termsModal').find('#btnAcceptTerms').on('click', function() {
-        $('#termsModal').modal('hide');
+    $modal.on('click', '#btnAcceptTerms', function() {
+        $modal.modal('hide');
         $('input[name="terms"]').attr('checked', 'checked');
     });
 @endsection
@@ -148,7 +148,13 @@
                 <div class="checkbox">
                     <label>
                         {!! Form::checkbox('terms', 1, null) !!}
-                        I agree to the <a href="{{ route('contact.book.terms') }}" id="show_terms" data-toggle="modal" data-target="#termsModal" target="_blank">Terms and Conditions</a>.
+                        I agree to the <a href="{{ route('contact.book.terms') }}"
+                                          id="show_terms"
+                                          data-toggle="modal"
+                                          data-target="#modal"
+                                          data-modal-template="terms"
+                                          data-modal-title="Terms and Conditions for the Provision of Services"
+                                          target="_blank">Terms and Conditions</a>.
                     </label>
                 </div>
             </div>
@@ -167,17 +173,15 @@
 @endsection
 
 @section('modal')
-    @section('modal.header', '<h1>Terms and Conditions for the Provision of Services</h1>')
-    @section('modal.content')
-        @include('contact._book_terms')
-    @endsection
-    @section('modal.footer')
-        <div class="text-center">
+    <div data-type="modal-template" data-id="terms">
+        <div class="modal-body">
+            @include('contact._book_terms')
+        </div>
+        <div class="modal-footer text-center">
             <button class="btn btn-success" id="btnAcceptTerms">
                 <span class="fa fa-thumbs-up"></span>
                 <span>I have read and accept these terms</span>
             </button>
         </div>
-    @endsection
-    @include('partials.modal.modal', ['id' => 'termsModal'])
+    </div>
 @endsection

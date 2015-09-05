@@ -9,9 +9,6 @@
         $('input[name=mode]').val($this.data('mode'));
         $('#btnSubmit').find('span:last').text($this.data('btnText'));
     });
-    $('#closeHelpModal').on('click', function() {
-        $('#helpModal').modal('hide');
-    });
 
     @if(Input::old('mode') == 'bulk')
         $('ul.nav > li[data-mode=bulk]').trigger('click');
@@ -69,7 +66,7 @@
                 <span class="fa fa-undo"></span>
                 <span>Cancel</span>
             </a>
-            <a class="btn btn-primary" data-toggle="modal" data-target="#helpModal" href="#">
+            <a class="btn btn-primary" data-toggle="modal" data-target="#modal" data-modal-template="help" href="#">
                 <span class="fa fa-question-circle"></span>
                 <span>Help</span>
             </a>
@@ -81,35 +78,44 @@
 @endsection
 
 @section('modal')
-    @section('modal.header', '<h1>Creating Users</h1>')
-    @section('modal.content')
-        <p>This form allows you to create new user accounts that can access the Backstage website.</p>
-        <h3>Single vs Multiple</h3>
-        <p>While the default form is pretty it isn't particularly practical for creating lots of users. If you need to create a lot of accounts "in bulk" then switch to "Multiple Users" mode.</p>
-        <p>Simply enter each user's name and username into the textarea, separated by a new line, in the form <code>Forename Surname,username</code>.</p>
-        <p>The user's email address will automatically be set to their bath.ac.uk email, using their username, and they will be given a randomly-generated password.</p>
-        <h3>User Account Types</h3>
-        <p>Both Single and Multiple User modes allow you to customise the type of account each user will be given.</p>
-        <dl>
-            <dt>Standard</dt>
-            <dd>A normal Backstage member. These can access all the usual areas.</dd>
-            <dt>Committee</dt>
-            <dd>On top of all the functionality of "Standard" members, these also have access to the admin functions. These users aren't linked to the committee page.</dd>
-            <dt>Associate</dt>
-            <dd>Associates have the same permissions as "Standard" members - they just appear in various member lists as associates.</dd>
-            <dt>SU Officer</dt>
-            <dd>Members of the SU are restricted in what they can access - they are only given a very basic overview of our events diary.</dd>
-        </dl>
-    @endsection
+    <div data-type="modal-template" data-id="help">
+        <div class="modal-header">
+            <h1>Creating Users</h1>
+        </div>
+        <div class="modal-body">
+            <p>This form allows you to create new user accounts that can access the Backstage website.</p>
 
-    @section('modal.footer')
-        <div class="text-center">
-            <button class="btn btn-success" id="closeHelpModal">
+            <h3>Single vs Multiple</h3>
+
+            <p>While the default form is pretty it isn't particularly practical for creating lots of users. If you need to create a lot of accounts "in bulk"
+                then switch to "Multiple Users" mode.</p>
+
+            <p>Simply enter each user's name and username into the textarea, separated by a new line, in the form <code>Forename Surname,username</code>.</p>
+
+            <p>The user's email address will automatically be set to their bath.ac.uk email, using their username, and they will be given a randomly-generated
+                password.</p>
+
+            <h3>User Account Types</h3>
+
+            <p>Both Single and Multiple User modes allow you to customise the type of account each user will be given.</p>
+            <dl>
+                <dt>Standard</dt>
+                <dd>A normal Backstage member. These can access all the usual areas.</dd>
+                <dt>Committee</dt>
+                <dd>On top of all the functionality of "Standard" members, these also have access to the admin functions. These users aren't linked to the
+                    committee page.
+                </dd>
+                <dt>Associate</dt>
+                <dd>Associates have the same permissions as "Standard" members - they just appear in various member lists as associates.</dd>
+                <dt>SU Officer</dt>
+                <dd>Members of the SU are restricted in what they can access - they are only given a very basic overview of our events diary.</dd>
+            </dl>
+        </div>
+        <div class="modal-footer text-center">
+            <button class="btn btn-success" data-toggle="modal" data-target="#modal">
                 <span class="fa fa-thumbs-up"></span>
                 <span>Got it!</span>
             </button>
         </div>
-    @endsection
-
-    @include('partials.modal.modal', ['class' => 'modal-md', 'id' => 'helpModal'])
+    </div>
 @endsection
