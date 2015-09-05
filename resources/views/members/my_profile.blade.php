@@ -66,7 +66,8 @@
                                             <p class="form-control-static"
                                                data-editable="true"
                                                data-edit-type="text"
-                                               data-control-name="dob">{{ $user->dob->format('d/m/Y') }}</p>
+                                               data-control-name="dob"
+                                               data-config="{{ json_encode(['text' => ['' => '- not set -']]) }}">{{ $user->dob ? $user->dob->format('d/m/Y') : '- not set -' }}</p>
                                              <span class="toggle"
                                                    data-editable="true"
                                                    data-edit-type="toggle"

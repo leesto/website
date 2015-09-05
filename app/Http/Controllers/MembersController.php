@@ -119,7 +119,7 @@ class MembersController extends Controller
 
 			// Update
 			$this->user->update([
-				$field => $is_privacy ? ($value == 'true') : ($field == 'dob' ? Carbon::createFromFormat('d/m/Y', $value) : $value),
+				$field => $is_privacy ? ($value == 'true') : ($field == 'dob' && $value ? Carbon::createFromFormat('d/m/Y', $value) : $value),
 			]);
 
 			return \Illuminate\Support\Facades\Response::json(true);
