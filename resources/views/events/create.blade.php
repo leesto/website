@@ -2,6 +2,13 @@
 
 @section('title', 'Add an Event')
 
+@section('scripts')
+    $('input[name="one_day"]').on('change', function() {
+        $('#eventDates').find('.date-hide').css('display', $(this).prop('checked') ? 'none' : 'block');
+    });
+    $('input[name="one_day"]').trigger('change');
+@endsection
+
 @section('content')
     <h1 class="page-header">Add an Event</h1>
     <div id="createEvent">
@@ -81,17 +88,17 @@
             </div>
 
             {{-- Dates --}}
-            <div class="form-group @include('partials.form.error-class', ['name' => 'date_start']) @include('partials.form.error-class', ['name' => 'date_end'])">
+            <div class="form-group @include('partials.form.error-class', ['name' => 'date_start']) @include('partials.form.error-class', ['name' => 'date_end'])" id="eventDates">
                 {!! Form::label('date_start', 'Date:', ['class' => 'col-md-3 control-label']) !!}
                 <div class="col-md-9">
                     <div class="form-group">
                         <div class="col-xs-5">
                             {!! Form::text('date_start', null, ['class' => 'form-control', 'placeholder' => 'dd/mm/yyyy']) !!}
                         </div>
-                        <div class="col-xs-2">
+                        <div class="col-xs-2 date-hide">
                             <p class="form-control-static text-center">to</p>
                         </div>
-                        <div class="col-xs-5">
+                        <div class="col-xs-5 date-hide">
                             {!! Form::text('date_end', null, ['class' => 'form-control', 'placeholder' => 'dd/mm/yyyy']) !!}
                         </div>
                     </div>
@@ -99,9 +106,19 @@
                         <div class="col-xs-5">
                             @include('partials.form.input-error', ['name' => 'date_start'])
                         </div>
-                        <div class="col-xs-2"></div>
-                        <div class="col-xs-5">
+                        <div class="col-xs-2 date-hide"></div>
+                        <div class="col-xs-5 date-hide">
                             @include('partials.form.input-error', ['name' => 'date_end'])
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <div class="checkbox">
+                                <label>
+                                    {!! Form::checkbox('one_day', 1, null) !!}
+                                    This is a one-day event
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Event;
+use Illuminate\Support\Facades\Request as RequestFacade;
 
 class EventRequest extends Request
 {
@@ -21,7 +22,8 @@ class EventRequest extends Request
 	 */
 	public function rules()
 	{
-		return Event::getValidationRules('name', 'em_id', 'type', 'description', 'venue', 'venue_type', 'client_type', 'date_start', 'date_end', 'time_start', 'time_end');
+		return Event::getValidationRules('name', 'em_id', 'type', 'description', 'venue', 'venue_type', 'client_type', 'date_start',
+			RequestFacade::has('one_day') ? '' : 'date_end', 'time_start', 'time_end');
 	}
 
 	/** Get the validation messages.
@@ -29,6 +31,7 @@ class EventRequest extends Request
 	 */
 	public function messages()
 	{
-		return Event::getValidationMessages('name', 'em_id', 'type', 'description', 'venue', 'venue_type', 'client_type', 'date_start', 'date_end', 'time_start', 'time_end');
+		return Event::getValidationMessages('name', 'em_id', 'type', 'description', 'venue', 'venue_type', 'client_type', 'date_start', 'date_end',
+			'time_start', 'time_end');
 	}
 }

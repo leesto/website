@@ -192,12 +192,14 @@ class EventsController extends Controller
 				],
 			]);
 
-		// Create the event times
+		// Set the event time limits
 		$start_time = Carbon::createFromFormat('H:i', $request->get('time_start'));
 		$end_time   = Carbon::createFromFormat('H:i', $request->get('time_end'));
 		$date_start = Carbon::createFromFormat('d/m/Y', $request->get('date_start'))->setTime(0, 0, 0);
-		$date_end   = Carbon::createFromFormat('d/m/Y', $request->get('date_end'))->setTime(23, 59, 59);
-		$date       = clone $date_start;
+		$date_end   = Carbon::createFromFormat('d/m/Y', $request->get($request->has('one_day') ? 'date_start' : 'date_end'))->setTime(23, 59, 59);
+
+		// Create each event time
+		$date = clone $date_start;
 		while($date->lte($date_end)) {
 			$event->times()->save(new EventTime([
 				'name'  => $event->name,
@@ -333,9 +335,9 @@ class EventsController extends Controller
 			foreach($event->times as $time) {
 				$cal_event = new \Eluceo\iCal\Component\Event();
 				$cal_event->setDtStart($time->start)
-					->setDtEnd($time->end)
-					->setSummary($time->event->name . ' - ' . $time->name)
-					->setLocation($time->event->venue);
+				          ->setDtEnd($time->end)
+				          ->setSummary($time->event->name . ' - ' . $time->name)
+				          ->setLocation($time->event->venue);
 				$calendar->addComponent($cal_event);
 			}
 		}
