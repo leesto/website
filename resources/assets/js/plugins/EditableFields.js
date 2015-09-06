@@ -155,8 +155,9 @@
 		// If the form type is a text field or textarea
 		// simply produce the field and set the value
 		if(editType == 'text' || editType == 'textarea') {
-			var formControl = editType == 'text' ? $('<input type="text" value="' + original.text() + '">') : $('<textarea rows="4">' + original.text()
-			                                                                                                    + '</textarea>');
+			var formControl = editType == 'text' ?
+			                  $('<input type="text" value="' + original.text() + '">') :
+			                  $('<textarea rows="4">' + original.html().replace(new RegExp("\n", 'g'), "").replace(new RegExp('<br>', 'g'), "\n") + '</textarea>');
 			original.data('originalValue', original.text()).hide();
 			formControl.insertAfter(original).attr('class', 'form-control').attr('name', original.data('controlName')).focus();
 
