@@ -91,7 +91,8 @@
                                             <p class="form-control-static"
                                                data-editable="true"
                                                data-edit-type="text"
-                                               data-control-name="phone">{{ $user->phone }}</p>
+                                               data-control-name="phone"
+                                               data-config="{{ json_encode(['text' => ['' => '- not set -']]) }}">{{ $user->phone ?: '- not set -' }}</p>
                                             <span class="toggle"
                                                   data-editable="true"
                                                   data-edit-type="toggle"
@@ -115,7 +116,8 @@
                                             <p class="form-control-static"
                                                data-editable="true"
                                                data-edit-type="textarea"
-                                               data-control-name="address">{!! nl2br($user->address) !!}</p>
+                                               data-control-name="address"
+                                               data-config="{{ json_encode(['text' => ['' => '- not set -']]) }}">{!! $user->address ? nl2br($user->address) : '- not set -'!!}</p>
                                             <span class="toggle"
                                                   data-editable="true"
                                                   data-edit-type="toggle"
@@ -139,7 +141,18 @@
                                             <p class="form-control-static"
                                                data-editable="true"
                                                data-edit-type="text"
-                                               data-control-name="tool_colours">{{ $user->tool_colours }}</p>
+                                               data-control-name="tool_colours"
+                                               data-config="{{ json_encode(['text' => ['' => '- not set -']]) }}">{{ $user->tool_colours ?: '- not set -' }}</p>
+                                        </div>
+                                    </div>
+                                    {{-- Buttons --}}
+                                    <div class="form-group">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-8">
+                                            <a class="btn btn-primary" href="{{ route('members.profile', $user->username) }}" target="_blank">
+                                                <span class="fa fa-external-link"></span>
+                                                <span>See what this looks like</span>
+                                            </a>
                                         </div>
                                     </div>
                                 </fieldset>
