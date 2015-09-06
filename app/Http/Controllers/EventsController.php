@@ -328,15 +328,22 @@ class EventsController extends Controller
 		$users_crew = User::active()->member()->nameOrder()->notCrewingEvent($event)->getSelect();
 		$users_em   = User::active()->member()->nameOrder()->getSelect();
 
+		// Create the 'mailto' link for sending event emails
+		$mailto_link = 'mailto:';
+		foreach($event->crew as $crew) {
+			$mailto_link .= $crew->user->email . ',';
+		}
+
 		return View::make('events.view')->with([
-			'event'      => $event,
-			'user'       => $this->user,
-			'users_crew' => $users_crew,
-			'users_em'   => $users_em,
-			'isMember'   => $this->user->isMember(),
-			'isAdmin'    => $this->user->isAdmin(),
-			'isEM'       => $event->isEM($this->user),
-			'canEdit'    => $this->user->isAdmin() || $event->isEM($this->user, false),
+			'event'       => $event,
+			'user'        => $this->user,
+			'users_crew'  => $users_crew,
+			'users_em'    => $users_em,
+			'isMember'    => $this->user->isMember(),
+			'isAdmin'     => $this->user->isAdmin(),
+			'isEM'        => $event->isEM($this->user),
+			'canEdit'     => $this->user->isAdmin() || $event->isEM($this->user, false),
+			'crew_emails' => $mailto_link,
 		]);
 	}
 
@@ -692,6 +699,7 @@ class EventsController extends Controller
 	 * @param \Carbon\Carbon $date
 	 * @param array          $calendar
 	 * @param null           $title
+	 * @param null           $redirectUrl
 	 * @return mixed
 	 */
 	private function renderEventsDiary(Carbon $date, array $calendar, $title = null, $redirectUrl = null)
@@ -823,5 +831,55 @@ class EventsController extends Controller
 		} else {
 			return Response::json(['code' => 500, 'result' => 'Incorrect key'], 500);
 		}
+	}
+
+	/**
+	 * Send an email to an event's crew.
+	 * @param                                   $id
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @return Response
+	 */
+	public function emailCrew($id, GenericRequest $request)
+	{
+		// Get the event
+		$event = Event::find($id);
+		if(!$event) {
+			return $this->ajaxError('Couldn\'t find that event', 404);
+		}
+
+		// Validate the input
+		$this->validate($request, [
+			'subject' => 'required',
+			'message' => 'required',
+		], [
+			'subject.required' => 'Please enter the subject',
+			'message.required' => 'Please enter the message',
+		]);
+
+		// Add the event email
+		$event->emails()->create([
+			'sender_id' => $this->user->id,
+			'header'    => $request->stripped('subject'),
+			'body'      => $request->stripped('body'),
+		]);
+
+		// Send the email
+		$subject = $request->stripped('subject');
+		Mail::queue('emails.events.crew_email', [
+			'body' => $request->stripped('message'),
+			'name' => $event->em ? $event->em->name : '',
+		], function ($message) use ($event, $subject) {
+			$message->subject($subject);
+			if($event->em_id) {
+				$message->from($event->em->email, $event->em->name);
+			}
+			foreach($event->crew as $crew) {
+				$message->to($crew->user->email, $crew->user->name);
+			}
+		});
+
+		Flash::success('Email sent');
+
+		return Response::json(true);
 	}
 }

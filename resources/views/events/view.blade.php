@@ -237,6 +237,32 @@
         <div data-type="modal-template" data-id="event_crew">
             @include('events.modal.view_crew')
         </div>
+        <div data-type="modal-template" data-id="event_emails">
+            {!! Form::open() !!}
+            <div class="modal-body">
+                {{-- Subject --}}
+                <div class="form-group">
+                    {!! Form::label('subject', 'Subject:', ['class' => 'control-label']) !!}
+                    {!! Form::text('subject', null, ['class' => 'form-control']) !!}
+                </div>
+                {{-- Message --}}
+                <div class="form-group">
+                    {!! Form::label('message', 'Message:', ['class' => 'control-label']) !!}
+                    {!! Form::textarea('message', null, ['class' => 'form-control', 'rows' => 6]) !!}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" data-type="submit-modal" data-form-action="{{ route('events.email', $event->id) }}" type="button">
+                    <span class="fa fa-check"></span>
+                    <span>Send email</span>
+                </button>
+                <a class="btn btn-success" href="{!! $crew_emails !!}">
+                    <span class="fa fa-envelope"></span>
+                    <span>Use mail client</span>
+                </a>
+            </div>
+            {!! Form::close() !!}
+        </div>
         <div data-type="modal-template" data-id="event_name">
             {!! Form::open() !!}
             <div class="modal-body">

@@ -167,12 +167,16 @@ Route::group([
 			'as'   => 'events.delete',
 			'uses' => 'EventsController@destroy',
 		]);
+		Route::post('email', [
+			'as'   => 'events.email',
+			'uses' => 'EventsController@emailCrew',
+		]);
 		Route::post('{action}', [
 			'as'   => 'events.update',
 			'uses' => 'EventsController@update',
 		]);
 		Route::get('finance-email', [
-			'uses' => 'EventsController@sendFinanceEmail'
+			'uses' => 'EventsController@sendFinanceEmail',
 		]);
 	});
 	// Add

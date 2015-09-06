@@ -1,15 +1,15 @@
 <h2>Crew List
     @if($canEdit)
-    <span class="crew-status"
-                    data-editable="true"
-                    data-toggle="modal"
-                    data-target="#modal"
-                    data-modal-class="modal-sm"
-                    data-modal-title="Crew List Status"
-                    data-modal-template="crew_list_status"
-                    data-form-data="{{ json_encode(['crew_list_status' => $event->crew_list_status]) }}"
-                    data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'update-details']) }}"
-                    role="button">[{{ array_get([-1 => 'hidden', 0 => 'closed', 1 => 'open'], $event->crew_list_status) }}]</span>
+        <span class="crew-status"
+              data-editable="true"
+              data-toggle="modal"
+              data-target="#modal"
+              data-modal-class="modal-sm"
+              data-modal-title="Crew List Status"
+              data-modal-template="crew_list_status"
+              data-form-data="{{ json_encode(['crew_list_status' => $event->crew_list_status]) }}"
+              data-form-action="{{ route('events.update', ['id' => $event->id, 'action' => 'update-details']) }}"
+              role="button">[{{ array_get([-1 => 'hidden', 0 => 'closed', 1 => 'open'], $event->crew_list_status) }}]</span>
     @else
         <span class="crew-status">[{{ array_get([-1 => 'hidden', 0 => 'closed', 1 => 'open'], $event->crew_list_status) }}]</span>
     @endif
@@ -68,6 +68,15 @@
                 type="button">
             <span class="fa fa-user-plus"></span>
             <span>Add crew</span>
+        </button>
+        <button class="btn btn-success"
+                data-toggle="modal"
+                data-target="#modal"
+                data-modal-template="event_emails"
+                data-modal-title="Email Crew"
+                type="button">
+            <span class="fa fa-envelope"></span>
+            <span>Email Crew</span>
         </button>
     @endif
 </p>
