@@ -74,6 +74,7 @@
                 data-target="#modal"
                 data-modal-template="event_emails"
                 data-modal-title="Email Crew"
+                data-modal-class="modal-sm"
                 type="button">
             <span class="fa fa-envelope"></span>
             <span>Email Crew</span>
