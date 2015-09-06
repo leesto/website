@@ -246,22 +246,24 @@ class EventsController extends Controller
 	 */
 	private function addEventToFinanceDb(Event $event)
 	{
-		$fields       = [
-			'data[Event][event_name]'  => $event->name,
-			'data[Event][start_date]'  => $event->start_date,
-			'data[Event][end_date]'    => $event->end_date,
-			'data[Event][verified]'    => 0,
-			'data[Event][bts_crew_id]' => $event->id,
-		];
-		$field_string = http_build_query($fields);
+		if($event->type = Event::TYPE_EVENT) {
+			$fields       = [
+				'data[Event][event_name]'  => $event->name,
+				'data[Event][start_date]'  => $event->start_date,
+				'data[Event][end_date]'    => $event->end_date,
+				'data[Event][verified]'    => 0,
+				'data[Event][bts_crew_id]' => $event->id,
+			];
+			$field_string = http_build_query($fields);
 
-		// Send the data using cURL
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, env('FINANCE_DB_ADD_URL'));
-		curl_setopt($ch, CURLOPT_POST, count($fields));
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $field_string);
-		curl_exec($ch);
-		curl_close($ch);
+			// Send the data using cURL
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, env('FINANCE_DB_ADD_URL'));
+			curl_setopt($ch, CURLOPT_POST, count($fields));
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $field_string);
+			curl_exec($ch);
+			curl_close($ch);
+		}
 	}
 
 	/**
