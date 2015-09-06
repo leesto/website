@@ -131,7 +131,7 @@
             <div class="form-group">
                 {!! Form::label('skill_category', 'Category:', ['class' => 'col-sm-4 control-label']) !!}
                 <div class="col-sm-8">
-                    <p class="form-control-static">{!! $proposal->skill->category_id ? $proposal->skill->category : '<em>uncategorised</em>' !!}</p>
+                    <p class="form-control-static">{!! $proposal->skill->category_id ? $proposal->skill->category->name : '<em>uncategorised</em>' !!}</p>
                 </div>
             </div>
 
