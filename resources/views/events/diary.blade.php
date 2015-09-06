@@ -55,15 +55,12 @@
                     <span class="cell blank" style="width: {{ $blank_before * 100 / 7 }}%"></span>
                 @endif
                 @for($i = 1; $i <= $date->daysInMonth; $i++)
-                    <div class="cell day">
+                    <div class="cell day" data-toggle="modal" data-target="#modal" data-modal-class="modal-lg" data-modal-template="date_gantt" data-date="{{ $date->day($i)->format('l jS F Y') }}">
                         <span class="date">{{ $i }}</span>
                         @if(isset($calendar[$i]) && count($calendar[$i]) > 0)
                             <ul class="event-list">
                                 @foreach($calendar[$i] as $event)
-                                    <li class="event-entry {{ $event->type_class }}"
-                                        data-start="{{ $event->getEarliestStart(\Carbon\Carbon::createFromDate($date->year, $date->month, $i)) }}"
-                                        data-end="{{ $event->getLatestEnd(\Carbon\Carbon::createFromDate($date->year, $date->month, $i)) }}"
-                                        data-type="{{ $event->type_class }}">
+                                    <li class="event-entry {{ $event->type_class }}">
                                         <a href="{{ route('events.view', $event->id) }}">{{ $event->name }}</a>
                                     </li>
                                 @endforeach
@@ -86,17 +83,17 @@
                 @endforeach
             </ul>
         </div>
-        <p style="margin-bottom:3em;">
+        <p>
+            <a class="btn btn-primary" data-toggle="modal" data-target="#modal" data-modal-class="modal-md" data-modal-template="google_calendar" href="#">
+                <span class="fa fa-google"></span>
+                <span>Add to Google Calendar</span>
+            </a>
             @if(Auth::user()->isAdmin())
-                <a class="btn btn-success pull-left" href="{{ route('events.add') }}">
+                <a class="btn btn-success" href="{{ route('events.add') }}">
                     <span class="fa fa-plus"></span>
                     <span>Add an event to the diary</span>
                 </a>
             @endif
-            <a class="btn btn-primary pull-right" data-toggle="modal" data-target="#modal" data-modal-class="modal-md" data-modal-template="google_calendar" href="#">
-                <span class="fa fa-google"></span>
-                <span>Add to Google Calendar</span>
-            </a>
         </p>
     @endif
 @endsection
@@ -105,6 +102,7 @@
     <div data-type="modal-template" data-id="diary_date">
         @include('events.modal.diary_date')
     </div>
+    @if($activeUser->isMember())
     <div data-type="modal-template" data-id="google_calendar">
         <div class="modal-header"><h1>Add to Google Calendar</h1></div>
         <div class="modal-body">
@@ -132,4 +130,10 @@
             </button>
         </div>
     </div>
+    <div data-type="modal-template" data-id="date_gantt">
+        <div class="modal-header">
+            <h1>Monday 21st September 2015</h1>
+        </div>
+    </div>
+    @endif
 @endsection
