@@ -681,9 +681,9 @@ class EventsController extends Controller
 	private function update_Paperwork(GenericRequest $request, Event $event)
 	{
 		// Check the paperwork type is valid
-		$type = $request->get('paperwork');
+		$type = $request->get('field');
 		if(!isset(Event::$Paperwork[$type])) {
-			return $this->ajaxError('Unknown paperwork type: ' . $request->get('paperwork'));
+			return $this->ajaxError('Unknown paperwork type: ' . $type);
 		}
 
 		// Save
