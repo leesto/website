@@ -764,4 +764,37 @@ class EventsController extends Controller
 	{
 		return $year && $month ? Carbon::create($year, $month, 1) : Carbon::now();
 	}
+
+	/**
+	 * Allow the finance DB to send an email to the EM.
+	 * @param                                   $eventId
+	 * @param \App\Http\Requests\GenericRequest $request
+	 * @return \Illuminate\Support\Facades\Response
+	 */
+	public function sendFinanceEmail($eventId, GenericRequest $request)
+	{
+		// Check the key is valid
+		if(env('FINANCE_DB_KEY') == $request->get('appKey')) {
+			// Check the event exists
+			$event = Event::find($eventId);
+			if($event && $event->em_id) {
+				$subject = $request->get('subject') . " ({$event->name})";
+				Mail::queue('emails.events.finance_db.' . strtolower($request->get('message')), [
+					'name'     => $event->em->forename,
+					'event'    => $event->name,
+					'event_id' => $request->get('fsid'),
+				], function ($message) use ($event, $subject) {
+					$message->to($event->em->email, $event->em->name)
+					        ->subject($subject)
+					        ->from('treas@bts-crew.com');
+				});
+
+				return Response::json(['code' => 200, 'result' => 'success']);
+			} else {
+				return Response::json(['code' => '500', 'result' => 'Event not found or no EM assigned'], 500);
+			}
+		} else {
+			return Response::json(['code' => 500, 'result' => 'Incorrect key'], 500);
+		}
+	}
 }

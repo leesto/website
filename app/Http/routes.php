@@ -171,6 +171,9 @@ Route::group([
 			'as'   => 'events.update',
 			'uses' => 'EventsController@update',
 		]);
+		Route::get('finance-email', [
+			'uses' => 'EventsController@sendFinanceEmail'
+		]);
 	});
 	// Add
 	Route::get('add', [
