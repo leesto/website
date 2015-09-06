@@ -210,6 +210,9 @@ class EventsController extends Controller
 			$date->day++;
 		}
 
+		// Add the event to the finance Db
+		$this->addEventToFinanceDb($event);
+
 		// Send the email to alison if the event is non-SU and off-campus
 		if($event->client_type > 1 && $event->venue_type == 2) {
 			Mail::queue('emails.events.notify_alison', [
@@ -235,6 +238,30 @@ class EventsController extends Controller
 			'year'  => $date_start->year,
 			'month' => $date_start->month,
 		]));
+	}
+
+	/**
+	 * Send the request to add an event to the Finance Db.
+	 * @param \App\Event $event
+	 */
+	private function addEventToFinanceDb(Event $event)
+	{
+		$fields       = [
+			'data[Event][event_name]'  => $event->name,
+			'data[Event][start_date]'  => $event->start_date,
+			'data[Event][end_date]'    => $event->end_date,
+			'data[Event][verified]'    => 0,
+			'data[Event][bts_crew_id]' => $event->id,
+		];
+		$field_string = http_build_query($fields);
+
+		// Send the data using cURL
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, env('FINANCE_DB_ADD_URL'));
+		curl_setopt($ch, CURLOPT_POST, count($fields));
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $field_string);
+		curl_exec($ch);
+		curl_close($ch);
 	}
 
 	/**
