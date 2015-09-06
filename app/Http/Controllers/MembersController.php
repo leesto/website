@@ -58,9 +58,7 @@ class MembersController extends Controller
 		}
 
 		// TODO: Make
-		Flash::info('Not yet implemented', "I've not got around to making the SU dashboard yet ... sorry");
-
-		return redirect(route('home'));
+		return redirect(route('events.diary'));
 	}
 
 	/**
