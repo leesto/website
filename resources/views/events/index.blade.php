@@ -9,6 +9,10 @@
 @section('content')
     <h1 class="page-header">@yield('title')</h1>
     <div id="eventList">
+        <a class="btn btn-success" href="{{ route('events.add') }}">
+            <span class="fa fa-plus"></span>
+            <span>Add an event to the diary</span>
+        </a>
         <table class="table table-striped">
             <thead>
                 <th class="event">Event</th>
@@ -70,10 +74,6 @@
                 @endif
             </tbody>
         </table>
-        <a class="btn btn-success" href="{{ route('events.add') }}">
-            <span class="fa fa-plus"></span>
-            <span>Add an event to the diary</span>
-        </a>
     </div>
     @include('partials.app.pagination', ['paginator' => $events])
 @endsection
