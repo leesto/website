@@ -83,6 +83,9 @@ hr {
 // List
 @import "lists";
 
+// Navbar
+@import "nav";
+
 // Pagination
 @import "pagination";
 
@@ -105,9 +108,6 @@ p {
 		margin-bottom: 0;
 	}
 }
-
-// Tab styling
-@import "tabs";
 
 // Tables
 @import "tables";
