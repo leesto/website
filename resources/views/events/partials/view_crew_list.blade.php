@@ -69,6 +69,7 @@
             <span class="fa fa-user-plus"></span>
             <span>Add crew</span>
         </button>
+        @if(count($event->crew) > 0)
         <button class="btn btn-success"
                 data-toggle="modal"
                 data-target="#modal"
@@ -79,5 +80,6 @@
             <span class="fa fa-envelope"></span>
             <span>Email Crew</span>
         </button>
+        @endif
     @endif
 </p>
