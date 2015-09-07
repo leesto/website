@@ -42,7 +42,7 @@
         <table class="table table-striped level-requirements">
             @for($i = 1; $i <= 3; $i++)
                 <tr>
-                    <td>{!! \App\TrainingSkill::getProficiencyHtml($i) !!}<br><span class="small">Level {{ $i }}</span></td>
+                    <td>{!! \App\TrainingSkill::getProficiencyHtml($i) !!}<br><span class="small">{{ \App\TrainingSkill::$LevelNames[$i] }}</span></td>
                     <td>
                         @if($activeUser->isAdmin())
                             <div data-editable="true"
@@ -86,54 +86,58 @@
             </div>
         </div>
         <p style="margin-top:3em;">
-            @if($activeUser->isMember() && (!$awardedSkill || $awardedSkill->level < 3))
-                <a class="btn btn-success"
-                   data-target="#modal"
-                   data-toggle="modal"
-                   data-modal-class="modal-sm"
-                   data-modal-template="propose_skill"
-                   data-modal-title="Propose Skill Level"
-                   href="#">
-                    <span class="fa fa-plus"></span>
-                    <span>Propose skill level</span>
-                </a>
-            @endif
-            @if($activeUser->isAdmin() || ($awardedSkill && $awardedSkill->level == 3))
-                <a class="btn btn-success"
-                   data-target="#modal"
-                   data-toggle="modal"
-                   data-modal-class="modal-sm"
-                   data-modal-template="award_skill"
-                   data-modal-title="Award Skill Level"
-                   href="#">
-                    <span class="fa fa-user-plus"></span>
-                    <span>Award skill</span>
-                </a>
-                <a class="btn btn-danger"
-                   data-toggle="modal"
-                   data-target="#modal"
-                   data-modal-class="modal-sm"
-                   data-modal-template="revoke_skill">
-                    <span class="fa fa-user-times"></span>
-                    <span>Revoke skill</span>
-                </a>
-            @endif
+            <div class="btn-group">
+                @if($activeUser->isMember() && (!$awardedSkill || $awardedSkill->level < 3))
+                    <a class="btn btn-success"
+                       data-target="#modal"
+                       data-toggle="modal"
+                       data-modal-class="modal-sm"
+                       data-modal-template="propose_skill"
+                       data-modal-title="Propose Skill Level"
+                       href="#">
+                        <span class="fa fa-plus"></span>
+                        <span>Propose skill level</span>
+                    </a>
+                @endif
+                @if($activeUser->isAdmin() || ($awardedSkill && $awardedSkill->level == 3))
+                    <a class="btn btn-success"
+                       data-target="#modal"
+                       data-toggle="modal"
+                       data-modal-class="modal-sm"
+                       data-modal-template="award_skill"
+                       data-modal-title="Award Skill Level"
+                       href="#">
+                        <span class="fa fa-user-plus"></span>
+                        <span>Award skill</span>
+                    </a>
+                    <a class="btn btn-danger"
+                       data-toggle="modal"
+                       data-target="#modal"
+                       data-modal-class="modal-sm"
+                       data-modal-template="revoke_skill">
+                        <span class="fa fa-user-times"></span>
+                        <span>Revoke skill</span>
+                    </a>
+                @endif
+            </div>
         </p>
         <p>
-            <a class="btn btn-danger" href="{{ route('training.skills.index') }}">
-                <span class="fa fa-long-arrow-left"></span>
-                <span>Back</span>
-            </a>
-            @if($activeUser->isAdmin())
-                <button class="btn btn-danger"
-                        data-submit-ajax="{{ route('training.skills.delete', $skill->id) }}"
-                        data-submit-confirm="Are you sure you want to delete this skill?"
-                        data-success-url="{{ route('training.skills.index') }}"
-                        type="button">
-                    <span class="fa fa-remove"></span>
-                    <span>Delete this skill</span>
-                </button>
-            @endif
+            <div class="btn-group">
+                <a class="btn btn-danger" href="{{ route('training.skills.index') }}">
+                    <span class="fa fa-long-arrow-left"></span>
+                    <span>Back</span>
+                </a>
+                @if($activeUser->isAdmin())
+                    <button class="btn btn-danger"
+                            data-submit-ajax="{{ route('training.skills.delete', $skill->id) }}"
+                            data-submit-confirm="Are you sure you want to delete this skill?"
+                            data-success-url="{{ route('training.skills.index') }}"
+                            type="button">
+                        <span class="fa fa-remove"></span>
+                        <span>Delete this skill</span>
+                    </button>
+                @endif
+            </div>
         </p>
     </div>
 @endsection
