@@ -4,6 +4,20 @@ namespace App;
 
 class TrainingSkill extends Model
 {
+	/**
+	 * Define the names of the skill levels.
+	 * @var array
+	 */
+	public static $LevelNames = [
+		1 => 'Level 1',
+		2 => 'Level 2',
+		3 => 'Level 3',
+	];
+
+	/**
+	 * Define the validation rules.
+	 * @var array
+	 */
 	protected static $ValidationRules = [
 		'name'                => 'required',
 		'category_id'         => 'exists:training_categories,id',
@@ -13,6 +27,10 @@ class TrainingSkill extends Model
 		'requirements_level3' => 'required',
 	];
 
+	/**
+	 * Define the validation messages.
+	 * @var array
+	 */
 	protected static $ValidationMessages = [
 		'name.required'                => 'Please enter the skill name',
 		'category_id.exists'           => 'Please choose a valid category',
@@ -49,7 +67,7 @@ class TrainingSkill extends Model
 		}
 
 		// Build the HTML
-		$html = '<span class="skill-proficiency" title="Level ' . $level . '">';
+		$html = '<span class="skill-proficiency" title="' . static::$LevelNames[$level] . '">';
 		for($i = 1; $i <= $level; $i++) {
 			$html .= '<span class="fa fa-star"></span>';
 		}
