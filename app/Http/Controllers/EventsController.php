@@ -215,20 +215,21 @@ class EventsController extends Controller
 
 		// Send the email to alison if the event is non-SU and off-campus
 		if($event->client_type > 1 && $event->venue_type == 2) {
-			Mail::queue('emails.events.notify_alison', [
-				'event_name'  => $event->name,
-				'event_dates' => $event->start_date . ($request->has('one_day') ? '' : (' &ndash; ' . $event->end_date)),
-				'em'          => $event->em_id ? $event->em->name : '<em>&ndash; not yet decided &ndash;</em>',
-				'client'      => $event->client,
-				'venue'       => $event->venue,
-				'venue_type'  => Event::$VenueTypes[$event->venue_type],
-				'description' => $event->description,
-			], function ($message) {
-				$message->subject('Backstage External Off-Campus Event')
-				        ->to('a.j.fleet@bath.ac.uk')
-				        ->cc('bts@bath.ac.uk')
-				        ->from('pm@bts-crew.com');
-			});
+			// TODO: uncomment
+			//Mail::queue('emails.events.notify_alison', [
+			//	'event_name'  => $event->name,
+			//	'event_dates' => $event->start_date . ($request->has('one_day') ? '' : (' &ndash; ' . $event->end_date)),
+			//	'em'          => $event->em_id ? $event->em->name : '<em>&ndash; not yet decided &ndash;</em>',
+			//	'client'      => $event->client,
+			//	'venue'       => $event->venue,
+			//	'venue_type'  => Event::$VenueTypes[$event->venue_type],
+			//	'description' => $event->description,
+			//], function ($message) {
+			//	$message->subject('Backstage External Off-Campus Event')
+			//	        ->to('a.j.fleet@bath.ac.uk')
+			//	        ->cc('bts@bath.ac.uk')
+			//	        ->from('pm@bts-crew.com');
+			//});
 		}
 
 		// Create a flash message and redirect
@@ -246,7 +247,7 @@ class EventsController extends Controller
 	 */
 	private function addEventToFinanceDb(Event $event)
 	{
-		if($event->type = Event::TYPE_EVENT) {
+		if($event->type == Event::TYPE_EVENT) {
 			$fields       = [
 				'data[Event][event_name]'  => $event->name,
 				'data[Event][start_date]'  => $event->start_date,
