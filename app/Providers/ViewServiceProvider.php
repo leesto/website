@@ -79,9 +79,6 @@ class ViewServiceProvider extends ServiceProvider
 			$menu->add(route('committee.view'), 'The Committee');
 			$menu->add(route('gallery.index'), 'Galleries')->activePattern('\/gallery');
 			$menu->add(route('members.dash'), 'Members\' Area', Menu::items('members'))->activePattern('\/members');
-			if($isAdmin) {
-				$menu->add('#', 'Committee', Menu::items('committee'));
-			}
 			$menu->add('#', 'Resources', Menu::items('resources'));
 			$menu->add(route('contact.enquiries'), 'Enquiries');
 			$menu->add(route('contact.book'), 'Book Us')->activePattern('\/contact\/book');
@@ -94,17 +91,19 @@ class ViewServiceProvider extends ServiceProvider
 					$members->add(route('members.myprofile'), 'My Profile', Menu::items('members.profile'), [], ['class' => 'profile'])
 					        ->add(route('events.diary'), 'Events Diary', Menu::items('members.events'), [], ['class' => 'events'])
 					        ->activePattern('\/events\/diary')
-					        ->add(route('membership'), 'The Membership')
+					        ->add(route('membership'), 'The Membership', Menu::items('members.users'), [], ['class' => 'admin-users'])
 					        ->add(route('quotes.index'), 'Quotes Board')
 					        ->add(route('equipment.dash'), 'Equipment', Menu::items('members.equipment'), [], ['class' => 'equipment'])
 					        ->add(route('training.dash'), 'Training', Menu::items('members.training'), [], ['class' => 'training'])
 					        ->add(route('polls.index'), 'Polls')->activePattern('\/polls')
-					        ->raw('', null, ['class' => 'divider'])
-					        ->add('#', 'Elections Home')
-					        ->add('#', 'BTS Awards')
-					        ->raw('', null, ['class' => 'divider']);
+						//->raw('', null, ['class' => 'divider'])
+						//->add('#', 'Elections Home')
+						//->add('#', 'BTS Awards')
+						    ->raw('', null, ['class' => 'divider']);
 					if($isAdmin) {
-						$members->add(route('su.dash'), 'View SU Area')
+						$members->add('#', 'Miscellaneous', Menu::items('members.misc'), [], ['class' => 'misc'])
+						        ->raw('', null, ['class' => 'divider'])
+						        ->add(route('su.dash'), 'View SU Area')
 						        ->raw('', null, ['class' => 'divider']);
 					}
 					$members->add(route('contact.accident'), 'Report an Accident');
@@ -117,10 +116,19 @@ class ViewServiceProvider extends ServiceProvider
 					// Build the events sub-menu
 					$events = $menu->find('members.events');
 					$events->add(route('events.mydiary'), 'My diary')->activePattern('\/events\/my-diary')
-					       ->add(route('events.signup'), 'Event sign-up')->activePattern('\/events\/signup')
-					       ->add('#', 'Submit event report');
+					       ->add(route('events.signup'), 'Event sign-up')->activePattern('\/events\/signup');
+					//->add('#', 'Submit event report');
 					if($isAdmin) {
-						$events->add('#', 'View booking requests');
+						//$events->add('#', 'View booking requests')
+						$events->add(route('events.index'), 'View all events')
+						       ->add(route('events.add'), 'Add event');
+					}
+
+					// Build the users sub-menu
+					if($isAdmin) {
+						$menu->find('members.users')
+						     ->add(route('user.index'), 'View all users')
+						     ->add(route('user.create'), 'Create a new user');
 					}
 
 					// Build the equipment sub-menu
@@ -137,42 +145,27 @@ class ViewServiceProvider extends ServiceProvider
 						$training->add(route('training.skills.proposal.index'), 'Review proposals')->activePattern('\/training\/skills\/proposal');
 						$training->add(route('training.skills.log'), 'Skills log');
 					}
+
+					// Build the misc sub-menu
+					if($isAdmin) {
+						$misc = $menu->find('members.misc');
+						$misc->add(route('page.index'), 'Manage webpages');
+					}
+
 				}
-			}
-
-			// Build the committee sub-menu
-			if($isAdmin) {
-				$menu->find('committee')
-				     ->add(route('events.index'), 'Events', Menu::items('committee.events'), [], ['class' => 'admin-events'])
-				     ->add(route('user.index'), 'Users', Menu::items('committee.users'), [], ['class' => 'admin-users'])->activePattern('\/users')
-				     ->add(route('page.index'), 'Webpages', Menu::items('committee.webpages'), [], ['class' => 'admin-webpages'])
-				     ->activePattern('\/page\/.*\/edit');
-
-
-				$menu->find('committee.webpages')
-				     ->add(route('page.index'), 'Webpage manager')
-				     ->add(route('page.create'), 'Create a new page');
-
-				$menu->find('committee.users')
-				     ->add(route('user.index'), "User manager")
-				     ->add(route('user.create'), "Create a user");
-
-				$menu->find('committee.events')
-				     ->add(route('events.index'), 'Event list')
-				     ->add(route('events.add'), 'Create a new event');
 			}
 
 			// Build the resources sub-menu
 			$resources = $menu->find('resources');
 			if($isMember || $isAdmin) {
-				$resources->add('#', 'Event Reports')
-				          ->add('#', 'Risk Assessments')
-				          ->add('#', 'Meeting Minutes')
-				          ->add('#', 'Meeting Agendas');
+				//$resources->add('#', 'Event Reports')
+				//          ->add('#', 'Risk Assessments')
+				//          ->add('#', 'Meeting Minutes')
+				//          ->add('#', 'Meeting Agendas');
 			}
-			$resources->add('#', 'Safety Information')
-			          ->add('#', 'Weather Forecast')
-			          ->add(route('page.show', 'links'), 'Links')
+			//$resources->add('#', 'Safety Information')
+			//->add('#', 'Weather Forecast')
+			$resources->add(route('page.show', 'links'), 'Links')
 			          ->add(route('page.show', 'faq'), 'FAQ');
 
 
@@ -229,7 +222,7 @@ class ViewServiceProvider extends ServiceProvider
 
 		// Compose the 'my profile' sub-menu
 		View::composer('members.my_profile', function ($view) {
-			$menu     = Menu::handler('profileMenu');
+			$menu = Menu::handler('profileMenu');
 			$menu->add(route('members.myprofile'), 'My Details', null, [], ['id' => 'profileTab'])
 			     ->add(route('members.myprofile') . '#events', 'Events', null, [], ['id' => 'eventsTab'])
 			     ->add(route('members.myprofile') . '#training', 'Training', null, [], ['id' => 'trainingTab']);
