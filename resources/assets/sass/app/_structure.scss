@@ -228,8 +228,10 @@ div#nav-wrapper {
 			div#bts-navbar {
 				border: none;
 				box-shadow: none;
+				box-sizing: border-box;
 				margin: 0;
 				padding: 0;
+				width: 100%;
 
 				@media (max-width: 768px) {
 					background: $btsyellow;
@@ -260,9 +262,10 @@ div#nav-wrapper {
 					}
 				}
 				& > ul.nav {
+					box-sizing: border-box;
 					display: block;
+					margin: 0;
 					position: static;
-					overflow: hidden;
 					width: 100%;
 
 					a {
@@ -277,7 +280,7 @@ div#nav-wrapper {
 					& > li {
 						background: none;
 						display: block;
-						overflow: hidden;
+
 
 						@media (min-width: 768px) {
 							& > a:before, &:last-of-type > a:after {
@@ -495,11 +498,9 @@ div#nav-wrapper {
 									//background: rgba(0, 0, 0, 0.1);
 									border-top: 1px solid rgba(0, 0, 0, 0.075);
 									box-shadow: none;
-									box-sizing: border-box;
 									display: block;
 									padding: 0.25em 0 0.25em 0.5em;
 									position: static;
-									overflow: hidden;
 									width: 100%;
 
 									& > li {
