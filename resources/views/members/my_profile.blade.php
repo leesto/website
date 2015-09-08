@@ -32,7 +32,8 @@
                                             <p class="form-control-static"
                                                data-editable="true"
                                                data-edit-type="text"
-                                               data-control-name="name">{{ $user->name }}</p>
+                                               data-control-name="name"
+                                               role="button">{{ $user->name }}</p>
                                         </div>
                                     </div>
                                     {{-- Email --}}
@@ -42,7 +43,8 @@
                                             <p class="form-control-static"
                                                data-editable="true"
                                                data-edit-type="text"
-                                               data-control-name="email">{{ $user->email }}</p>
+                                               data-control-name="email"
+                                               role="button">{{ $user->email }}</p>
                                             <span class="toggle"
                                                   data-editable="true"
                                                   data-edit-type="toggle"
@@ -67,7 +69,8 @@
                                                data-editable="true"
                                                data-edit-type="text"
                                                data-control-name="dob"
-                                               data-config="{{ json_encode(['text' => ['' => '- not set -']]) }}">{{ $user->dob ? $user->dob->format('d/m/Y') : '- not set -' }}</p>
+                                               data-config="{{ json_encode(['text' => ['' => '- not set -']]) }}"
+                                               role="button">{{ $user->dob ? $user->dob->format('d/m/Y') : '- not set -' }}</p>
                                              <span class="toggle"
                                                    data-editable="true"
                                                    data-edit-type="toggle"
@@ -92,7 +95,8 @@
                                                data-editable="true"
                                                data-edit-type="text"
                                                data-control-name="phone"
-                                               data-config="{{ json_encode(['text' => ['' => '- not set -']]) }}">{{ $user->phone ?: '- not set -' }}</p>
+                                               data-config="{{ json_encode(['text' => ['' => '- not set -']]) }}"
+                                               role="button">{{ $user->phone ?: '- not set -' }}</p>
                                             <span class="toggle"
                                                   data-editable="true"
                                                   data-edit-type="toggle"
@@ -117,7 +121,8 @@
                                                data-editable="true"
                                                data-edit-type="textarea"
                                                data-control-name="address"
-                                               data-config="{{ json_encode(['text' => ['' => '- not set -']]) }}">{!! $user->address ? nl2br($user->address) : '- not set -'!!}</p>
+                                               data-config="{{ json_encode(['text' => ['' => '- not set -']]) }}"
+                                               role="button">{!! $user->address ? nl2br($user->address) : '- not set -'!!}</p>
                                             <span class="toggle"
                                                   data-editable="true"
                                                   data-edit-type="toggle"
@@ -142,7 +147,8 @@
                                                data-editable="true"
                                                data-edit-type="text"
                                                data-control-name="tool_colours"
-                                               data-config="{{ json_encode(['text' => ['' => '- not set -']]) }}">{{ $user->tool_colours ?: '- not set -' }}</p>
+                                               data-config="{{ json_encode(['text' => ['' => '- not set -']]) }}"
+                                               role="button">{{ $user->tool_colours ?: '- not set -' }}</p>
                                         </div>
                                     </div>
                                     {{-- Buttons --}}
