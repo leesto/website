@@ -262,6 +262,7 @@ div#nav-wrapper {
 				& > ul.nav {
 					display: block;
 					position: static;
+					overflow: hidden;
 					width: 100%;
 
 					a {
@@ -276,6 +277,7 @@ div#nav-wrapper {
 					& > li {
 						background: none;
 						display: block;
+						overflow: hidden;
 
 						@media (min-width: 768px) {
 							& > a:before, &:last-of-type > a:after {
@@ -302,7 +304,8 @@ div#nav-wrapper {
 							box-sizing: content-box;
 							color: #000;
 							display: block;
-							font: bold 14px Arial; // 14px
+							font-weight: bold;
+							font-size: 14px;
 							line-height: 1em;
 							padding: 1em 1em 0.786em 1em;
 							position: relative;
@@ -324,9 +327,11 @@ div#nav-wrapper {
 							}
 						}
 						@media (max-width: 768px) {
-							&:hover, &.active, &.open {
+							border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+
+							&.active  {
 								& > a {
-									background: rgba(0, 0, 0, 0.2);
+									background: rgba(0, 0, 0, 0.1);
 								}
 							}
 						}
@@ -485,17 +490,16 @@ div#nav-wrapper {
 							}
 							@media (max-width: 768px) {
 								@include clearfix();
-								border: 1px solid transparent;
-								border-left: none;
-								border-right: none;
 
 								& > ul {
-									background: rgba(0, 0, 0, 0.2);
-									border-top: 1px solid rgba(0, 0, 0, 0.5);
+									//background: rgba(0, 0, 0, 0.1);
+									border-top: 1px solid rgba(0, 0, 0, 0.075);
 									box-shadow: none;
-									display: none;
-									padding: 0.5em 0;
+									box-sizing: border-box;
+									display: block;
+									padding: 0.25em 0 0.25em 0.5em;
 									position: static;
+									overflow: hidden;
 									width: 100%;
 
 									& > li {
@@ -504,24 +508,18 @@ div#nav-wrapper {
 											padding-top: 0.75em;
 											padding-left: 1.5em;
 										}
-										&:hover, &.active, &.open {
-											& > a {
-												background: rgba(0, 0, 0, 0.1);
-											}
-										}
 										&.dropdown {
-
 											& > ul {
+												background: none;
+												display: block;
+												margin: 0 0.5em;
 												position: static;
 												width: 100%;
 											}
 										}
-									}
-								}
-								&:hover {
-									border-color: rgba(0, 0, 0, 0.5);
-									& > ul {
-										display: block;
+										&.divider {
+											display: none;
+										}
 									}
 								}
 							}
