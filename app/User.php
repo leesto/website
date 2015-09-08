@@ -632,6 +632,27 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	}
 
 	/**
+	 * Count the number of skills the user has, with the ability to specify the category.
+	 * Use an ID of -1 to specify 'uncategorised'
+	 * @param null $categoryId
+	 * @return int
+	 */
+	public function countSkills($categoryId = null)
+	{
+		if(!$categoryId) {
+			return count($this->skills);
+		} else {
+			$count = 0;
+			foreach($this->skills as $skill) {
+				if(($skill->category_id == $categoryId) || ($categoryId == -1 && !$skill->category_id)) {
+					$count++;
+				}
+			}
+			return $count;
+		}
+	}
+
+	/**
 	 * Set the level of a skill
 	 * @param $skillId
 	 * @param $level
