@@ -20,7 +20,7 @@
                             <tbody>
                                 @if(count($category->skills) > 0)
                                     @foreach($category->skills as $skill)
-                                        <tr>
+                                        <tr class="{{ $user->hasSkill($skill) ? 'has-skill' : '' }}">
                                             <td class="skill-name">
                                                 <a class="grey" href="{{ route('training.skills.view', $skill->id) }}">{{ $skill->name }}</a>
                                             </td>

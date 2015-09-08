@@ -71,6 +71,9 @@ table {
 								width: 3.5em;
 							}
 						}
+						&:not(.has-skill) td a {
+							color: #777;
+						}
 					}
 				}
 			}
