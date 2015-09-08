@@ -644,7 +644,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		} else {
 			$count = 0;
 			foreach($this->skills as $skill) {
-				if(($skill->category_id == $categoryId) || ($categoryId == -1 && !$skill->category_id)) {
+				if(($skill->skill->category_id == $categoryId) || ($categoryId == -1 && !$skill->skill->category_id)) {
 					$count++;
 				}
 			}
