@@ -612,7 +612,7 @@ div#content {
 			}
 			@media(max-width: 768px) and (min-width: 400px) {
 				div.num {
-					width: 30%;
+					width: auto;
 				}
 			}
 			@media(min-width: 768px) {
@@ -791,16 +791,23 @@ div#footer {
 }
 
 // Slim footer
-@media(min-width: 992px) {
-	body.slim-footer {
+body.slim-footer {
+	@media(min-width: 992px) {
 		& > div#main-wrapper {
 			margin-bottom: -$dimFooterLowerHeight;
 		}
-		& > div#footer > div.upper {
-			display: none;
-		}
-		div#footer-wrapper, div#main-wrapper:after {
+		div#footer, div#main-wrapper:after {
 			height: $dimFooterLowerHeight;
 		}
+	}
+	@media(max-width: 992px) {
+		div#footer{
+			bottom: 0;
+			position: fixed;
+			width: 100%;
+		}
+	}
+	& > div#footer > div.upper {
+		display: none;
 	}
 }
