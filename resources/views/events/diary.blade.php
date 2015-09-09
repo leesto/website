@@ -55,7 +55,7 @@
                     <span class="cell blank" style="width: {{ $blank_before * 100 / 7 }}%"></span>
                 @endif
                 @for($i = 1; $i <= $date->daysInMonth; $i++)
-                    <div class="cell day" data-toggle="modal" data-target="#modal" data-modal-class="modal-lg" data-modal-template="date_gantt" data-date="{{ $date->day($i)->format('l jS F Y') }}">
+                    <div class="cell day">
                         <span class="date">{{ $i }}</span>
                         @if(isset($calendar[$i]) && count($calendar[$i]) > 0)
                             <ul class="event-list">
