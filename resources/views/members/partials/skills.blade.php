@@ -16,7 +16,7 @@
             <div class="tab-content">
                 @foreach($skillCategories as $i => $category)
                     <div class="tab-pane{{ $i == 0 ? ' active' : '' }}" id="{{ $category->id ? "category_{$category->id}" : "uncategorised" }}">
-                        <table class="table table-striped">
+                        <table class="table table-striped user-skills">
                             <tbody>
                                 @if(count($category->skills) > 0)
                                     @foreach($category->skills as $skill)
