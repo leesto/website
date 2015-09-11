@@ -188,7 +188,6 @@ class EventsController extends Controller
 					'finance_em'       => false,
 					'finance_treas'    => false,
 					'event_report'     => false,
-					'committee_report' => false,
 				],
 			]);
 

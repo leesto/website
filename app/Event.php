@@ -71,7 +71,6 @@ class Event extends Model
 		'finance_em'       => 'EM Finance',
 		'finance_treas'    => 'Treasurer Finance',
 		'event_report'     => 'Event Report',
-		'committee_report' => 'Committee Report',
 	];
 
 	/**
