@@ -488,6 +488,9 @@ Route::group([
 		'as'   => 'user.index',
 		'uses' => 'UsersController@index',
 	]);
+	Route::get('filter/{filter?}', [
+		'uses' => 'UsersController@index',
+	])->where('filter', '[a-z]+');
 	Route::post('', [
 		'as'   => 'user.index.do',
 		'uses' => 'UsersController@bulkUpdate',

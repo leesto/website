@@ -35,11 +35,13 @@ class UsersController extends Controller
 
 	/**
 	 * Display the listing of users.
-	 * @return Response
+	 * @param null $filter
+	 * @return \Illuminate\Http\Response
 	 */
-	public function index()
+	public function index($filter = null)
 	{
-		$users = User::nameOrder()->paginate(15);
+		$users = User::nameOrder();
+		$users = $filter == 'all' ? $users->paginate(User::count()) : $users->paginate(15);
 
 		$this->checkPagination($users);
 
@@ -254,13 +256,13 @@ class UsersController extends Controller
 		// update, setting the account type as necessary. If updating the active
 		// user, the restricted attributes will be set to their current values.
 		if($request->get('action') == 'save') {
-			$data = $request->stripped('name', 'username', 'email', 'phone', 'dob', 'address', 'tool_colours', 'type') + [
+			$data        = $request->stripped('name', 'username', 'email', 'phone', 'dob', 'address', 'tool_colours', 'type') + [
 					'show_email'   => $request->has('show_email'),
 					'show_phone'   => $request->has('show_phone'),
 					'show_address' => $request->has('show_address'),
 					'show_age'     => $request->has('show_age'),
 				];
-			$data['dob']  = $data['dob'] ?: null;
+			$data['dob'] = $data['dob'] ?: null;
 			if($ownAccount) {
 				$data['username'] = $user->username;
 				$data['type']     = $user->type;
