@@ -305,7 +305,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	{
 		return [
 			'name'         => 'required|name',
-			'username'     => 'required|alpha_num|unique:users,username,' . $this->id,
+			'username'     => 'required|regex:/[a-zA-Z0-9_]+/|unique:users,username,' . $this->id,
 			'email'        => 'required|email|unique:users,email,' . $this->id,
 			'phone'        => 'phone',
 			'dob'          => 'date_format:Y-m-d',
@@ -323,16 +323,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	public function getProfileValidationMessages()
 	{
 		return [
-			'name.required'      => 'Please enter the user\'s name',
-			'name.name'          => 'Please enter their forename and surname',
-			'username.required'  => 'Please enter their BUCS username',
-			'username.alpha_num' => 'Please use only letters and numbers',
-			'username.unique'    => 'A user with that username already exists',
-			'email.required'     => 'Please enter the user\'s email address',
-			'email.email'        => 'Please enter a valid email address',
-			'email.unique'       => 'That email address is already in use by another user',
-			'phone.phone'        => 'Please enter a valid phone number',
-			'dob.date_format'    => 'Please enter their DOB in the format YYYY-mm-dd',
+			'name.required'     => 'Please enter the user\'s name',
+			'name.name'         => 'Please enter their forename and surname',
+			'username.required' => 'Please enter their BUCS username',
+			'username.regex'    => 'Please use only letters and numbers',
+			'username.unique'   => 'A user with that username already exists',
+			'email.required'    => 'Please enter the user\'s email address',
+			'email.email'       => 'Please enter a valid email address',
+			'email.unique'      => 'That email address is already in use by another user',
+			'phone.phone'       => 'Please enter a valid phone number',
+			'dob.date_format'   => 'Please enter their DOB in the format YYYY-mm-dd',
 		];
 	}
 
