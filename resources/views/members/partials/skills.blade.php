@@ -4,8 +4,8 @@
             <nav>
                 <ul class="nav nav-pills nav-stacked category-list" role="tablist">
                     @foreach($skillCategories as $i => $category)
-                        <li{{ $i == 0 ? ' class=active' : '' }}>
-                            <a data-toggle="tab" href="#{{ $category->id ? "category_{$category->id}" : "uncategorised" }}">{{ $category->name }}</a>
+                        <li {{ $i == 0 ? ' class=active' : '' }}>
+                            <a data-toggle="tab" href="#{{ $category->id ? "category_{$category->id}" : "uncategorised" }}" role="button">{{ $category->name }}</a>
                             <span class="label label-default">{{ $user->countSkills($category->id ?: -1) }} / {{ count($category->skills) }}</span>
                         </li>
                     @endforeach

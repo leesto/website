@@ -29,7 +29,7 @@
                     <ul class="nav nav-pills nav-stacked category-list" role="tablist">
                         @foreach($skillCategories as $category)
                             <li>
-                                <a data-toggle="tab" href="#{{ $category->id ? "category_{$category->id}" : "uncategorised" }}">{{ $category->name }}</a>
+                                <a data-toggle="tab" href="#{{ $category->id ? "category_{$category->id}" : "uncategorised" }}" role="button">{{ $category->name }}</a>
                                 @if($activeUser->isAdmin() && $category->id)
                                     <div class="btn-group btn-group-sm">
                                         <button class="btn btn-warning btn-sm"
