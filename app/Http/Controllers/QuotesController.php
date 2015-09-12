@@ -17,7 +17,7 @@ class QuotesController extends Controller
 	 */
 	public function __construct()
 	{
-		$this->middleware('auth.permission:member', [
+		$this->middleware('auth.permission:member,admin', [
 			'except' => [
 				'destroy',
 			],
