@@ -56,7 +56,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected static $ValidationRules = [
 		'name'         => 'required|name',
-		'username'     => 'required|alpha_num|unique:users,username',
+		'username'     => 'required|regex:/[a-zA-Z0-9_]/|unique:users,username',
 		'email'        => 'required|email|unique:users,email',
 		'phone'        => 'phone',
 		'dob'          => 'date_format:d/m/Y',
@@ -71,16 +71,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 * @var array
 	 */
 	protected static $ValidationMessages = [
-		'name.required'      => 'Please enter your name',
-		'name.name'          => 'Please enter your forename and surname',
-		'username.required'  => 'Please enter their BUCS username',
-		'username.alpha_num' => 'Please use only letters and numbers',
-		'username.unique'    => 'A user with that username already exists',
-		'email.required'     => 'Please enter your email address',
-		'email.email'        => 'Please enter a valid email address',
-		'email.unique'       => 'That email address is already in use by another user',
-		'phone.phone'        => 'Please enter a valid phone number',
-		'dob.date_format'    => 'Please enter your DOB in the format dd/mm/YYYY',
+		'name.required'     => 'Please enter your name',
+		'name.name'         => 'Please enter your forename and surname',
+		'username.required' => 'Please enter their BUCS username',
+		'username.regex'    => 'Please use only letters and numbers',
+		'username.unique'   => 'A user with that username already exists',
+		'email.required'    => 'Please enter your email address',
+		'email.email'       => 'Please enter a valid email address',
+		'email.unique'      => 'That email address is already in use by another user',
+		'phone.phone'       => 'Please enter a valid phone number',
+		'dob.date_format'   => 'Please enter your DOB in the format dd/mm/YYYY',
 	];
 
 	/**
@@ -190,7 +190,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	public static function getValidationRules()
 	{
-		static::$ValidationRules['email'] = 'required|email|unique:users,email,' . (Route::currentRouteName() == 'members.myprofile.do' ? Auth::user()->id : '');
+		static::$ValidationRules['email'] =
+			'required|email|unique:users,email,' . (Route::currentRouteName() == 'members.myprofile.do' ? Auth::user()->id : '');
 
 		return call_user_func_array('parent::getValidationRules', func_get_args());
 	}
@@ -648,6 +649,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 					$count++;
 				}
 			}
+
 			return $count;
 		}
 	}
